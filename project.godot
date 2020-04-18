@@ -54,11 +54,6 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://src/service.gd"
 }, {
-"base": "Process",
-"class": "Sh",
-"language": "GDScript",
-"path": "res://src/cmd/sh.gd"
-}, {
 "base": "Node",
 "class": "Terminal",
 "language": "GDScript",
@@ -74,7 +69,6 @@ _global_script_class_icons={
 "RequestType": "",
 "Server": "",
 "Service": "",
-"Sh": "",
 "Terminal": ""
 }
 

@@ -1,20 +1,21 @@
 extends Process
 
-class_name Sh
-
 var variables = {}
 var aliases = {}
 var home = "/"
+var fs_home = FSDir.new("/", null)
 var last_status = 0
 
-func _init(output).(output):
+func _init():
 	register_for_keypress()
 
 func run(args):
 	send_output("This is sh v0.0.1")
+	fs_root = fs_home
+	cwd = fs_root
 	while true:
-		var line = yield(readline("> "), "completed")
-		send_output("> " + line)
+		var line = yield(readline(prompt()), "completed")
+		send_output(prompt() + line)
 		var cmd = line.split(' ', false) 
 		if len(cmd) == 0:
 			continue
@@ -29,76 +30,38 @@ func run(args):
 			cmd[0] = aliases[cmd[0]]
 		
 		match cmd[0]:
-			"echo":
-				echo(cmd)
 			"cd":
 				cd(cmd)
-			"pwd":
-				pwd(cmd)
 			"set":
 				set_var(cmd)
 			"help":
 				help(cmd)
-			"mkdir":
-				mkdir(cmd)
-			"ls":
-				ls(cmd)
-			"touch":
-				touch(cmd)
-			"cat":
-				cat(cmd)
+			"logout":
+				logout(cmd)
+			"connect":
+				connect_server(cmd)
 			_:
-				send_output("Unknown command: " + cmd[0])
-
-func cat(cmd):
-	if len(cmd) < 2:
-		send_output('usage: cat <file>')
-		return
-	var file = self.cwd.open(cmd[1])
-	if file == null:
-		send_output("touch: no such file or directory")
-	send_output(file.content)
-
-func echo(cmd):
-	var line = ""
-	for i in range(1,len(cmd)):
-		if i != 1:
-			line += " "
-		line += cmd[i]
-	send_output(line)
-
-func mkdir(cmd):
-	if len(cmd) < 2:
-		send_output('usage: mkdir <dir>')
-		return
-	var error = self.cwd.mkdir(cmd[1])
-	if error != "":
-		send_output("mkdir: " + error)
-
-func ls(args):
-	if len(args) == 1:
-		for key in self.cwd.children.keys():
-			send_output(" " + key)
-	else:
-		for i in range(1, len(args)):
-			send_output(args[i] + ":")
-			var node = self.cwd.get_node(args[i])
-			if node == null:
-				send_output("ls: " + args[i] + ": file not found")
-			else:
-				if node.is_dir():
-					for key in node.children.keys():
-						send_output(" " + key)
+				if cmd[0].is_valid_identifier():
+					var script = load("res://src/cmd/" + cmd[0] + ".gd")
+					if script != null:
+						var process = script.new()
+						process.root = root
+						process.output_process = output_process
+						process.fs_root = fs_root
+						process.cwd = cwd
+						var res = process.run(cmd)
+						if res is GDScriptFunctionState:
+							res = yield(res, "completed")
+						send_output(cmd[0] + " returned " + str(res))
+					else:
+						send_output(cmd[0] + ": command not found")
 				else:
-					send_output(" " + node.name)
+					send_output(cmd[0] + ": command not found")
 
-func touch(args):
-	if len(args) < 2:
-		send_output('usage: touch <file>')
-		return
-	var file = self.cwd.open(args[1], true)
-	if file == null:
-		send_output("touch: no such file or directory")
+func prompt():
+	if server:
+		return server.server_name + " > "
+	return "> "
 
 func cd(args):
 	var dir
@@ -118,8 +81,23 @@ func cd(args):
 	cwd = newcwd
 	pass
 
-func pwd(args):
-	send_output(cwd.full_path())
+func logout(args):
+	if server != null:
+		cwd = fs_home
+		server = null
+	else:
+		root.get_tree().quit()
+
+func connect_server(args):
+	if len(args) != 2:
+		send_output("usage: connect <server_name>")
+	var ip = root.resolve_name(args[1])
+	server = root.resolve_ip(ip)
+	if not server:
+		send_output("Server " + args[1] + " not found")
+		return
+	fs_root = server.fs_root
+	cwd = fs_root
 
 func help(args):
 	send_output("git gud")
@@ -169,14 +147,16 @@ func lookup_var(name):
 
 func readline(prompt: String) -> String:
 	var line : String = ""
+	output_process.cursor_y = output_process.current_line
+	output_process.set_line(output_process.current_line, prompt + line)
 	while true:
+		output_process.cursor_x = len(prompt) + len(line)
 		var key = yield(output_process, "key_pressed")
-		print(key)
 		if key == KEY_BACKSPACE:
 			line.erase(len(line)-1, 1)
 		if key == KEY_ENTER:
 			break
 		if key >= KEY_SPACE && key <= KEY_ASCIITILDE:
 			line += char(key)
-		#}send_output(line)
+		output_process.set_line(output_process.current_line, prompt + line)
 	return line

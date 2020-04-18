@@ -6,7 +6,9 @@ var shell
 
 func _ready():
 	terminal = Terminal.new()
-	shell = Sh.new(terminal)
+	shell = preload("res://src/cmd/sh.gd").new()
+	shell.root = $"/root/Root"
+	shell.output_process = terminal
 	#for y in terminal.HEIGHT:
 	#	for x in terminal.WIDTH:
 	#		if (x+y)%2 == 1:
@@ -15,14 +17,21 @@ func _ready():
 	
 
 func _process(_delta):
-	var text = ""
-	for bline in terminal.buffer:
+	$Buffer.clear()
+	for i in len(terminal.buffer):
+		var bline = terminal.buffer[i]
 		var line = ""
-		for c in bline:
-			line += c
-		line += "\n"
-		text += line
-	$Buffer.text = text
+		for j in len(bline):
+			if i == terminal.cursor_y and j == terminal.cursor_x:
+				$Buffer.add_text(line)
+				$Buffer.push_underline()
+				$Buffer.add_text(bline[j])
+				$Buffer.pop()
+				line = ""
+			else:
+				line += bline[j]
+		$Buffer.add_text(line)
+		$Buffer.newline()
 
 func _input(event):
 	if event is InputEventKey:

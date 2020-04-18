@@ -2,16 +2,15 @@ extends Node
 
 class_name Process
 
+var root = null
 var input_queue = []
 var output_process = null
 
-var fs_root = FSDir.new("/", null)
-var cwd = fs_root
+var fs_root = null
+var server = null
+var cwd = null
 
 signal input_received
-
-func _init(output):
-	output_process = output
 
 func run(args):
 	pass
@@ -24,21 +23,15 @@ func get_input():
 func receive_input(input):
 	input_queue.append(input)
 	emit_signal("input_received")
-	
-func wait_key_press():
-	if output_process is Terminal:
-		var key = yield(output_process, "key_pressed")
-		print(key)
-		return key
-	else:
-		return 0
+
 
 func register_for_keypress():
 	if output_process is Terminal:
 		output_process.connect("key_pressed", self, "receive_keypress")
 
 func unregister_for_keypress():
-	$"/root/Root/Terminal".disconnect("key_pressed", self, "receive_keypress")
+	if output_process is Terminal:
+		output_process.disconnect("key_pressed", self, "receive_keypress")
 
 func receive_keypress(key):
 	pass

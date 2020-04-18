@@ -11,11 +11,20 @@ var time_since_tick = 0
 func _ready():
 	add_new_server("shoutr", "10.0.0.1")
 
+func random_ip():
+	while true:
+		var ip = str(randi()%256) + "." + str(randi()%256) + "." + str(randi()%256) + "." + str(randi()%256)
+		if not ipaddr.has(ip):
+			return ip
+
 func add_new_server(name, ip):
+	if dns.has(name) or ipaddr.has(ip):
+		return false
 	var new_server = Server.new(self, name, ip)
 	servers.append(new_server)
 	dns[name] = new_server
 	ipaddr[ip] = new_server
+	return true
 
 func connect_servers(srv1, srv2):
 	srv1.connections.append(srv2)
@@ -34,6 +43,8 @@ func resolve_ip(ip):
 func tick():
 	for server in servers:
 		server.tick()
+	for server in servers:
+		server.process_incoming()
 
 func _process(delta):
 	time_since_tick += delta
