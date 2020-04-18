@@ -16,7 +16,7 @@ var parent: FSNode = self
 	
 func full_path() -> String:
 	if parent != self:
-		return parent.full_path() + name
+		return parent.full_path() + name + "/"
 	else:
 		return "/"
 

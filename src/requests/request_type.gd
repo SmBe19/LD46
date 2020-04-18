@@ -13,7 +13,7 @@ var _json
 func _init(json):
 	request_name = str(json["name"])
 	human_name = str(json["human_name"])
-	full_name = human_name + "(" + request_name + ")"
+	full_name = human_name + " (" + request_name + ")"
 	level = int(json["level"])
 	_json = json
 

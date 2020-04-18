@@ -11,12 +11,16 @@ var connections = {}
 var queue_length = 16
 var disk = 131072
 var ram = 4096
-var cpu_cycles = 256
+var cpu_cycles = 32
 var used_disk = 0
 var used_ram = 0
 var used_cpu_cycles = 0
 var installed_services = []
 var last_service = 0
+
+var error_servers = []
+var error_requests = []
+var error_services = []
 
 func _init(server_name_, ip_):
 	server_name = server_name_
@@ -26,13 +30,12 @@ func _init(server_name_, ip_):
 
 func write_log(logname, content):
 	var file = fs_root.open("var/log/" + logname, true)
-	file.content += content + "\n"
+	file.content += "[" + str(Root.game_tick) + "] " + content + "\n"
 
 func receive_request(request):
 	if len(input_queue) + len(incoming_requests) < queue_length:
 		incoming_requests.append(request)
 		return true
-	write_log("receive.log", "Receive queue full")
 	return false
 
 func process_incoming():
@@ -42,16 +45,22 @@ func process_incoming():
 
 func send_request(destination, request):
 	if connections.has(destination):
+		error_servers.erase(destination)
 		return connections[destination].receive_request(request)
 	else:
-		write_log("forward.log", "Server " + destination + " not connected.")
+		if not error_servers.has(destination):
+			error_servers.append(destination)
+			write_log("forward.log", "Server " + destination + " not connected.")
 		return false
 
 func forward_request(request):
 	var file = fs_root.open("etc/requests/" + request.type.request_name)
 	if not file or not file.content.trim():
-		write_log("forward.log", "No forwarding rule for " + request.type.full_name + ".")
+		if not error_requests.has(request.type.full_name):
+			error_requests.append(request.type.full_name)
+			write_log("forward.log", "No forwarding rule for " + request.type.full_name + ".")
 		return false
+	error_requests.erase(request.type.full_name)
 	var forwards = file.content.split("\n")
 	var forward = forwards[randi() % len(forwards)]
 	return send_request(Root.resolve_name(forward), request)
@@ -96,8 +105,13 @@ func tick():
 				can_handle = true
 				break
 		if not can_handle:
+			if not error_services.has(request.type.full_name):
+				error_services.append(request.type.full_name)
+				write_log("forward.log", "No service available for " + request.type.full_name + ".")
 			if not forward_request(request):
 				input_queue.append(request)
+		else:
+			error_services.erase(request.type.full_name)
 	for service in installed_services:
 		if service.can_start():
 			if used_ram + service.type.ram <= ram:
@@ -114,6 +128,7 @@ func tick():
 				last_run = last_service
 			elif last_run == last_service:
 				break
+		used_cpu_cycles = cpu_cycles - remaining_cpu
 	for service in installed_services:
 		if service.is_finished():
 			used_ram -= service.type.ram

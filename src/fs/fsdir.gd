@@ -12,6 +12,10 @@ func is_dir() -> bool:
 	return true
 
 func mkdir(dir: String, recursive: bool = false) -> String:
+	if dir.begins_with('/'):
+		if parent != self:
+			return parent.mkdir(dir, recursive)
+		dir = dir.right(1)
 	var components = dir.split('/', true, 1)
 	if len(components[0]) == 0:
 		return "Error: invalid path"
@@ -31,6 +35,10 @@ func mkdir(dir: String, recursive: bool = false) -> String:
 	return ""
 
 func open(filename: String, create: bool = false) -> FSFile:
+	if filename.begins_with('/'):
+		if parent != self:
+			return parent.open(filename, create)
+		filename = filename.right(1)
 	var components = filename.split('/', true, 1)
 	if len(components[0]) == 0:
 		return null
@@ -51,6 +59,10 @@ func open(filename: String, create: bool = false) -> FSFile:
 func file_type(filename: String) -> String:
 	if len(filename) == 0:
 		return "dir"
+	if filename.begins_with('/'):
+		if parent != self:
+			return parent.file_type(filename)
+		filename = filename.right(1)
 	var components = filename.split('/', true, 1)
 	if children.has(components[0]):
 		if len(components) > 1 && len(components[1]) > 0:
@@ -62,6 +74,10 @@ func file_type(filename: String) -> String:
 func get_node(filename: String) -> FSNode:
 	if len(filename) == 0:
 		return self
+	if filename.begins_with('/'):
+		if parent != self:
+			return parent.get_node(filename)
+		filename = filename.right(1)
 	var components = filename.split('/', true, 1)
 	if children.has(components[0]):
 		if len(components) > 1 && len(components[1]) > 0:

@@ -25,6 +25,10 @@ func _ready():
 
 func scroll_buffer(by):
 	assert (by > 0)
+	if by >= HEIGHT:
+		for i in HEIGHT:
+			buffer[-i-1] = _fill_line([])
+		return
 	for i in HEIGHT - by:
 		buffer[i] = buffer[i+by]
 	for i in by:
@@ -41,7 +45,8 @@ func write_line(line):
 	for c in line:
 		if c == '\n' || len(current_new_line) == WIDTH:
 			new_lines.append(_fill_line(current_new_line))
-		if c != '\n':
+			current_new_line = []
+		else:
 			current_new_line.append(c)
 	if len(current_new_line) > 0:
 		new_lines.append(_fill_line(current_new_line))
