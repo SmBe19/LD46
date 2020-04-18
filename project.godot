@@ -13,15 +13,27 @@ _global_script_classes=[ {
 "class": "Process",
 "language": "GDScript",
 "path": "res://src/process.gd"
+}, {
+"base": "Node",
+"class": "Terminal",
+"language": "GDScript",
+"path": "res://src/terminal.gd"
 } ]
 _global_script_class_icons={
-"Process": ""
+"Process": "",
+"Terminal": ""
 }
 
 [application]
 
-config/name="LD46"
+config/name="Linux Simulator 2020"
+run/main_scene="res://scn/root.tscn"
 config/icon="res://icon.png"
+
+[display]
+
+window/size/width=900
+window/size/resizable=false
 
 [rendering]
 

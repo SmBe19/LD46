@@ -9,9 +9,9 @@ var buffer = []
 var current_line = 0
 
 func _init():
-    for y in WIDTH:
+    for y in HEIGHT:
         var line = []
-        for x in HEIGHT:
+        for x in WIDTH:
             line.append(' ')
         buffer.append(line)
 
@@ -50,6 +50,7 @@ func set_line(y, line):
 func set_char(x, y, c):
     assert (0 <= x && x < WIDTH)
     assert (0 <= y && y < HEIGHT)
+    assert (len(c) == 1)
     buffer[y][x] = c
 
 func clear_screen():
