@@ -42,12 +42,23 @@ func _fill_line(line):
 func write_line(line):
 	var new_lines = []
 	var current_new_line = []
-	for c in line:
-		if c == '\n' || len(current_new_line) == WIDTH:
+	var i = len(line)
+	var wordend = i
+	var next_word_end = {}
+	while i > 0:
+		i-= 1
+		if line[i] == ' ' or line[i] == '\n':
+			wordend = i
+		next_word_end[i] = wordend
+	while i < len(line):
+		if line[i] == '\n' || len(current_new_line) + max(0, next_word_end[i] - i - 1) >= WIDTH:
 			new_lines.append(_fill_line(current_new_line))
 			current_new_line = []
-		else:
-			current_new_line.append(c)
+			while i < len(line) and line[i] == ' ':
+				i+=1
+		if i < len(line) and line[i] != '\n':
+			current_new_line.append(line[i])
+		i+=1
 	if len(current_new_line) > 0:
 		new_lines.append(_fill_line(current_new_line))
 	while len(new_lines) > HEIGHT:

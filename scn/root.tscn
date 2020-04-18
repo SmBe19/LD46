@@ -41,4 +41,4 @@ margin_bottom = 580.0
 custom_fonts/normal_font = ExtResource( 2 )
 custom_colors/default_color = Color( 0.211765, 0.811765, 0.141176, 1 )
 bbcode_text = "Hello world!"
-text = "Hello world!"
+text = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam tincidunt nibh eleifend faucibus lacinia. Pellentesque ultrices faucibus ipsum ac dignissim. Maecenas pharetra suscipit lacus quis tristique. Maecenas ornare metus et tortor feugiat, et placerat lorem ultrices. Suspendisse sit amet mattis dolor. Sed vehiculat tellus nec ante aliquam luctus. Pellentesque id porta justo. Nulla dolor risus, tincidunt ac augue quis, suscipit luctus purus. "
