@@ -50,9 +50,9 @@ func send_request(destination, request):
         return false
 
 func forward_request(request):
-    var file = fs_root.open("etc/requests/" + request.type.name)
+    var file = fs_root.open("etc/requests/" + request.type.request_name)
     if not file or not file.content.trim():
-        write_log("forward.log", "No forwarding rule for " + request.type.name + ".")
+        write_log("forward.log", "No forwarding rule for " + request.type.request_name + ".")
         return false
     var forwards = file.content.split("\n")
     var forward = forwards[randi() % len(forwards)]

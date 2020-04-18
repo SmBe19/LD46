@@ -27,8 +27,8 @@ func add_new_server(name, ip):
 	return true
 
 func connect_servers(srv1, srv2):
-	srv1.connections.append(srv2)
-	srv2.connections.append(srv1)
+	srv1.connections[srv1.ip] = srv1
+	srv1.connections[srv2.ip] = srv2
 
 func resolve_name(name):
 	if dns.has(name):
