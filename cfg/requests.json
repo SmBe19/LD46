@@ -1,27 +1,36 @@
 [
     {
-	"name" : "sql",
-	"humanName" : "SQL Request",
-	"requirements" : [],
+	"name": "sql",
+	"humanName": "SQL Request",
+	"requirements": []
     },
     {
-	"name" : "compute",
-	"humanName" : "Compute Request",
-	"requirements" : [],
+	"name": "compute",
+	"humanName": "Compute Request",
+	"requirements": []
     },
     {
-	"name" : "html",
-	"humanName" : "HTML Generation Request",
-	"requirements" : [
-	    {"name" : "compute", "count" : 1},
-	    {"name" : "sql", "count" : 2},
-	],
+	"name": "html",
+	"humanName": "HTML Generation Request",
+	"requirements": [
+	    {
+		"name": "compute",
+		"count": 1
+	    },
+	    {
+		"name": "sql",
+		"count": 2
+	    }
+	]
     },
     {
-	"name" : "http",
-	"humanName" : "HTTP Request",
-	"requirements" : [
-	    {"name" : "html", "count" : 1},
-	],
-    },
+	"name": "http",
+	"humanName": "HTTP Request",
+	"requirements": [
+	    {
+		"name": "html",
+		"count": 1
+	    }
+	]
+    }
 ]

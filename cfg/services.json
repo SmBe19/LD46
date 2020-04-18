@@ -1,62 +1,77 @@
 [
     {
-	"name" : "database",
-	"humanName" : "SQL Database",
-	"inputs" : [
-	    {"name" : "sql", "count" : 1},
+	"name": "database",
+	"humanName": "SQL Database",
+	"inputs": [
+	    {
+		"name": "sql",
+		"count": 1
+	    }
 	],
-	"resources" : {
-	    "ram" : 1024,
-	    "cpu" : 128,
-	    "hdd" : 65536,
-	},
+	"resources": {
+	    "ram": 1024,
+	    "cpu": 128,
+	    "hdd": 65536
+	}
     },
     {
-	"name" : "compute",
-	"humanName" : "High Performance Computer",
-	"inputs" : [
-	    {"name" : "compute", "count" : 1},
+	"name": "compute",
+	"humanName": "High Performance Computer",
+	"inputs": [
+	    {
+		"name": "compute",
+		"count": 1
+	    }
 	],
-	"resources" : {
-	    "ram" : 512,
-	    "cpu" : 1024,
-	    "hdd" : 1024,
-	},
+	"resources": {
+	    "ram": 512,
+	    "cpu": 1024,
+	    "hdd": 1024
+	}
     },
     {
-	"name" : "php",
-	"humanName" : "PHP Interpreter",
-	"inputs" : [
-	    {"name" : "html", "count" : 1},
+	"name": "php",
+	"humanName": "PHP Interpreter",
+	"inputs": [
+	    {
+		"name": "html",
+		"count": 1
+	    }
 	],
-	"resources" : {
-	    "ram" : 256,
-	    "cpu" : 128,
-	    "hdd" : 4096,
-	},
+	"resources": {
+	    "ram": 256,
+	    "cpu": 128,
+	    "hdd": 4096
+	}
     },
     {
-	"name" : "apache",
-	"humanName" : "Apache Web Server",
-	"inputs" : [
-	    {"name" : "http", "count" : 1},
+	"name": "apache",
+	"humanName": "Apache Web Server",
+	"inputs": [
+	    {
+		"name": "http",
+		"count": 1
+	    }
 	],
-	"resources" : {
-	    "ram" : 512,
-	    "cpu" : 256,
-	    "hdd" : 4096,
-	},
+	"resources": {
+	    "ram": 512,
+	    "cpu": 256,
+	    "hdd": 4096
+	}
     },
     {
-	"name" : "nginx",
-	"humanName" : "nginx Web Server",
-	"inputs" : [
-	    {"name" : "http", "count" : 1},
+	"name": "nginx",
+	"humanName": "nginx Web Server",
+	"inputs": [
+	    {
+		"name": "http",
+		"count": 1
+	    }
 	],
-	"resources" : {
-	    "ram" : 256,
-	    "cpu" : 128,
-	    "hdd" : 2048,
-	},
-    },
+	"resources": {
+	    "ram": 256,
+	    "cpu": 128,
+	    "hdd": 2048
+	}
+    }
 ]
