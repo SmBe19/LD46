@@ -24,7 +24,6 @@ func _init():
 		commands += ["cd", "set", "help", "logout", "connect"]
 		commands.erase("sh")
 		commands.sort()
-		print(commands)
 
 func run(args):
 	send_output("This is sh v0.0.1")
@@ -49,19 +48,20 @@ func run(args):
 		if cmd[0] in aliases:
 			cmd[0] = aliases[cmd[0]]
 		
+		var matched = true;
 		match cmd[0]:
 			"cd":
 				cd(cmd)
-				continue
 			"set":
 				set_var(cmd)
-				continue
 			"logout":
 				logout(cmd)
-				continue
 			"connect":
 				connect_server(cmd)
-				continue
+			_:
+				matched = false
+		if matched:
+			continue
 		var process = spawn_subprocess(cmd[0])
 		if not process is Process:
 			send_output(process)
@@ -207,7 +207,7 @@ func readline(prompt: String) -> String:
 			if len(completions) == 1:
 				var compl_start_ix = line.rfind(' ')
 				if compl_start_ix < 0:
-					line = completions[0]
+					line = completions[0] + ' '
 				else:
 					line = line.left(compl_start_ix+1) + completions[0]
 			elif len(completions) == 0:
@@ -215,8 +215,7 @@ func readline(prompt: String) -> String:
 			else:
 				send_output(prompt + line)
 				output_process.current_line -= 1
-				for completion in completions:
-					send_output(completion)
+				send_output_list(completions)
 				send_output(prompt + line)
 				output_process.cursor_y = output_process.current_line-1
 		output_process.set_line(output_process.current_line-1, prompt + line)

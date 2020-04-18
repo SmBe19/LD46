@@ -7,7 +7,7 @@ func run(args):
 			send_output(" " + key)
 	else:
 		for i in range(1, len(args)):
-			var node = self.fs_get_node(args[i])
+			var node = self.cwd.get_node(args[i])
 			if node == null:
 				send_output("ls: " + args[i] + ": file not found")
 				status = 1
