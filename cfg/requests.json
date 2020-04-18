@@ -2,16 +2,19 @@
     {
 	"name": "sql",
 	"human_name": "SQL Request",
+	"level": 0,
 	"requirements": []
     },
     {
 	"name": "compute",
 	"human_name": "Compute Request",
+	"level": 0,
 	"requirements": []
     },
     {
 	"name": "html",
 	"human_name": "HTML Generation Request",
+	"level": 1,
 	"requirements": [
 	    {
 		"name": "compute",
@@ -26,6 +29,7 @@
     {
 	"name": "http",
 	"human_name": "HTTP Request",
+	"level": 1,
 	"requirements": [
 	    {
 		"name": "html",

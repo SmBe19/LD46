@@ -7,6 +7,8 @@ var servers = []
 var dns = {}
 var ipaddr = {}
 var time_since_tick = 0
+var game_tick = 0
+var request_count = 0
 
 func _ready():
 	add_new_server("shoutr", "10.0.0.1")
@@ -40,7 +42,27 @@ func resolve_ip(ip):
 		return ipaddr[ip]
 	return null
 
+func complete_request(request):
+	print("CONGRATULATIONS FOR COMPLETING REQUEST", request.id)
+
+func generate_request(server):
+	if len(server.input_queue) >= server.queue_length:
+		print("Queue full, no task for you.")
+		return
+	var difficulty = 0
+	if game_tick > 100:
+		difficulty = randi() % 2
+	var type = RequestHandler.generate_request(difficulty)
+	var request = Request.new(request_count, type)
+	request_count += 1
+	request.connect("request_fulfilled", self, "complete_request")
+	server.input_queue.append(request)
+	print("You have a new", request.type.human_name, "with id", request.id)
+
 func tick():
+	game_tick += 1
+	if game_tick % 10 == 0:
+		generate_request(servers[0])
 	for server in servers:
 		server.tick()
 	for server in servers:

@@ -1,6 +1,7 @@
 extends Node
 
 var request_types = {}
+var requests_by_difficulty = {}
 
 func _ready():
 	var config = read_json("res://cfg/requests.json")
@@ -8,6 +9,9 @@ func _ready():
 	for request_json in config:
 		var request = RequestType.new(request_json)
 		request_types[request.request_name] = request
+		if not requests_by_difficulty.has(request.level):
+			requests_by_difficulty[request.level] = []
+		requests_by_difficulty[request.level].append(request)
 	for type in request_types.values():
 		type.parseRequirements()
 	
@@ -19,3 +23,7 @@ func read_json(path):
 	var json_result = JSON.parse(json)
 	file.close()
 	return json_result.result
+
+func generate_request(difficulty):
+	var index = randi() % len(requests_by_difficulty[difficulty])
+	return requests_by_difficulty[difficulty][index]

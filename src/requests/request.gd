@@ -2,6 +2,8 @@ extends Node
 
 class_name Request
 
+var Self = load("request.gd")
+
 signal request_fulfilled(request)
 
 var id : int
@@ -14,8 +16,8 @@ func _init(request_id, request_type):
 func process():
 	var ret = []
 	for t in type.requirements:
-		ret.append(Request.new(id, t))
-		ret[-1].Connect("request_fulfilled", self, "child_fulfilled")
+		ret.append(Self.new(id, t))
+		ret[-1].connect("request_fulfilled", self, "child_fulfilled")
 	if len(ret) == 0:
 		emit_signal("request_fulfilled", self)
 	return ret
