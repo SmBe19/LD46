@@ -17,10 +17,19 @@ func can_handle(request):
     # TODO implement
     pass
 
-func start_handle(request):
-    pass
+func handle_request(request):
+	pass
+
+func can_start():
+	pass
+
+func start():
+	pass
 
 func is_running():
+    pass
+
+func is_finished():
     pass
 
 func get_results():

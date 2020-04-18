@@ -35,6 +35,8 @@ func resolve_ip(ip):
 func tick():
 	for server in servers:
 		server.tick()
+	for server in servers:
+		server.process_incoming()
 
 func _process(delta):
 	time_since_tick += delta
