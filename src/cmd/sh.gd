@@ -167,17 +167,25 @@ func lookup_var(name):
 				return ''
 
 func complete(line: String) -> Array:
-	var cmd = line.split(' ', false)
-	if len(cmd) == 0 or len(cmd) == 1 and not line.ends_with(' '):
+	var cmd = line.left(line.find_last(' ')).split(' ', false)
+	var completion_seed = line.right(1+line.find_last(' '))
+	
+	if len(cmd) == 0:
 		# complete command names
-		if len(cmd) == 0:
+		if len(completion_seed) == 0:
 			return commands
 		var res = []
 		for x in commands:
-			if x.begins_with(cmd[0]):
+			if x.begins_with(completion_seed):
 				res.append(x)
 		return res
-		
+	match cmd[0]:
+		"connect":
+			var res = []
+			for x in Root.dns.keys():
+				if x.begins_with(completion_seed):
+					res.append(x)
+			return res
 	return []
 
 func readline(prompt: String) -> String:

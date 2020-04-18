@@ -46,7 +46,7 @@ func write_line(line):
 		if c == '\n' || len(current_new_line) == WIDTH:
 			new_lines.append(_fill_line(current_new_line))
 			current_new_line = []
-		if c != '\n':
+		else:
 			current_new_line.append(c)
 	if len(current_new_line) > 0:
 		new_lines.append(_fill_line(current_new_line))

@@ -5,7 +5,8 @@ func run(args):
 		send_output('usage: touch <file> [file...]')
 		return 1
 	for i in range(1, len(args)):
-		var file = self.cwd.open(args[i], true)
+		var file = self.fs_open(args[i], true)
 		if file == null:
 			send_output("touch: " + args[i] + ": no such file or directory")
+			return 1
 	return 0

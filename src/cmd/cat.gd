@@ -6,7 +6,7 @@ func run(args):
 		return 1
 	var res = ""
 	for i in range(1, len(args)):
-		var file = self.cwd.open(args[i])
+		var file = self.fs_open(args[i])
 		if file == null:
 			send_output("cat: "+args[1]+ ": no such file or directory")
 			return 1
