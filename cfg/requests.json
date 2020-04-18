@@ -1,17 +1,17 @@
 [
     {
 	"name": "sql",
-	"humanName": "SQL Request",
+	"human_name": "SQL Request",
 	"requirements": []
     },
     {
 	"name": "compute",
-	"humanName": "Compute Request",
+	"human_name": "Compute Request",
 	"requirements": []
     },
     {
 	"name": "html",
-	"humanName": "HTML Generation Request",
+	"human_name": "HTML Generation Request",
 	"requirements": [
 	    {
 		"name": "compute",
@@ -25,7 +25,7 @@
     },
     {
 	"name": "http",
-	"humanName": "HTTP Request",
+	"human_name": "HTTP Request",
 	"requirements": [
 	    {
 		"name": "html",

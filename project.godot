@@ -35,9 +35,9 @@ _global_script_classes=[ {
 "path": "res://src/requests/request.gd"
 }, {
 "base": "Node",
-"class": "RequestHandler",
+"class": "RequestRequirement",
 "language": "GDScript",
-"path": "res://src/requests/request_handler.gd"
+"path": "res://src/requests/request_requirement.gd"
 }, {
 "base": "Node",
 "class": "RequestType",
@@ -70,7 +70,7 @@ _global_script_class_icons={
 "FSNode": "",
 "Process": "",
 "Request": "",
-"RequestHandler": "",
+"RequestRequirement": "",
 "RequestType": "",
 "Server": "",
 "Service": "",
@@ -83,6 +83,10 @@ _global_script_class_icons={
 config/name="Linux Simulator 2020"
 run/main_scene="res://scn/root.tscn"
 config/icon="res://icon.png"
+
+[autoload]
+
+RequestHandler="*res://src/requests/request_handler.gd"
 
 [display]
 

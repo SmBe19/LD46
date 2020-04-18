@@ -1,11 +1,16 @@
 extends Node
 
-class_name RequestHandler
+var request_types = {}
 
-func _init():
-	print("Hello world!")
+func _ready():
 	var config = read_json("res://cfg/requests.json")
-	print(config[0])
+	var constructors = []
+	for request_json in config:
+		var request = RequestType.new(request_json)
+		request_types[request.request_name] = request
+	for type in request_types.values():
+		type.parseRequirements()
+	
 
 func read_json(path):
 	var file = File.new()
