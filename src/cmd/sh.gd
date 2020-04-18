@@ -13,6 +13,7 @@ func run(args):
 	send_output("This is sh v0.0.1")
 	fs_root = fs_home
 	cwd = fs_root
+	connect_server(['connect', 'shoutr'])
 	while true:
 		var line = yield(readline(prompt()), "completed")
 		send_output(prompt() + line)
