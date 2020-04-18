@@ -2,12 +2,14 @@ extends Control
 
 const TICK_PER_SECOND = 10
 
+var request_handler
 var servers = []
 var dns = {}
 var ipaddr = {}
 var time_since_tick = 0
 
 func _ready():
+	request_handler = RequestHandler.new()
 	add_new_server("shoutr", "10.0.0.1")
 
 func add_new_server(name, ip):
