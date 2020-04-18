@@ -37,7 +37,6 @@ func run(args):
 		
 		update_statusbar()
 		var key = yield(output_process, "key_pressed")
-		print(key)
 		match mode:
 			INSERT:
 				if key == KEY_ESCAPE:
@@ -49,8 +48,6 @@ func run(args):
 					update_line(line)
 				elif key == KEY_ENTER:
 					var tmp : String = lines[line]
-					print(col)
-					print(tmp.right(col))
 					lines.insert(line+1, tmp.right(col))
 					lines[line] = tmp.left(col)
 					for i in range(line, len(lines)):
@@ -67,7 +64,7 @@ func run(args):
 						update_line(line)
 			NORMAL:
 				if key == KEY_ESCAPE:
-					return
+					return 0
 				if key == ord('i'):
 					mode = INSERT
 				if key == ord('a'):
@@ -101,15 +98,16 @@ func run(args):
 						cmdline.erase(len(cmdline)-1, 1)
 					KEY_ENTER:
 						if run_cmdline():
-							return
+							return 0
 						cmdline = ""
 						mode = NORMAL
 					_:
 						if key >= KEY_SPACE && key <= KEY_ASCIITILDE:
 							cmdline += char(key)
+	return 0
 
 func load_file(fname):
-	var file = self.fs_open(fname)
+	var file = self.cwd.open(fname)
 	if file == null:
 		return
 	lines = PoolStringArray(file.content.split("\n"))
@@ -119,7 +117,7 @@ func load_file(fname):
 		update_line(i)
 
 func write_file(fname):
-	var file = self.fs_open(fname, true)
+	var file = self.cwd.open(fname, true)
 	if file == null:
 		return
 	file.content = lines.join('\n')

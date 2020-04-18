@@ -55,7 +55,7 @@ func send_request(destination, request):
 
 func forward_request(request):
 	var file = fs_root.open("etc/requests/" + request.type.request_name)
-	if not file or not file.content.trim():
+	if not file or not file.content:
 		if not error_requests.has(request.type.full_name):
 			error_requests.append(request.type.full_name)
 			write_log("forward.log", "No forwarding rule for " + request.type.full_name + ".")
