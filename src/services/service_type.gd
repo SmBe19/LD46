@@ -11,11 +11,11 @@ var ram
 var disk
 
 func _init(json):
-    service_name = str(json["name"])
-    human_name = str(json["human_name"])
-    full_name = human_name + " (" + service_name + ")"
-    cpu = int(json["resources"]["cpu"])
-    ram = int(json["resources"]["ram"])
-    disk = int(json["resources"]["hdd"])
-    for input in json["inputs"]:
-        inputs[RequestHandler.request_types[str(input["name"])]] = int(input["count"])
+	service_name = str(json["name"])
+	human_name = str(json["human_name"])
+	full_name = human_name + " (" + service_name + ")"
+	cpu = int(json["resources"]["cpu"])
+	ram = int(json["resources"]["ram"])
+	disk = int(json["resources"]["hdd"])
+	for input in json["inputs"]:
+		inputs[RequestHandler.request_types[str(input["name"])]] = int(input["count"])
