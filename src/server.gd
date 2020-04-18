@@ -2,7 +2,6 @@ extends Node
 
 class_name Server
 
-var root
 var fs_root = FSDir.new("/", null)
 var input_queue = []
 var incoming_requests = []
@@ -19,8 +18,7 @@ var used_cpu_cycles = 0
 var installed_services = []
 var last_service = 0
 
-func _init(root_, server_name_, ip_):
-	root = root_
+func _init(server_name_, ip_):
 	server_name = server_name_
 	ip = ip_
 	fs_root.mkdir("etc/requests", true)
@@ -50,13 +48,13 @@ func send_request(destination, request):
 		return false
 
 func forward_request(request):
-	var file = fs_root.open("etc/requests/" + request.type.request_name)
-	if not file or not file.content.trim():
-		write_log("forward.log", "No forwarding rule for " + request.type.human_name + ".")
-		return false
-	var forwards = file.content.split("\n")
-	var forward = forwards[randi() % len(forwards)]
-	return send_request(root.resolve_name(forward), request)
+    var file = fs_root.open("etc/requests/" + request.type.request_name)
+    if not file or not file.content.trim():
+        write_log("forward.log", "No forwarding rule for " + request.type.full_name + ".")
+        return false
+    var forwards = file.content.split("\n")
+    var forward = forwards[randi() % len(forwards)]
+    return send_request(Root.resolve_name(forward), request)
 
 func tick():
 	var size = len(input_queue)

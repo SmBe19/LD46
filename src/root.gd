@@ -10,7 +10,7 @@ var time_since_tick = 0
 var game_tick = 0
 var request_count = 0
 
-func _ready():
+func _init():
 	add_new_server("shoutr", "10.0.0.1")
 
 func random_ip():
@@ -22,15 +22,15 @@ func random_ip():
 func add_new_server(name, ip):
 	if dns.has(name) or ipaddr.has(ip):
 		return false
-	var new_server = Server.new(self, name, ip)
+	var new_server = Server.new(name, ip)
 	servers.append(new_server)
 	dns[name] = new_server
 	ipaddr[ip] = new_server
 	return true
 
 func connect_servers(srv1, srv2):
-	srv1.connections.append(srv2)
-	srv2.connections.append(srv1)
+	srv1.connections[srv1.ip] = srv1
+	srv1.connections[srv2.ip] = srv2
 
 func resolve_name(name):
 	if dns.has(name):

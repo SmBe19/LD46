@@ -45,7 +45,6 @@ func run(args):
 					var script = load("res://src/cmd/" + cmd[0] + ".gd")
 					if script != null:
 						var process = script.new()
-						process.root = root
 						process.output_process = output_process
 						process.fs_root = fs_root
 						process.cwd = cwd
@@ -85,14 +84,13 @@ func logout(args):
 	if server != null:
 		cwd = fs_home
 		server = null
-	else:
-		root.get_tree().quit()
+
 
 func connect_server(args):
 	if len(args) != 2:
 		send_output("usage: connect <server_name>")
-	var ip = root.resolve_name(args[1])
-	server = root.resolve_ip(ip)
+	var ip = Root.resolve_name(args[1])
+	server = Root.resolve_ip(ip)
 	if not server:
 		send_output("Server " + args[1] + " not found")
 		return
