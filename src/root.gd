@@ -9,7 +9,7 @@ var ipaddr = {}
 var time_since_tick = 0
 var game_tick = 0
 var global_uuid = 0
-var money = 2048
+var money = 20480
 var money_log = []
 
 func _init():
@@ -39,8 +39,8 @@ func connect_servers(srv1, srv2):
 		return 'Not enough money ($32 required)'
 	money_log.append("Connection: -$32")
 	money -= 32
-	srv1.connections[srv1.ip] = srv1
 	srv1.connections[srv2.ip] = srv2
+	srv2.connections[srv1.ip] = srv1
 	return ''
 
 func resolve_name(name):
