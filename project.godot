@@ -81,6 +81,7 @@ config/icon="res://icon.png"
 [autoload]
 
 RequestHandler="*res://src/requests/request_handler.gd"
+Root="*res://src/root.gd"
 
 [display]
 

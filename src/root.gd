@@ -8,7 +8,7 @@ var dns = {}
 var ipaddr = {}
 var time_since_tick = 0
 
-func _ready():
+func _init():
 	add_new_server("shoutr", "10.0.0.1")
 
 func random_ip():
@@ -20,7 +20,7 @@ func random_ip():
 func add_new_server(name, ip):
 	if dns.has(name) or ipaddr.has(ip):
 		return false
-	var new_server = Server.new(self, name, ip)
+	var new_server = Server.new(name, ip)
 	servers.append(new_server)
 	dns[name] = new_server
 	ipaddr[ip] = new_server
