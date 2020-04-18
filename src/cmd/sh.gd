@@ -38,6 +38,7 @@ func run(args):
 					var script = load("res://src/cmd/" + cmd[0] + ".gd")
 					if script != null:
 						var process = script.new()
+						process.root = root
 						process.output_process = output_process
 						process.fs_root = fs_root
 						process.cwd = cwd

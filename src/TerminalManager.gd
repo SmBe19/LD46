@@ -7,6 +7,7 @@ var shell
 func _ready():
 	terminal = Terminal.new()
 	shell = preload("res://src/cmd/sh.gd").new()
+	shell.root = $"/root/Root"
 	shell.output_process = terminal
 	#for y in terminal.HEIGHT:
 	#	for x in terminal.WIDTH:

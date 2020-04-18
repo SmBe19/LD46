@@ -2,6 +2,7 @@ extends Node
 
 class_name Process
 
+var root = null
 var input_queue = []
 var output_process = null
 
@@ -9,9 +10,6 @@ var fs_root = FSDir.new("/", null)
 var cwd = fs_root
 
 signal input_received
-
-#func _init(output):
-#	output_process = output
 
 func run(args):
 	pass
@@ -31,7 +29,8 @@ func register_for_keypress():
 		output_process.connect("key_pressed", self, "receive_keypress")
 
 func unregister_for_keypress():
-	$"/root/Root/Terminal".disconnect("key_pressed", self, "receive_keypress")
+	if output_process is Terminal:
+		output_process.disconnect("key_pressed", self, "receive_keypress")
 
 func receive_keypress(key):
 	pass
