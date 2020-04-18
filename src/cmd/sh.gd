@@ -32,31 +32,24 @@ func run(args):
 		match cmd[0]:
 			"cd":
 				cd(cmd)
+				continue
 			"set":
 				set_var(cmd)
-			"help":
-				help(cmd)
+				continue
 			"logout":
 				logout(cmd)
+				continue
 			"connect":
 				connect_server(cmd)
-			_:
-				if cmd[0].is_valid_identifier():
-					var script = load("res://src/cmd/" + cmd[0] + ".gd")
-					if script != null:
-						var process = script.new()
-						process.output_process = output_process
-						process.server = server
-						process.fs_root = fs_root
-						process.cwd = cwd
-						var res = process.run(cmd)
-						if res is GDScriptFunctionState:
-							res = yield(res, "completed")
-						send_output(cmd[0] + " returned " + str(res))
-					else:
-						send_output(cmd[0] + ": command not found")
-				else:
-					send_output(cmd[0] + ": command not found")
+				continue
+		var process = spawn_subprocess(cmd[0])
+		if not process is Process:
+			send_output(process)
+			continue
+		var res = process.run(cmd)
+		if res is GDScriptFunctionState:
+			res = yield(res, "completed")
+		send_output(cmd[0] + " returned " + str(res))
 
 func prompt():
 	if server:
@@ -97,9 +90,6 @@ func connect_server(args):
 		return
 	fs_root = server.fs_root
 	cwd = fs_root
-
-func help(args):
-	send_output("git gud")
 
 func set_var(args):
 	if len(args) != 3:
