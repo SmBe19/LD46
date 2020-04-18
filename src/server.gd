@@ -22,7 +22,7 @@ func _init(server_name_, ip_):
 	server_name = server_name_
 	ip = ip_
 	fs_root.mkdir("etc/requests", true)
-	fs_root.mkdir("var/logs", true)
+	fs_root.mkdir("var/log", true)
 
 func write_log(logname, content):
 	var file = fs_root.open("var/log/" + logname, true)
@@ -56,41 +56,68 @@ func forward_request(request):
     var forward = forwards[randi() % len(forwards)]
     return send_request(Root.resolve_name(forward), request)
 
+func install_service(service_name):
+    var stype = ServiceHandler.get_type(service_name)
+    if stype:
+        if used_disk + stype.disk <= disk:
+            used_disk += stype.disk
+            var service = ServiceHandler.create_new_service(service_name)
+            installed_services.append(service)
+            return ''
+        else:
+            return 'Disk full'
+    return 'Service type not found'
+
+func uninstall_service(service_name):
+    var uninstall_service = null
+    for service in installed_services:
+        if service.type.service_name == service_name:
+            uninstall_service = service
+            break
+    if uninstall_service:
+        for rtype in uninstall_service.request_queue.keys():
+            for request in uninstall_service.request_queue[rtype]:
+                input_queue.append(request)
+        installed_services.erase(uninstall_service)
+        return ''
+    else:
+        return 'Service not installed'
+
 func tick():
-	var size = len(input_queue)
-	for i in size:
-		var request = input_queue.pop_front()
-		var can_handle = false
-		for service in installed_services:
-			if service.is_running():
-				continue
-			if service.can_handle(request):
-				service.handle_request(request)
-				can_handle = true
-				break
-		if not can_handle:
-			if not forward_request(request):
-				input_queue.append(request)
-	for service in installed_services:
-		if service.can_start():
-			if used_ram + service.ram <= ram:
-				service.start()
-				used_ram += service.ram
-	if len(installed_services) > 0:
-		var remaining_cpu = cpu_cycles
-		var last_run = last_service
-		while remaining_cpu > 0:
-			last_service = (last_service + 1) % len(installed_services)
-			if installed_services[last_service].is_running():
-				installed_services[last_service].cycle()
-				remaining_cpu -= 1
-				last_run = last_service
-			elif last_run == last_service:
-				break
-	for service in installed_services:
-		if service.is_finished():
-			used_ram -= service.ram
-			var results = service.get_results()
-			if results:
-				for request in results:
-					input_queue.append(request)
+    var size = len(input_queue)
+    for i in size:
+        var request = input_queue.pop_front()
+        var can_handle = false
+        for service in installed_services:
+            if service.is_running():
+                continue
+            if service.can_handle(request):
+                service.handle_request(request)
+                can_handle = true
+                break
+        if not can_handle:
+            if not forward_request(request):
+                input_queue.append(request)
+    for service in installed_services:
+        if service.can_start():
+            if used_ram + service.type.ram <= ram:
+                service.start()
+                used_ram += service.type.ram
+    if len(installed_services) > 0:
+        var remaining_cpu = cpu_cycles
+        var last_run = last_service
+        while remaining_cpu > 0:
+            last_service = (last_service + 1) % len(installed_services)
+            if installed_services[last_service].is_running():
+                installed_services[last_service].cycle()
+                remaining_cpu -= 1
+                last_run = last_service
+            elif last_run == last_service:
+                break
+    for service in installed_services:
+        if service.is_finished():
+            used_ram -= service.type.ram
+            var results = service.get_results()
+            if results:
+                for request in results:
+                    input_queue.append(request)

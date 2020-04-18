@@ -46,6 +46,7 @@ func run(args):
 					if script != null:
 						var process = script.new()
 						process.output_process = output_process
+						process.server = server
 						process.fs_root = fs_root
 						process.cwd = cwd
 						var res = process.run(cmd)

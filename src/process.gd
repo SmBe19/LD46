@@ -2,7 +2,6 @@ extends Node
 
 class_name Process
 
-var root = null
 var input_queue = []
 var output_process = null
 

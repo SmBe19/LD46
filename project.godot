@@ -52,7 +52,12 @@ _global_script_classes=[ {
 "base": "Node",
 "class": "Service",
 "language": "GDScript",
-"path": "res://src/service.gd"
+"path": "res://src/services/service.gd"
+}, {
+"base": "Node",
+"class": "ServiceType",
+"language": "GDScript",
+"path": "res://src/services/service_type.gd"
 }, {
 "base": "Node",
 "class": "Terminal",
@@ -69,6 +74,7 @@ _global_script_class_icons={
 "RequestType": "",
 "Server": "",
 "Service": "",
+"ServiceType": "",
 "Terminal": ""
 }
 
@@ -82,6 +88,7 @@ config/icon="res://icon.png"
 
 RequestHandler="*res://src/requests/request_handler.gd"
 Root="*res://src/root.gd"
+ServiceHandler="*res://src/services/service_handler.gd"
 
 [display]
 

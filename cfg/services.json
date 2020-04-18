@@ -1,7 +1,7 @@
 [
     {
 	"name": "database",
-	"humanName": "SQL Database",
+	"human_name": "SQL Database",
 	"inputs": [
 	    {
 		"name": "sql",
@@ -16,7 +16,7 @@
     },
     {
 	"name": "compute",
-	"humanName": "High Performance Computer",
+	"human_name": "High Performance Computer",
 	"inputs": [
 	    {
 		"name": "compute",
@@ -31,7 +31,7 @@
     },
     {
 	"name": "php",
-	"humanName": "PHP Interpreter",
+	"human_name": "PHP Interpreter",
 	"inputs": [
 	    {
 		"name": "html",
@@ -46,7 +46,7 @@
     },
     {
 	"name": "apache",
-	"humanName": "Apache Web Server",
+	"human_name": "Apache Web Server",
 	"inputs": [
 	    {
 		"name": "http",
@@ -61,7 +61,7 @@
     },
     {
 	"name": "nginx",
-	"humanName": "nginx Web Server",
+	"human_name": "nginx Web Server",
 	"inputs": [
 	    {
 		"name": "http",

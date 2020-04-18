@@ -57,7 +57,7 @@ func generate_request(server):
 	request_count += 1
 	request.connect("request_fulfilled", self, "complete_request")
 	server.input_queue.append(request)
-	print("You have a new", request.type.human_name, "with id", request.id)
+	print("You have a new ", request.type.human_name, " with id ", request.id)
 
 func tick():
 	game_tick += 1
