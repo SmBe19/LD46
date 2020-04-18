@@ -20,6 +20,7 @@ var last_service = 0
 
 var error_servers = []
 var error_requests = []
+var error_services = []
 
 func _init(server_name_, ip_):
 	server_name = server_name_
@@ -29,7 +30,7 @@ func _init(server_name_, ip_):
 
 func write_log(logname, content):
 	var file = fs_root.open("var/log/" + logname, true)
-	file.content += content + "\n"
+	file.content += "[" + str(Root.game_tick) + "] " + content + "\n"
 
 func receive_request(request):
 	if len(input_queue) + len(incoming_requests) < queue_length:
@@ -104,8 +105,13 @@ func tick():
 				can_handle = true
 				break
 		if not can_handle:
+			if not error_services.has(request.type.full_name):
+				error_services.append(request.type.full_name)
+				write_log("forward.log", "No service available for " + request.type.full_name + ".")
 			if not forward_request(request):
 				input_queue.append(request)
+		else:
+			error_services.erase(request.type.full_name)
 	for service in installed_services:
 		if service.can_start():
 			if used_ram + service.type.ram <= ram:

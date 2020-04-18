@@ -7,7 +7,7 @@ func run(args):
 	if len(args) != 2:
 		send_output('usage: uninstall <service_name>')
 		return 1
-	var res = server.uninstall_service(args[1]):
+	var res = server.uninstall_service(args[1])
 	if res:
 		send_output(res)
 		return 1
