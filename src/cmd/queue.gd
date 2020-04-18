@@ -9,3 +9,4 @@ func run(args):
 		return 1
 	for request in server.input_queue:
 		send_output(request.type.human_name)
+	return 0

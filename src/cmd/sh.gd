@@ -72,7 +72,8 @@ func run(args):
 						var res = process.run(cmd)
 						if res is GDScriptFunctionState:
 							res = yield(res, "completed")
-						send_output(cmd[0] + " returned " + str(res))
+						if res != 0:
+							send_output(cmd[0] + " failed (" + str(res) + ")")
 					else:
 						send_output(cmd[0] + ": command not found")
 				else:
@@ -80,8 +81,8 @@ func run(args):
 
 func prompt():
 	if server:
-		return server.server_name + " > "
-	return "> "
+		return server.server_name + ":" + cwd.full_path() + " > "
+	return cwd.full_path() + " > "
 
 func cd(args):
 	var dir
@@ -97,9 +98,9 @@ func cd(args):
 	
 	if newcwd == null:
 		send_output("cd: no such file or directory")
+		return
 	
 	cwd = newcwd
-	pass
 
 func logout(args):
 	if server != null:
@@ -110,6 +111,7 @@ func logout(args):
 func connect_server(args):
 	if len(args) != 2:
 		send_output("usage: connect <server_name>")
+		return
 	var ip = Root.resolve_name(args[1])
 	server = Root.resolve_ip(ip)
 	if not server:
