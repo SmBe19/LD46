@@ -81,4 +81,18 @@ func clear_screen():
 func receive_input(input):
 	write_line(input)
 
-
+func receive_input_list(input):
+	input = input.duplicate()
+	var res = ""
+	var current_line = ""
+	while input:
+		while input and len(current_line) + len(input[0]) + 1 < WIDTH:
+			if current_line:
+				current_line += " "
+			current_line += input[0]
+			input.pop_front()
+		if res:
+			res += "\n"
+		res += current_line
+		current_line = ""
+	write_line(res)

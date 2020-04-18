@@ -29,6 +29,8 @@ func receive_input(input):
 	input_queue.append(input)
 	emit_signal("input_received")
 
+func receive_input_list(input):
+	receive_input(input.join("\n"))
 
 func register_for_keypress():
 	if output_process is Terminal:
@@ -58,20 +60,5 @@ func receive_keypress(key):
 func send_output(output):
 	output_process.receive_input(output)
 
-func fs_get_node(filename: String):
-	if filename.begins_with('/'):
-		return fs_root.get_node(filename.right(1))
-	else:
-		return cwd.get_node(filename)
-		
-func fs_open(filename: String, create: bool = false):
-	if filename.begins_with('/'):
-		return fs_root.open(filename.right(1), create)
-	else:
-		return cwd.open(filename, create)
-		
-func fs_mkdir(filename: String, recursive: bool = false):
-	if filename.begins_with('/'):
-		return fs_root.mkdir(filename.right(1), recursive)
-	else:
-		return cwd.mkdir(filename, recursive)
+func send_output_list(output):
+	output_process.receive_input_list(output)
