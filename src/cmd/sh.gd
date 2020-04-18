@@ -6,8 +6,25 @@ var home = "/"
 var fs_home = FSDir.new("/", null)
 var last_status = 0
 
+var history = []
+var history_index = 0
+
+var commands = []
+
 func _init():
 	register_for_keypress()
+	var dir = Directory.new()
+	if dir.open("res://src/cmd") == OK:
+		dir.list_dir_begin()
+		var fname = dir.get_next()
+		while fname != "":
+			if fname.ends_with(".gd"):
+				commands.append(fname.left(len(fname) - 3))
+			fname = dir.get_next()
+		commands += ["cd", "set", "help", "logout", "connect"]
+		commands.erase("sh")
+		commands.sort()
+		print(commands)
 
 func run(args):
 	send_output("This is sh v0.0.1")
@@ -19,6 +36,9 @@ func run(args):
 		var cmd = line.split(' ', false) 
 		if len(cmd) == 0:
 			continue
+		
+		history.append(line)
+		history_index = len(history)
 		
 		for i in len(cmd):
 			if cmd[i].begins_with('$'):
@@ -144,6 +164,20 @@ func lookup_var(name):
 			else:
 				return ''
 
+func complete(line: String) -> Array:
+	var cmd = line.split(' ', false)
+	if len(cmd) == 0 or len(cmd) == 1 and not line.ends_with(' '):
+		# complete command names
+		if len(cmd) == 0:
+			return commands
+		var res = []
+		for x in commands:
+			if x.begins_with(cmd[0]):
+				res.append(x)
+		return res
+		
+	return []
+
 func readline(prompt: String) -> String:
 	var line : String = ""
 	send_output(prompt)
@@ -158,5 +192,32 @@ func readline(prompt: String) -> String:
 			break
 		if key >= KEY_SPACE && key <= KEY_ASCIITILDE:
 			line += char(key)
+		if key == KEY_UP:
+			history_index -= 1
+			if history_index < 0:
+				history_index = len(history)
+			line = history[history_index] if history_index < len(history) else ""
+		if key == KEY_DOWN:
+			history_index += 1
+			if history_index > len(history):
+				history_index = 0
+			line = history[history_index] if history_index < len(history) else ""
+		if key == KEY_TAB:
+			var completions = complete(line)
+			if len(completions) == 1:
+				var compl_start_ix = line.rfind(' ')
+				if compl_start_ix < 0:
+					line = completions[0]
+				else:
+					line = line.left(compl_start_ix+1) + completions[0]
+			elif len(completions) == 0:
+				pass
+			else:
+				send_output(prompt + line)
+				output_process.current_line -= 1
+				for completion in completions:
+					send_output(completion)
+				send_output(prompt + line)
+				output_process.cursor_y = output_process.current_line-1
 		output_process.set_line(output_process.current_line-1, prompt + line)
 	return line
