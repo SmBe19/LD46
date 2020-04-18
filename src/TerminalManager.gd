@@ -6,7 +6,7 @@ var shell
 
 func _ready():
 	terminal = Terminal.new()
-	shell = Sh.new()
+	shell = preload("res://src/cmd/sh.gd").new()
 	shell.output_process = terminal
 	#for y in terminal.HEIGHT:
 	#	for x in terminal.WIDTH:
