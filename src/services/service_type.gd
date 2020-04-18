@@ -16,4 +16,4 @@ func _init(json):
     ram = int(json["resources"]["ram"])
     disk = int(json["resources"]["hdd"])
     for input in json["inputs"]:
-        inputs[str(input["name"])] = int(input["count"])
+        inputs[RequestHandler.request_types[str(input["name"])]] = int(input["count"])
