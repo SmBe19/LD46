@@ -16,7 +16,6 @@ func run(args):
 	connect_server(['connect', 'shoutr'])
 	while true:
 		var line = yield(readline(prompt()), "completed")
-		send_output(prompt() + line)
 		var cmd = line.split(' ', false) 
 		if len(cmd) == 0:
 			continue
@@ -147,8 +146,9 @@ func lookup_var(name):
 
 func readline(prompt: String) -> String:
 	var line : String = ""
-	output_process.cursor_y = output_process.current_line
-	output_process.set_line(output_process.current_line, prompt + line)
+	send_output(prompt)
+	output_process.cursor_y = output_process.current_line-1
+	output_process.set_line(output_process.current_line-1, prompt + line)
 	while true:
 		output_process.cursor_x = len(prompt) + len(line)
 		var key = yield(output_process, "key_pressed")
@@ -158,5 +158,5 @@ func readline(prompt: String) -> String:
 			break
 		if key >= KEY_SPACE && key <= KEY_ASCIITILDE:
 			line += char(key)
-		output_process.set_line(output_process.current_line, prompt + line)
+		output_process.set_line(output_process.current_line-1, prompt + line)
 	return line
