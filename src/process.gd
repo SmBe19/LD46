@@ -25,7 +25,6 @@ func receive_input(input):
 func register_for_keypress():
 	$"/root/Root/Terminal".connect("key_pressed", self, "receive_keypress")
 
-
 func unregister_for_keypress():
 	$"/root/Root/Terminal".disconnect("key_pressed", self, "receive_keypress")
 
