@@ -10,6 +10,9 @@ const WIDTH = 80
 var buffer = []
 var current_line = 0
 
+var cursor_x = -1
+var cursor_y = -1
+
 func _init():
     for y in HEIGHT:
         var line = []
@@ -54,7 +57,10 @@ func write_line(line):
 func set_line(y, line):
     assert (0 <= y && y < HEIGHT)
     assert (len(line) <= WIDTH)
-    buffer[y] = _fill_line(line)
+    for i in len(line):
+        buffer[y][i] = line[i]
+    for i in range(len(line), WIDTH):
+        buffer[y][i] = ' '
 
 func set_char(x, y, c):
     assert (0 <= x && x < WIDTH)

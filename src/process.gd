@@ -10,8 +10,8 @@ var cwd = fs_root
 
 signal input_received
 
-func _init(output):
-	output_process = output
+#func _init(output):
+#	output_process = output
 
 func run(args):
 	pass
@@ -24,14 +24,7 @@ func get_input():
 func receive_input(input):
 	input_queue.append(input)
 	emit_signal("input_received")
-	
-func wait_key_press():
-	if output_process is Terminal:
-		var key = yield(output_process, "key_pressed")
-		print(key)
-		return key
-	else:
-		return 0
+
 
 func register_for_keypress():
 	if output_process is Terminal:
