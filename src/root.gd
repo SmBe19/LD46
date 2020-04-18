@@ -9,7 +9,8 @@ var ipaddr = {}
 var time_since_tick = 0
 var game_tick = 0
 var global_uuid = 0
-var money = 1024
+var money = 2048
+var money_log = []
 
 func _init():
 	add_new_server("shoutr", "10.0.0.1")
@@ -21,17 +22,26 @@ func random_ip():
 			return ip
 
 func add_new_server(name, ip):
+	if money < 1024:
+		return 'Not enough money ($1024 required)'
+	money_log.append("Server " + name + ": -$1024")
+	money -= 1024
 	if dns.has(name) or ipaddr.has(ip):
-		return false
+		return 'Name or IP already in use'
 	var new_server = Server.new(name, ip)
 	servers.append(new_server)
 	dns[name] = new_server
 	ipaddr[ip] = new_server
-	return true
+	return ''
 
 func connect_servers(srv1, srv2):
+	if money < 32:
+		return 'Not enough money ($32 required)'
+	money_log.append("Connection: -$32")
+	money -= 32
 	srv1.connections[srv1.ip] = srv1
 	srv1.connections[srv2.ip] = srv2
+	return ''
 
 func resolve_name(name):
 	if dns.has(name):
@@ -48,11 +58,17 @@ func get_uuid():
 	return global_uuid
 
 func complete_request(request):
-	print("CONGRATULATIONS FOR COMPLETING REQUEST ", request.id, " in ", game_tick - request.start_tick, " ticks")
+	var duration = game_tick - request.start_tick
+	if duration == 0:
+		duration += 1
+	var multiplier = (request.type.level+1)*(request.type.level+1)
+	var new_money = multiplier * 256 / duration
+	if new_money > 0:
+		money_log.append(request.type.full_name + ": +$" + str(new_money))
+		money += new_money
 
 func generate_request(server):
 	if len(server.input_queue) >= server.queue_length:
-		print("Queue full, no task for you.")
 		return
 	var difficulty = 0
 	if game_tick > 100:
@@ -62,7 +78,6 @@ func generate_request(server):
 	var request = Request.new(uuid, uuid, type)
 	request.connect("request_fulfilled", self, "complete_request")
 	server.input_queue.append(request)
-	print("You have a new ", request.type.human_name, " with id ", request.id)
 
 func tick():
 	game_tick += 1

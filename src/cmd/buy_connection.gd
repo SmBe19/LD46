@@ -15,5 +15,8 @@ func run(args):
 	if srv1 == srv2:
 		send_output("Servers can not be the same")
 		return 1
-	Root.connect_servers(srv1, srv2)
+	var res = Root.connect_servers(srv1, srv2)
+	if res:
+		send_output(res)
+		return 1
 	return 0
