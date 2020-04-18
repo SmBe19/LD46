@@ -23,11 +23,11 @@ func _init(root_, server_name_, ip_):
 	root = root_
 	server_name = server_name_
 	ip = ip_
-	fs_root.mkdir("/etc/requests", true)
-	fs_root.mkdir("/var/logs", true)
+	fs_root.mkdir("etc/requests", true)
+	fs_root.mkdir("var/logs", true)
 
 func write_log(logname, content):
-	var file = fs_root.open("/var/log/" + logname, true)
+	var file = fs_root.open("var/log/" + logname, true)
 	file.content += content + "\n"
 
 func receive_request(request):
@@ -50,7 +50,7 @@ func send_request(destination, request):
         return false
 
 func forward_request(request):
-    var file = fs_root.open("/etc/requests/" + request.type.name)
+    var file = fs_root.open("etc/requests/" + request.type.name)
     if not file or not file.content.trim():
         write_log("forward.log", "No forwarding rule for " + request.type.name + ".")
         return false

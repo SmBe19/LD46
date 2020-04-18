@@ -3,6 +3,7 @@ extends Process
 var variables = {}
 var aliases = {}
 var home = "/"
+var fs_home = FSDir.new("/", null)
 var last_status = 0
 
 func _init():
@@ -10,9 +11,11 @@ func _init():
 
 func run(args):
 	send_output("This is sh v0.0.1")
+	fs_root = fs_home
+	cwd = fs_root
 	while true:
-		var line = yield(readline("> "), "completed")
-		send_output("> " + line)
+		var line = yield(readline(prompt()), "completed")
+		send_output(prompt() + line)
 		var cmd = line.split(' ', false) 
 		if len(cmd) == 0:
 			continue
@@ -33,6 +36,10 @@ func run(args):
 				set_var(cmd)
 			"help":
 				help(cmd)
+			"logout":
+				logout(cmd)
+			"connect":
+				connect_server(cmd)
 			_:
 				if cmd[0].is_valid_identifier():
 					var script = load("res://src/cmd/" + cmd[0] + ".gd")
@@ -51,6 +58,11 @@ func run(args):
 				else:
 					send_output(cmd[0] + ": command not found")
 
+func prompt():
+	if server:
+		return server.server_name + " > "
+	return "> "
+
 func cd(args):
 	var dir
 	if len(args) < 2:
@@ -68,6 +80,24 @@ func cd(args):
 	
 	cwd = newcwd
 	pass
+
+func logout(args):
+	if server != null:
+		cwd = fs_home
+		server = null
+	else:
+		root.get_tree().quit()
+
+func connect_server(args):
+	if len(args) != 2:
+		send_output("usage: connect <server_name>")
+	var ip = root.resolve_name(args[1])
+	server = root.resolve_ip(ip)
+	if not server:
+		send_output("Server " + args[1] + " not found")
+		return
+	fs_root = server.fs_root
+	cwd = fs_root
 
 func help(args):
 	send_output("git gud")

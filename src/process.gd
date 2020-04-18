@@ -6,8 +6,9 @@ var root = null
 var input_queue = []
 var output_process = null
 
-var fs_root = FSDir.new("/", null)
-var cwd = fs_root
+var fs_root = null
+var server = null
+var cwd = null
 
 signal input_received
 
