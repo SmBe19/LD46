@@ -30,19 +30,6 @@ _global_script_classes=[ {
 "path": "res://src/process.gd"
 }, {
 "base": "Node",
-"class": "Request",
-"language": "GDScript",
-"path": "res://src/requests/request.gd"
-}, {
-"base": "Node",
-"class": "RequestHandler",
-"language": "GDScript",
-"path": "res://src/requests/request_handler.gd"
-}, {
-"base": "Node",
-"class": "RequestType",
-"language": "GDScript",
-"path": "res://src/requests/request_type.gd"
 "class": "Server",
 "language": "GDScript",
 "path": "res://src/server.gd"
@@ -51,6 +38,11 @@ _global_script_classes=[ {
 "class": "Service",
 "language": "GDScript",
 "path": "res://src/service.gd"
+}, {
+"base": "Process",
+"class": "Sh",
+"language": "GDScript",
+"path": "res://src/cmd/sh.gd"
 }, {
 "base": "Node",
 "class": "Terminal",
@@ -62,11 +54,9 @@ _global_script_class_icons={
 "FSFile": "",
 "FSNode": "",
 "Process": "",
-"Request": "",
-"RequestHandler": "",
-"RequestType": "",
 "Server": "",
 "Service": "",
+"Sh": "",
 "Terminal": ""
 }
 

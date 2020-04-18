@@ -1,8 +1,6 @@
 extends MarginContainer
 
 
-var Terminal = preload("res://src/terminal.gd")
-var Sh = preload("res://src/cmd/sh.gd")
 var terminal
 var shell
 

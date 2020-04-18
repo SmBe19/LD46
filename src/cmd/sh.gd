@@ -1,5 +1,7 @@
 extends Process
 
+class_name Sh
+
 var variables = {}
 var aliases = {}
 var home = "/"

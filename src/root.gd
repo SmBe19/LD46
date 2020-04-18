@@ -1,7 +1,5 @@
 extends Control
 
-var Server = preload("res://src/server.gd")
-
 const TICK_PER_SECOND = 10
 
 var servers = []
@@ -38,6 +36,6 @@ func tick():
 
 func _process(delta):
 	time_since_tick += delta
-	while time_since_tick > 1/TICK_PER_SECOND:
+	while time_since_tick > 1.0/TICK_PER_SECOND:
 		tick()
-		time_since_tick -= 1/TICK_PER_SECOND
+		time_since_tick -= 1.0/TICK_PER_SECOND
