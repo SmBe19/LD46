@@ -9,6 +9,21 @@
 config_version=4
 
 _global_script_classes=[ {
+"base": "FSNode",
+"class": "FSDir",
+"language": "GDScript",
+"path": "res://src/fs/fsdir.gd"
+}, {
+"base": "FSNode",
+"class": "FSFile",
+"language": "GDScript",
+"path": "res://src/fs/fsfile.gd"
+}, {
+"base": "Reference",
+"class": "FSNode",
+"language": "GDScript",
+"path": "res://src/fs/fsnode.gd"
+}, {
 "base": "Node",
 "class": "Process",
 "language": "GDScript",
@@ -20,6 +35,9 @@ _global_script_classes=[ {
 "path": "res://src/terminal.gd"
 } ]
 _global_script_class_icons={
+"FSDir": "",
+"FSFile": "",
+"FSNode": "",
 "Process": "",
 "Terminal": ""
 }

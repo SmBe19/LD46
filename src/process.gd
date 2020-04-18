@@ -21,6 +21,16 @@ func get_input():
 func receive_input(input):
 	input_queue.append(input)
 	emit_signal("input_received")
+
+func register_for_keypress():
+	$"/root/Root/Terminal".connect("key_pressed", self, "receive_keypress")
+
+
+func unregister_for_keypress():
+	$"/root/Root/Terminal".disconnect("key_pressed", self, "receive_keypress")
+
+func receive_keypress(key):
+	pass
 	
 func send_output(output):
 	output_process.receive_input(output)

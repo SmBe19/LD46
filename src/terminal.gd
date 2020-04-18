@@ -17,6 +17,10 @@ func _init():
 
 func scroll_buffer(by):
     assert (by > 0)
+    for i in HEIGHT - by:
+        buffer[i] = buffer[i+by]
+    for i in by:
+        buffer[-i-1] = _fill_line('')
 
 func _fill_line(line):
     while len(line) < WIDTH:
