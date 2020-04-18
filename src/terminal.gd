@@ -48,9 +48,9 @@ func write_line(line):
 	while len(new_lines) > HEIGHT:
 		new_lines.pop_front()
 	current_line += len(new_lines)
-	if current_line > HEIGHT:
-		scroll_buffer(current_line - HEIGHT)
-		current_line = HEIGHT
+	if current_line >= HEIGHT:
+		scroll_buffer(current_line - HEIGHT + 1)
+		current_line = HEIGHT - 1
 	for i in len(new_lines):
 		buffer[current_line-i-1] = new_lines[-i-1]
 
