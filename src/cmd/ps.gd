@@ -1,21 +1,20 @@
 extends Process
 
-func average(values):
-	var sum = 0
-	for value in values:
-		sum += value
-	if len(values) > 0:
-		sum /= len(values)
-	return sum
+func usage():
+	send_output('usage: ps')
+
+func help():
+	send_output("Show process information.\n")
+	usage()
 
 func run(args):
 	if not server:
 		send_output('Can only run on a server')
 		return 1
 	if len(args) != 1:
-		send_output('usage: ps')
+		usage()
 		return 1
 	for service in server.installed_services:
-		var running = "R" if service.is_running() else "S"
-		send_output(service.type.full_name + " " + running + " " + str(100 * average(service.cycles_in_last_tick) / server.cpu_cycles) + "%")
+		var running = "Running" if service.is_running() else "Stopped"
+		send_output(service.type.full_name + " | " + running + " | " + str(service.queue_size) + " in queue | " + str(100 * Root.average(service.cycles_in_last_tick) / server.cpu_cycles) + "%")
 	return 0

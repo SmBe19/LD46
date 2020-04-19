@@ -11,7 +11,7 @@ func help():
 
 func run(args):
 	if len(args) < 2:
-		send_output('usage: cat <file>')
+		usage()
 		return 1
 	var res = ""
 	for i in range(1, len(args)):

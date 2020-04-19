@@ -1,7 +1,7 @@
 extends Control
 
 const TICK_PER_SECOND = 10
-const LOSE_TICK_WITHOUT_SUCCESS = 1000
+const LOSE_TICK_WITHOUT_SUCCESS = 100000 # TODO reduce
 
 var request_handler
 var servers = []
@@ -18,6 +18,14 @@ var game_running = true
 
 func _init():
 	add_new_server("shoutr", "10.0.0.1")
+
+func average(values):
+	var sum = 0
+	for value in values:
+		sum += value
+	if len(values) > 0:
+		sum /= len(values)
+	return sum
 
 func random_ip(prefix):
 	if not prefix:
@@ -50,9 +58,11 @@ func add_new_server(name, ip):
 	return ''
 
 func new_connection_price(srv1, srv2):
-	return 32 * (max(len(srv1.connections), len(srv2.connections)) + 1)
+	return 128 * (max(len(srv1.connections), len(srv2.connections)) + 1)
 
 func connect_servers(srv1, srv2):
+	if srv1.connections.has(srv2.ip):
+		return 'Connection already exists'
 	var res = buy_something(new_connection_price(srv1, srv2), 'Connection ' + srv1.server_name + ' <-> ' + srv2.server_name)
 	if res:
 		return res

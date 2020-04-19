@@ -4,6 +4,7 @@ class_name Service
 
 var type = null
 var request_queue = {}
+var queue_size = 0
 var running = false
 var cycles_used = 0
 var cycles_in_current_tick = 0
@@ -17,12 +18,15 @@ func _init(type_):
 func can_handle(request):
 	if running:
 		return false
+	if request.ddos_check_count > 0:
+		return false
 	var rtype = request.type
 	return request_queue.has(rtype) and len(request_queue[rtype]) < type.inputs[rtype]
 
 func handle_request(request):
 	if can_handle(request):
 		request_queue[request.type].append(request)
+		queue_size += 1
 
 func can_start():
 	if running:
@@ -52,6 +56,7 @@ func get_results():
 			for req in new_requests:
 				res.append(req)
 	running = false
+	queue_size = 0
 	for rtype in type.inputs.keys():
 		request_queue[rtype] = []
 	return res

@@ -15,5 +15,7 @@ func get_type(service_name):
 
 func create_new_service(service_name):
 	if service_types.has(service_name):
+		if service_name == 'ddos':
+			return DDOSService.new(service_types[service_name])
 		return Service.new(service_types[service_name])
 	return null

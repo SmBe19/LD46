@@ -3,6 +3,7 @@ extends Node
 class_name Server
 
 const AVERAGE_SPAN = 50
+const STAT_SPAN = 300
 
 const UPGRADE_PRICE = {
 	'cpu': 512,
@@ -32,7 +33,11 @@ var used_ram = 0
 var used_ram_list = []
 var used_cpu_cycles = []
 var installed_services = []
+var has_ddos_installed = false
 var last_service = 0
+var iptables_blocked = [0]
+var ddos_checked = [0]
+var ddos_detected = [0]
 
 var error_servers = []
 var error_requests = []
@@ -45,16 +50,10 @@ func _init(server_name_, ip_):
 	fs_root.mkdir("etc/requests", true)
 	fs_root.mkdir("etc/iptables", true)
 	fs_root.mkdir("var/log", true)
-	
-	
-	var f = fs_root.open("many_lines", true)
-	for i in 100:
-		f.content += "line" + str(i) + "\n";
-	f = fs_root.open("long_lines", true)
-	for j in 10:
-		for i in 100:
-			f.content += str(i) + " ";
-		f.content += "\n"
+	fs_root.mkdir("etc/ddos", true)
+	fs_root.mkdir("etc/ddos/*", true)
+	fs_root.open("etc/ddos/*/sample_rate", true).content = "10"
+	fs_root.open("etc/ddos/*/check_count", true).content = "1"
 	update_fs()
 
 func upgrade_price(item):
@@ -80,11 +79,30 @@ func write_log(logname, content):
 	var file = fs_root.open("var/log/" + logname, true)
 	file.content += "[" + str(Root.game_tick) + "] " + content + "\n"
 
+func get_ddos_sample_rate(request):
+	var first_ip = request.source_ip.split('.', 1)[0]
+	var file = fs_root.get_node("etc/ddos/" + first_ip + "/sample_rate")
+	if file:
+		return int(file.content) * 0.01
+	return int(fs_root.open("etc/ddos/*/sample_rate").content) * 0.01
+
+func get_ddos_check_count(request):
+	var first_ip = request.source_ip.split('.', 1)[0]
+	var file = fs_root.get_node("etc/ddos/" + first_ip + "/check_count")
+	if file:
+		return int(file.content)
+	return int(fs_root.open("etc/ddos/*/check_count").content)
+
 func receive_request(request):
 	if len(input_queue) + len(incoming_requests) < queue_length:
 		if firewall(request):
+			var sample_rate = get_ddos_sample_rate(request)
+			request.ddos_sampled = randf() < sample_rate
+			request.ddos_check_count = get_ddos_check_count(request) if has_ddos_installed and request.ddos_sampled else 0
 			incoming_requests.append(request)
 			return true
+		else:
+			iptables_blocked[0] += 1
 		return false
 	return false
 
@@ -106,7 +124,9 @@ func send_request(destination, request):
 func firewall(request):
 	var file = fs_root.open("etc/iptables/" + request.type.request_name)
 	if not file or not file.content:
-		return true
+		file = fs_root.open("etc/iptables/*")
+		if not file or not file.content:
+			return true
 	var lines = file.content.split("\n")
 	for line in lines:
 		if line.find('/24 ') != -1:
@@ -131,12 +151,16 @@ func firewall(request):
 	return true
 
 func forward_request(request):
+	if request.ddos_check_count > 0:
+		return false
 	var file = fs_root.open("etc/requests/" + request.type.request_name)
 	if not file or not file.content:
-		if not error_requests.has(request.type.full_name):
-			error_requests.append(request.type.full_name)
-			write_log("forward.log", "No forwarding rule for " + request.type.full_name + ".")
-		return false
+		file = fs_root.open("etc/requests/*")
+		if not file or not file.content:
+			if not error_requests.has(request.type.full_name):
+				error_requests.append(request.type.full_name)
+				write_log("forward.log", "No forwarding rule for " + request.type.full_name + ".")
+			return false
 	error_requests.erase(request.type.full_name)
 	var forwards = file.content.split("\n", false)
 	var forward = forwards[randi() % len(forwards)]
@@ -164,6 +188,8 @@ func install_service(service_name):
 			for i in AVERAGE_SPAN:
 				service.cycles_in_last_tick.append(0)
 			installed_services.append(service)
+			if service_name == 'ddos':
+				has_ddos_installed = true
 			update_fs()
 			return ''
 		else:
@@ -181,12 +207,21 @@ func uninstall_service(service_name):
 			for request in uninstall_service.request_queue[rtype]:
 				input_queue.append(request)
 		installed_services.erase(uninstall_service)
+		if service_name == 'ddos':
+			has_ddos_installed = false
+			for service in installed_services:
+				if service.type.service_name == 'ddos':
+					has_ddos_installed = true
+			if not has_ddos_installed:
+				for request in input_queue:
+					request.ddos_sampled = false
+					request.ddos_check_count = 0
 		update_fs()
 		return ''
 	else:
 		return 'Service not installed'
 
-func tick():
+func handle_requests():
 	var size = len(input_queue)
 	for i in size:
 		var request = input_queue.pop_front()
@@ -206,13 +241,15 @@ func tick():
 				input_queue.append(request)
 		else:
 			error_services.erase(request.type.full_name)
+
+func start_services():
 	for service in installed_services:
 		if service.can_start():
 			if used_ram + service.type.ram <= ram:
 				service.start()
 				used_ram += service.type.ram
-	for service in installed_services:
-		service.cycles_in_current_tick = 0
+
+func run_services():
 	if len(installed_services) > 0:
 		var remaining_cpu = cpu_cycles
 		var last_run = last_service
@@ -230,14 +267,40 @@ func tick():
 		used_cpu_cycles.append(cpu_cycles - remaining_cpu)
 		if len(used_cpu_cycles) > AVERAGE_SPAN:
 			used_cpu_cycles.pop_front()
-	for service in installed_services:
-		service.cycles_in_last_tick.append(service.cycles_in_current_tick)
-		if len(service.cycles_in_last_tick) > AVERAGE_SPAN:
-			service.cycles_in_last_tick.pop_front()
+
+func stop_services():
 	for service in installed_services:
 		if service.is_finished():
 			used_ram -= service.type.ram
+			if service.type.service_name == 'analyzer':
+				for request in service.request_queue[RequestHandler.request_types['fake']]:
+					write_log('analyzer.log', 'Fake request from ' + request.source_ip + '.')
 			var results = service.get_results()
 			if results:
 				for request in results:
 					input_queue.append(request)
+					if service.type.service_name == 'ddos':
+						ddos_checked[0] += 1
+					if request.type.request_name == 'fake':
+						ddos_detected[0] += 1
+
+func tick():
+	handle_requests()
+	start_services()
+	for service in installed_services:
+		service.cycles_in_current_tick = 0
+	run_services()
+	for service in installed_services:
+		service.cycles_in_last_tick.append(service.cycles_in_current_tick)
+		if len(service.cycles_in_last_tick) > AVERAGE_SPAN:
+			service.cycles_in_last_tick.pop_front()
+	stop_services()
+	iptables_blocked.push_front(0)
+	if len(iptables_blocked) > STAT_SPAN:
+		iptables_blocked.pop_back()
+	ddos_checked.push_front(0)
+	if len(ddos_checked) > STAT_SPAN:
+		ddos_checked.pop_back()
+	ddos_detected.push_front(0)
+	if len(ddos_detected) > STAT_SPAN:
+		ddos_detected.pop_back()

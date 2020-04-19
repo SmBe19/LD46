@@ -10,5 +10,3 @@ var politeness : float
 func _init(json):
 	content = str(json["content"])
 	subject = str(json["subject"])
-	happiness = float(json["happiness"])
-	politeness = float(json["politeness"])

@@ -42,6 +42,44 @@ func init_fs(fs):
 	for command in my_commands:
 		bin.open(command, true).content = command
 
+func transform_cmd(line):
+	var cmd = line.split(' ', false)
+	if len(cmd) == 0:
+		return null
+	
+	for i in len(cmd):
+		if cmd[i].begins_with('$'):
+			cmd[i] = lookup_var(cmd[i].right(1))
+		if cmd[i].begins_with('~'):
+			cmd[i] = home + cmd[i].right(1)
+	
+	if cmd[0] in aliases:
+		cmd[0] = aliases[cmd[0]]
+	return cmd
+
+
+func spawn_cmd(cmd):
+	var matched = true;
+	match cmd[0]:
+		"cd":
+			cd(cmd)
+		"set":
+			set_var(cmd)
+		"logout":
+			logout(cmd)
+		"connect":
+			connect_server(cmd)
+		_:
+			matched = false
+	if matched:
+		return
+	var process = spawn_subprocess(cmd[0])
+	if not process is Process:
+		send_output(process)
+		return null
+	return process
+
+
 func run(args):
 	send_output("This is sh v0.0.1")
 	fs_root = fs_home
@@ -49,47 +87,33 @@ func run(args):
 	init_fs(fs_root)
 	connect_server(['connect', 'shoutr'])
 	while true:
-		send_output("You have new mail.")
 		var line = yield(readline(prompt()), "completed")
-		var cmd = line.split(' ', false) 
-		if len(cmd) == 0:
+		if not line:
 			continue
-		
 		history.append(line)
 		history_index = len(history)
+
+		var cmd_parts = line.split('|')
+		var processes = []
+		var cmds = []
+		for part in cmd_parts:
+			var cmd = transform_cmd(part)
+			var process = spawn_cmd(cmd)
+			if not process:
+				continue
+			processes.append(process)
+			cmds.append(cmd)
 		
-		for i in len(cmd):
-			if cmd[i].begins_with('$'):
-				cmd[i] = lookup_var(cmd[i].right(1))
-			if cmd[i].begins_with('~'):
-				cmd[i] = home + cmd[i].right(1)
+		for i in len(processes)-1:
+			processes[i].output_process = processes[i+1]
 		
-		if cmd[0] in aliases:
-			cmd[0] = aliases[cmd[0]]
-		
-		var matched = true;
-		match cmd[0]:
-			"cd":
-				cd(cmd)
-			"set":
-				set_var(cmd)
-			"logout":
-				logout(cmd)
-			"connect":
-				connect_server(cmd)
-			_:
-				matched = false
-		if matched:
-			continue
-		var process = spawn_subprocess(cmd[0])
-		if not process is Process:
-			send_output(process)
-			continue
-		var res = process.run(cmd)
-		if res is GDScriptFunctionState:
-			res = yield(res, "completed")
-		if res != 0:
-			send_output(cmd[0] + " returned error code " + str(res) + " ")
+		for i in len(processes):
+			var res = processes[i].run(cmds[i])
+			if res is GDScriptFunctionState:
+				res = yield(res, "completed")
+			if res != 0:
+				send_output(cmds[i][0] + " returned error code " + str(res))
+				break
 
 func prompt():
 	if server:
@@ -111,7 +135,11 @@ func cd(args):
 	if newcwd == null:
 		send_output("cd: no such file or directory")
 		return
-	
+		
+	if !newcwd.is_dir():
+		send_output("cd: not a directory")
+		return
+
 	cwd = newcwd
 
 func logout(args):
