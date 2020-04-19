@@ -1,10 +1,19 @@
 extends Process
 
+func usage():
+	send_output('usage: vi [file]')
+
+func help():
+	send_output("vi is the system's file editor. It implements a subset of " +
+	"the original UNIX vi functionality. \n")
+	usage()
 
 var lines : PoolStringArray = PoolStringArray([""])
-var line = 0
-var col = 0
-var scroll_start = 0
+
+var cursor_y = 0
+var cursor_x = 0
+var scroll_y = 0
+var scroll_x = 0
 
 enum {
 	NORMAL,
@@ -32,63 +41,102 @@ func run(args):
 			output_process.cursor_y = Terminal.HEIGHT-1
 			output_process.cursor_x = 1+len(cmdline)
 		else:
-			output_process.cursor_y = line - scroll_start
-			output_process.cursor_x = col
+			output_process.cursor_y = cursor_y - scroll_y
+			output_process.cursor_x = cursor_x - scroll_x
 		
 		update_statusbar()
 		var key = yield(output_process, "key_pressed")
 		match mode:
 			INSERT:
-				if key == KEY_ESCAPE:
-					mode = NORMAL
-					make_col_inbound()
-				elif key >= KEY_SPACE && key <= KEY_ASCIITILDE:
-					lines[line] = lines[line].insert(col, String(char(key)))
-					col += 1
-					update_line(line)
-				elif key == KEY_ENTER:
-					var tmp : String = lines[line]
-					lines.insert(line+1, tmp.right(col))
-					lines[line] = tmp.left(col)
-					for i in range(line, len(lines)):
-						update_line(i)
-					line += 1
-					col = 0
-				elif key == KEY_BACKSPACE:
-					if col > 0:
-						col -= 1
-						# yay buggy implementation
-						var tmp = lines[line]
-						tmp.erase(col, 1)
-						lines[line] = tmp
-						update_line(line)
+				match key:
+					KEY_ESCAPE:
+						mode = NORMAL
+						make_col_inbound()
+					KEY_ENTER:
+						var tmp : String = lines[cursor_y]
+						lines.insert(cursor_y+1, tmp.right(cursor_x))
+						lines[cursor_y] = tmp.left(cursor_x)
+						for i in range(cursor_y, len(lines)):
+							update_line(i)
+						cursor_y += 1
+						cursor_x = 0
+						update_scroll_x()
+						update_scroll_y()
+					KEY_BACKSPACE:
+						if cursor_x > 0:
+							cursor_x -= 1
+							update_scroll_x()
+							# yay buggy implementation
+							var tmp = lines[cursor_y]
+							tmp.erase(cursor_x, 1)
+							lines[cursor_y] = tmp
+							update_line(cursor_y)
+						elif cursor_y > 0: # delete newline
+							cursor_y -= 1
+							cursor_x = len(lines[cursor_y])
+							var joined = lines[cursor_y] + lines[cursor_y+1]
+							lines[cursor_y] = joined
+							lines.remove(cursor_y+1)
+							for i in range(cursor_y, len(lines)+1):
+								update_line(i)
+							update_scroll_x()
+							update_scroll_y()
+					_:if key >= KEY_SPACE && key <= KEY_ASCIITILDE:
+						lines[cursor_y] = lines[cursor_y].insert(cursor_x, String(char(key)))
+						cursor_x += 1
+						update_scroll_x()
+						update_line(cursor_y)
 			NORMAL:
-				if key == KEY_ESCAPE:
-					return 0
-				if key == ord('i'):
-					mode = INSERT
-				if key == ord('a'):
-					mode = INSERT
-					col += 1
-				
-				if key == ord('h'):
-					if col > 0:
-						col -= 1
-				if key == ord('l'):
-					if col + 1 < len(lines[line]):
-						col += 1
-				if key == ord('j'):
-					if line + 1 < len(lines):
-						line += 1
-						make_col_inbound()
-				if key == ord('k'):
-					if line > 0:
-						line -= 1
-						make_col_inbound()
-				if key == ord('$'):
-					col = len(lines[line])-1
-				if key == ord(':'):
-					mode = COMMAND
+				match key:
+					# insert
+					ord('i'):
+						mode = INSERT
+					ord('a'):
+						mode = INSERT
+						cursor_x += 1
+						update_scroll_x()
+					ord('I'):
+						mode = INSERT
+						cursor_x = 0
+						update_scroll_x()
+					ord('A'):
+						mode = INSERT
+						cursor_x = len(lines[cursor_y])
+						update_scroll_x()
+					ord('C'):
+						mode = INSERT
+						lines[cursor_y] = ""
+						cursor_x = 0
+						update_scroll_x()
+						update_line(cursor_y)
+						
+					ord('h'), KEY_LEFT:
+						if cursor_x > 0:
+							cursor_x -= 1
+							update_scroll_x()
+					ord('l'), KEY_RIGHT:
+						if cursor_x + 1 < len(lines[cursor_y]):
+							cursor_x += 1
+							update_scroll_x()
+					ord('j'), KEY_DOWN:
+						if cursor_y + 1 < len(lines):
+							cursor_y += 1
+							make_col_inbound()
+							update_scroll_y()
+					ord('k'), KEY_UP:
+						if cursor_y > 0:
+							cursor_y -= 1
+							make_col_inbound()
+							update_scroll_y()
+					ord('^'), ord('0'):
+						cursor_x = 0
+						update_scroll_x()
+					ord('$'):
+						cursor_x = len(lines[cursor_y])-1
+						update_scroll_x()
+						
+					ord(':'):
+						mode = COMMAND
 			COMMAND:
 				match key:
 					KEY_ESCAPE:
@@ -98,12 +146,14 @@ func run(args):
 						cmdline.erase(len(cmdline)-1, 1)
 					KEY_ENTER:
 						if run_cmdline():
+							output_process.clear_screen()
 							return 0
 						cmdline = ""
 						mode = NORMAL
 					_:
 						if key >= KEY_SPACE && key <= KEY_ASCIITILDE:
 							cmdline += char(key)
+	output_process.clear_screen()
 	return 0
 
 func load_file(fname):
@@ -137,17 +187,50 @@ func run_cmdline() -> bool:
 	return false
 
 func make_col_inbound():
-	col = min(col, max(0, len(lines[line])-1))
+	cursor_x = min(cursor_x, max(0, len(lines[cursor_y])-1))
+	update_scroll_x()
 
-func update_line(line):
-	output_process.set_line(line - scroll_start, lines[line])
+func update_scroll_x():
+	var updated = false
+	if cursor_x < scroll_x:
+		scroll_x = cursor_x
+		updated = true
+	if cursor_x >= scroll_x + Terminal.WIDTH-1:
+		scroll_x = cursor_x - Terminal.WIDTH + 2
+		updated = true
+	if updated:
+		for i in range(scroll_y, scroll_y + Terminal.HEIGHT-1):
+			update_line(i)
+
+func update_scroll_y():
+	var updated = false
+	if cursor_y < scroll_y:
+		scroll_y = cursor_y
+		updated = true
+	if cursor_y >= scroll_y + Terminal.HEIGHT-1:
+		scroll_y = cursor_y - Terminal.HEIGHT + 2
+		updated = true
+	if updated:
+		for i in range(scroll_y, scroll_y + Terminal.HEIGHT-1):
+			update_line(i)
+
+func update_line(l):
+	if l < scroll_y || l >= scroll_y + Terminal.HEIGHT-1:
+		return
+	var line
+	if l < 0 || l >= len(lines):
+		line = ""
+	else:
+		line = lines[l]
+	line = line.substr(scroll_x, Terminal.WIDTH)
+	output_process.set_line(l - scroll_y, line)
 
 func update_statusbar():
 	var statusbar
 	if mode == COMMAND:
 		statusbar = ":" + cmdline
 	else:
-		var pos = str(line+1) + ":" + str(col+1)
+		var pos = str(cursor_y+1) + ":" + str(cursor_x+1)
 		statusbar = ("NORMAL" if mode == NORMAL else "INSERT") + "  " + pos
 	
 	output_process.set_line(output_process.HEIGHT - 1, statusbar)

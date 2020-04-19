@@ -1,5 +1,12 @@
 extends Process
 
+func usage():
+	send_output('usage: sh')
+
+func help():
+	send_output("sh is the standard shell, used for executing programs\n")
+	usage()
+
 var variables = {}
 var aliases = {}
 var home = "/"
@@ -189,7 +196,19 @@ func complete(line: String) -> Array:
 				if x.begins_with(completion_seed):
 					res.append(x)
 			return res
-		"vi","cat","cd","ls":
+		"set_iptables","set_route":
+			var res = []
+			for x in RequestHandler.request_types.keys():
+				if x.begins_with(completion_seed):
+					res.append(x)
+			return res
+		"install","uninstall":
+			var res = []
+			for x in ServiceHandler.service_types.keys():
+				if x.begins_with(completion_seed):
+					res.append(x)
+			return res
+		"vi","cat","cd","ls","more":
 			var res = []
 			var last_dir = completion_seed.find_last('/')+1
 			
@@ -199,6 +218,8 @@ func complete(line: String) -> Array:
 			var dir_node = cwd.get_node(completion_seed.left(last_dir))
 			if dir_node.is_dir():
 				for f in dir_node.children.keys():
+					if f == "." or f == "..":
+						continue
 					if f.begins_with(fname_part):
 						var compl = dir_part + f
 						if dir_node.children[f].is_dir():

@@ -1,11 +1,20 @@
 extends Process
 
+func usage():
+	send_output('usage: routes')
+
+func help():
+	send_output("Display current routing table.\n")
+	usage()
+	send_output("\nAlso see: queue")
+
+
 func run(args):
 	if not server:
 		send_output('Can only run on a server')
 		return 1
 	if len(args) != 1:
-		send_output('usage: routes')
+		usage()
 		return 1
 	var node = self.fs_root.get_node("/etc/requests")
 	if node == null:

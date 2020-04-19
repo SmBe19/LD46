@@ -16,6 +16,19 @@ func _ready():
 	
 
 func _process(_delta):
+	if not Root.game_running:
+		$Buffer.clear()
+		$Buffer.add_text('\n\n')
+		$Buffer.add_text('You lost!\n')
+		$Buffer.add_text('The network was unable to cope with the requests.\n')
+		$Buffer.add_text('You survived for ' + str(Root.game_tick / Root.TICK_PER_SECOND) + 's.\n')
+		$Buffer.add_text('\n\n\n')
+		$Buffer.add_text('Linux Simulator 2020\n\n')
+		$Buffer.add_text('a game by\n\n')
+		$Buffer.add_text('M Signer\n')
+		$Buffer.add_text('Fabian Lyck\n')
+		$Buffer.add_text('Benjamin Schmid\n')
+		return
 	$Buffer.clear()
 	for i in len(terminal.buffer):
 		var bline = terminal.buffer[i]

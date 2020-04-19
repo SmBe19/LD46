@@ -1,5 +1,6 @@
 extends Process
 
+<<<<<<< HEAD
 func list_pretty(elements):
 	var keys = elements.keys()
 	keys.sort()
@@ -21,6 +22,17 @@ func list_basic(elements):
 	var keys = elements.keys()
 	keys.sort()
 	send_output_list(keys)
+	
+func usage():
+	send_output('usage: ls [-l] [<file1> <file2> ...]')
+
+func help():
+	send_output("Lists files and directory contents (the current working directory by default)")
+	send_output("-l Show a detailed list with creation and last access time")
+	send_output(" ")
+	usage()
+	send_output("\nAlso see: cat")
+	
 	
 func run(args):
 	var all_elements = {}

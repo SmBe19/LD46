@@ -1,5 +1,12 @@
 extends Process
 
+func usage():
+	send_output('usage: which <command>')
+
+func help():
+	send_output("Find the file executed for a command\n")
+	usage()
+	
 func run(args):
 	if len(args) < 2:
 		send_output('usage: which <command>')

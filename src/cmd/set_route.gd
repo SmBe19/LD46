@@ -1,11 +1,19 @@
 extends Process
 
+func usage():
+	send_output('usage: set_route <request_type> [<server> ...]')
+
+func help():
+	send_output("Create request forwarding rule.\n")
+	usage()
+	send_output("\nAlso see: routes")
+
 func run(args):
 	if not server:
 		send_output('Can only run on a server')
 		return 1
 	if len(args) < 2:
-		send_output('usage: set_route <request_type> [<server> ...]')
+		usage()
 		return 1
 	if not RequestHandler.request_types.has(args[1]):
 		send_output('Invalid request type')
