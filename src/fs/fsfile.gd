@@ -13,7 +13,8 @@ func mkdir(dir: String, recursive: bool = false) -> String:
 	return "Error: not a directory"
 
 func open(filename: String, create: bool = false) -> FSFile:
-	return null
+	accessed = Root.game_tick
+	return self
 	
 func file_type(filename: String) -> String:
 	if len(filename) == 0:

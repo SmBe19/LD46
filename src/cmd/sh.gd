@@ -42,6 +42,7 @@ func run(args):
 	init_fs(fs_root)
 	connect_server(['connect', 'shoutr'])
 	while true:
+		send_output("You have new mail.")
 		var line = yield(readline(prompt()), "completed")
 		var cmd = line.split(' ', false) 
 		if len(cmd) == 0:

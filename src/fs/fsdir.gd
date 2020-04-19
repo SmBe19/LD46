@@ -35,6 +35,8 @@ func mkdir(dir: String, recursive: bool = false) -> String:
 	return ""
 
 func open(filename: String, create: bool = false) -> FSFile:
+	if Root != null:
+		accessed = Root.game_tick
 	if filename.begins_with('/'):
 		if parent != self:
 			return parent.open(filename, create)
@@ -48,7 +50,7 @@ func open(filename: String, create: bool = false) -> FSFile:
 				return children[components[0]].open(components[1], create)
 		else:
 			if children[components[0]] is FSFile:
-				return children[components[0]]
+				return children[components[0]].open(components[0])
 	else:
 		if create && len(components) == 1:
 			var newfile = FSFile.new(components[0], self)

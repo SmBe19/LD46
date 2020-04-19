@@ -1,23 +1,53 @@
 extends Process
 
+func list_pretty(elements):
+	var keys = elements.keys()
+	keys.sort()
+	send_output("Created | Accessed | Type | Name")
+	send_output("--------------------------------")
+	for el in keys:
+		if el == '.' or el == '..':
+			continue
+		if el.ends_with('/.') or el.ends_with('/..'):
+			continue
+		if elements[el] is FSFile:
+			send_output("   %4d |     %4d | file | %s" % 
+			[elements[el].created, elements[el].accessed, el])
+		if elements[el]  is FSDir:
+			send_output("   %4d |     %4d |  dir | %s" % 
+			[elements[el].created, elements[el].accessed, el])
+
+func list_basic(elements):
+	var keys = elements.keys()
+	keys.sort()
+	send_output_list(keys)
+	
 func run(args):
-	var status = 0
-	if len(args) == 1:
-		var elements = self.cwd.children.keys()
-		elements.sort()
-		send_output_list(elements)
-	else:
-		for i in range(1, len(args)):
-			var node = self.cwd.get_node(args[i])
-			if node == null:
-				send_output("ls: " + args[i] + ": file not found")
-				status = 1
+	var all_elements = {}
+	var nargs = len(args)
+	var pretty = false
+	for i in range(1, nargs):
+		if args[i][0] == '-':
+			if args[i] == '-l':
+				pretty = true
+			continue
+		var node = self.cwd.get_node(args[i])
+		if node == null:
+			send_output("ls: " + args[i] + ": file not found")
+			return 1
+		else:
+			if node.is_dir():
+				var elements = node.children.duplicate()
+				for el in elements:
+					all_elements[args[i] + '/' + el] = elements[el]
 			else:
-				if node.is_dir():
-					send_output(args[i] + ":")
-					var elements = node.children.keys()
-					elements.sort()
-					send_output_list(elements)
-				else:
-					send_output(" " + node.name)
-	return status
+				all_elements[node.name] = node
+	if len(all_elements) == 0:
+		for el in self.cwd.children:
+			all_elements[el] = self.cwd.children[el]
+	print(all_elements)
+	if pretty:
+		list_pretty(all_elements)
+	else:
+		list_basic(all_elements)
+	return 0
