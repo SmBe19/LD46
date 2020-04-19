@@ -14,7 +14,7 @@ func run(args):
 	if not server:
 		send_output('Can only run on a server')
 		return 1
-	if len(args) != 2:
+	if len(args) < 2:
 		usage()
 		return 1
 	if not VALID_UPGRADES.has(args[1]):

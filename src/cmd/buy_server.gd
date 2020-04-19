@@ -9,7 +9,7 @@ func help():
 	send_output("\nAlso see: buy_connection, buy_upgrade")
 	
 func run(args):
-	if len(args) != 2:
+	if len(args) < 2:
 		usage()
 		return 1
 	var res = ask_money(Root.new_server_price())
