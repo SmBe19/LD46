@@ -72,8 +72,10 @@ func write_log(logname, content):
 
 func receive_request(request):
 	if len(input_queue) + len(incoming_requests) < queue_length:
-		incoming_requests.append(request)
-		return true
+		if firewall(request):
+			incoming_requests.append(request)
+			return true
+		return false
 	return false
 
 func process_incoming():
@@ -107,7 +109,7 @@ func firewall(request):
 		elif line == 'allow':
 			error_iptables.erase(request.type.full_name)
 			return true
-		elif line == 'drop':
+		elif line == 'deny':
 			if not error_iptables.has(request.type.full_name):
 				error_iptables.append(request.type.full_name)
 				write_log("iptables.log", "Request blocked for " + request.type.full_name + ".")
@@ -119,8 +121,6 @@ func firewall(request):
 	return true
 
 func forward_request(request):
-	if not firewall(request):
-		return true
 	var file = fs_root.open("etc/requests/" + request.type.request_name)
 	if not file or not file.content:
 		if not error_requests.has(request.type.full_name):

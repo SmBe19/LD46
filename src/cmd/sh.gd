@@ -188,6 +188,18 @@ func complete(line: String) -> Array:
 				if x.begins_with(completion_seed):
 					res.append(x)
 			return res
+		"set_iptables","set_route":
+			var res = []
+			for x in RequestHandler.request_types.keys():
+				if x.begins_with(completion_seed):
+					res.append(x)
+			return res
+		"install","uninstall":
+			var res = []
+			for x in ServiceHandler.service_types.keys():
+				if x.begins_with(completion_seed):
+					res.append(x)
+			return res
 		"vi","cat","cd","ls":
 			var res = []
 			var last_dir = completion_seed.find_last('/')+1

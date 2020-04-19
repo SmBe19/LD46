@@ -1,6 +1,8 @@
 extends Control
 
 const TICK_PER_SECOND = 10
+const LOSE_TICK_WITHOUT_SUCCESS = 1000
+const DIFFICULTY_INCREASE = 1000
 
 var request_handler
 var servers = []
@@ -11,6 +13,9 @@ var game_tick = 0
 var global_uuid = 0
 var money = 20480
 var money_log = []
+
+var last_successful_request = 0
+var game_running = true
 
 func _init():
 	add_new_server("shoutr", "10.0.0.1")
@@ -73,6 +78,9 @@ func get_uuid():
 	return global_uuid
 
 func complete_request(request):
+	if request.fake_request:
+		return
+	last_successful_request = game_tick
 	var duration = game_tick - request.start_tick
 	if duration == 0:
 		duration += 1
@@ -86,14 +94,14 @@ func generate_request(server):
 	if len(server.input_queue) >= server.queue_length:
 		return
 	var difficulty = 0
-	var max_difficulty = min(3, game_tick / 1000)
+	var max_difficulty = min(3, game_tick / DIFFICULTY_INCREASE)
 	difficulty = randi() % (max_difficulty + 1)
 	var type = RequestHandler.generate_request(difficulty)
 	var uuid = get_uuid()
 	var ip = random_ip(randi()%100 + 100)
 	var request = Request.new(uuid, uuid, ip, type)
-	request.connect("request_fulfilled", self, "complete_request")
-	server.input_queue.append(request)
+	if server.receive_request(request):
+		request.connect("request_fulfilled", self, "complete_request")
 
 func tick():
 	game_tick += 1
@@ -103,8 +111,12 @@ func tick():
 		server.tick()
 	for server in servers:
 		server.process_incoming()
+	if game_tick - last_successful_request > LOSE_TICK_WITHOUT_SUCCESS:
+		game_running = false
 
 func _process(delta):
+	if not game_running:
+		return
 	time_since_tick += delta
 	while time_since_tick > 1.0/TICK_PER_SECOND:
 		tick()

@@ -17,14 +17,14 @@ func run(args):
 			if i + 1 == len(args):
 				send_output('Missing rule after ' + args[i])
 				return 1
-			if args[i+1] != 'allow' and args[i+1] != 'drop':
-				send_output('Only allow or drop are allowed as rules')
+			if args[i+1] != 'allow' and args[i+1] != 'deny':
+				send_output('Only allow or deny are allowed as rules')
 				return 1
 			rules += args[i] + " " + args[i+1] + "\n"
 			i += 1
 		else:
-			if args[i] != 'allow' and args[i] != 'drop':
-				send_output('Only allow or drop are allowed as rules')
+			if args[i] != 'allow' and args[i] != 'deny':
+				send_output('Only allow or deny are allowed as rules')
 				return 1
 			rules += args[i] + "\n"
 			i += 1
