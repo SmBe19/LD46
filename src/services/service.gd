@@ -17,6 +17,8 @@ func _init(type_):
 func can_handle(request):
 	if running:
 		return false
+	if request.ddos_check_count > 0:
+		return false
 	var rtype = request.type
 	return request_queue.has(rtype) and len(request_queue[rtype]) < type.inputs[rtype]
 

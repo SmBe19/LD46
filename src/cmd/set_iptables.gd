@@ -7,7 +7,7 @@ func run(args):
 	if len(args) < 2:
 		send_output('usage: set_iptables <request_type> [<rule> ...]')
 		return 1
-	if not RequestHandler.request_types.has(args[1]):
+	if not RequestHandler.request_types.has(args[1]) and args[1] != '*':
 		send_output('Invalid request type')
 		return 1
 	var rules = ""

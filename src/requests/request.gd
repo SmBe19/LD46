@@ -10,6 +10,8 @@ var start_tick : int
 var source_ip : String
 var type : RequestType
 var fake_request : bool
+var ddos_sampled : bool
+var ddos_check_count : int
 
 func _init(request_id, root_id, source_ip, request_type):
 	self.id = request_id
@@ -18,8 +20,9 @@ func _init(request_id, root_id, source_ip, request_type):
 	self.type = request_type
 	self.start_tick = Root.game_tick
 	self.fake_request = false
-	
-	
+	self.ddos_sampled = false
+	self.ddos_check_count = 0
+
 var _children_left = 0
 
 func process():

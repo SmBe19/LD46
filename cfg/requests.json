@@ -1,4 +1,10 @@
 [
+	{
+	"name": "fake",
+	"human_name": "Fake Request",
+	"level": -1,
+	"requirements": []
+	},
     {
 	"name": "sql",
 	"human_name": "SQL Request",

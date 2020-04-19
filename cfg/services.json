@@ -118,5 +118,45 @@
 		"cpu": 16384,
 		"hdd": 16384
 	}
+	},
+	{
+	"name": "ddos",
+	"human_name": "DDOS Detector",
+	"inputs": [],
+	"resources": {
+		"ram": 1024,
+		"cpu": 512,
+		"hdd": 2048
+	}
+	},
+	{
+	"name": "blackhole",
+	"human_name": "Blackhole Package Dropper",
+	"inputs": [
+		{
+		"name": "fake",
+		"count": 1
+		}
+	],
+	"resources": {
+		"ram": 128,
+		"cpu": 128,
+		"hdd": 128
+	}
+	},
+	{
+	"name": "analyzer",
+	"human_name": "Fake Request Analyzer",
+	"inputs": [
+		{
+		"name": "fake",
+		"count": 10
+		}
+	],
+	"resources": {
+		"ram": 2048,
+		"cpu": 4096,
+		"hdd": 16384
+	}
 	}
 ]
