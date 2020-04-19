@@ -119,6 +119,14 @@ func tick():
 		server.process_incoming()
 	if game_tick - last_successful_request > LOSE_TICK_WITHOUT_SUCCESS:
 		game_running = false
+	
+	var happiness = 0.0
+	for user in UserHandler.users:
+		happiness += user.happiness
+	if len(UserHandler.users) > 0:
+		happiness /= len(UserHandler.users)
+	
+	$"/root/ScnRoot/Angry Users".value = 1 - happiness
 
 func _process(delta):
 	if not game_running:

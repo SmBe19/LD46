@@ -12,7 +12,7 @@ bg_color = Color( 0.0823529, 0.0823529, 0.0823529, 1 )
 shader = ExtResource( 3 )
 shader_param/size = Vector2( 860, 560 )
 
-[node name="Root" type="Control"]
+[node name="ScnRoot" type="Control"]
 anchor_right = 1.0
 anchor_bottom = 1.0
 __meta__ = {
@@ -51,6 +51,6 @@ bbcode_text = "Hello world!"
 text = "Hello world!"
 scroll_active = false
 
-[node name="Usage" parent="." instance=ExtResource( 4 )]
+[node name="Angry Users" parent="." instance=ExtResource( 4 )]
 position = Vector2( 767.004, 137.278 )
 value = 1.0
