@@ -1,6 +1,5 @@
 extends Process
 
-<<<<<<< HEAD
 func list_pretty(elements):
 	var keys = elements.keys()
 	keys.sort()
@@ -27,8 +26,8 @@ func usage():
 	send_output('usage: ls [-l] [<file1> <file2> ...]')
 
 func help():
-	send_output("Lists files and directory contents (the current working directory by default)")
-	send_output("-l Show a detailed list with creation and last access time")
+	send_output("Lists files and directory contents (the current working directory by default).")
+	send_output("-l Show a detailed list with creation and last access time.")
 	send_output(" ")
 	usage()
 	send_output("\nAlso see: cat")
@@ -57,7 +56,6 @@ func run(args):
 	if len(all_elements) == 0:
 		for el in self.cwd.children:
 			all_elements[el] = self.cwd.children[el]
-	print(all_elements)
 	if pretty:
 		list_pretty(all_elements)
 	else:
