@@ -66,10 +66,11 @@ func send_output_list(output):
 func readline_simple(prompt: String) -> String:
 	var line : String = ""
 	send_output(prompt)
+	var available_width = Terminal.WIDTH - len(prompt) - 1
 	output_process.cursor_y = output_process.current_line-1
 	output_process.set_line(output_process.current_line-1, prompt + line)
 	while true:
-		output_process.cursor_x = len(prompt) + len(line)
+		output_process.cursor_x = len(prompt) + min(available_width, len(line))
 		var key = yield(output_process, "key_pressed")
 		if key == KEY_BACKSPACE:
 			line.erase(len(line)-1, 1)
@@ -77,7 +78,7 @@ func readline_simple(prompt: String) -> String:
 			break
 		if key >= KEY_SPACE && key <= KEY_ASCIITILDE:
 			line += char(key)
-		output_process.set_line(output_process.current_line-1, prompt + line)
+		output_process.set_line(output_process.current_line-1, prompt + line.right(len(line)-available_width))
 	return line
 
 func ask_money(price):

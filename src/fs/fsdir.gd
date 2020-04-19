@@ -57,12 +57,12 @@ func open(filename: String, create: bool = false) -> FSFile:
 	return null
 
 func file_type(filename: String) -> String:
-	if len(filename) == 0:
-		return "dir"
 	if filename.begins_with('/'):
 		if parent != self:
 			return parent.file_type(filename)
 		filename = filename.right(1)
+	if len(filename) == 0:
+		return "dir"
 	var components = filename.split('/', true, 1)
 	if children.has(components[0]):
 		if len(components) > 1 && len(components[1]) > 0:
@@ -72,12 +72,12 @@ func file_type(filename: String) -> String:
 	return ""
 
 func get_node(filename: String) -> FSNode:
-	if len(filename) == 0:
-		return self
 	if filename.begins_with('/'):
 		if parent != self:
 			return parent.get_node(filename)
 		filename = filename.right(1)
+	if len(filename) == 0:
+		return self
 	var components = filename.split('/', true, 1)
 	if children.has(components[0]):
 		if len(components) > 1 && len(components[1]) > 0:
