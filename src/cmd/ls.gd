@@ -1,5 +1,13 @@
 extends Process
 
+func usage():
+	send_output('usage: ls [<file>...]')
+
+func help():
+	send_output("Lists files and directory contents (the current working directory by default)\n")
+	usage()
+	send_output("\nAlso see: cat")
+	
 func run(args):
 	var status = 0
 	if len(args) == 1:

@@ -1,5 +1,13 @@
 extends Process
 
+func usage():
+	send_output('usage: buy_server <server_name>')
+
+func help():
+	send_output("Buy and assign a name to a new server.\n")
+	usage()
+	send_output("\nAlso see: buy_connection")
+	
 func run(args):
 	if len(args) != 2:
 		send_output('usage: buy_server <server_name>')

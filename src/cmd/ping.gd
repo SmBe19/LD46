@@ -1,8 +1,16 @@
 extends Process
 
+func usage():
+	send_output('usage: ping <server>')
+
+func help():
+	send_output("Test network connections. Server can be given as a host name or IP address.\n")
+	usage()
+	send_output("\nAlso see: netstat")
+
 func run(args):
 	if len(args) != 2:
-		send_output('usage: ping <server>')
+		usage()
 		return 1
 	if len(args[1].split('.')) != 4:
 		if not Root.dns.has(args[1]):

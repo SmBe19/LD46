@@ -1,5 +1,13 @@
 extends Process
 
+
+func usage():
+	send_output('usage: echo [<string>...]')
+
+func help():
+	send_output("Display a string of text.\n")
+	usage()
+	
 func run(args):
 	var line = ""
 	for i in range(1,len(args)):

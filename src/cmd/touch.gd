@@ -1,8 +1,15 @@
 extends Process
 
+func usage():
+	send_output('usage: touch <file> [file...]')
+
+func help():
+	send_output("Create empty files\n")
+	usage()
+
 func run(args):
 	if len(args) < 2:
-		send_output('usage: touch <file> [file...]')
+		usage()
 		return 1
 	for i in range(1, len(args)):
 		var file = self.cwd.open(args[i], true)

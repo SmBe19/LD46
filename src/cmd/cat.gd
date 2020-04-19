@@ -1,5 +1,14 @@
 extends Process
 
+func usage():
+	send_output('usage: cat <file> [<file>...]')
+
+func help():
+	send_output("Concatenate and display files. Use with "+
+		"a single file to show a file's contents.\n")
+	usage()
+	send_output("\nAlso see: ls, more")
+
 func run(args):
 	if len(args) < 2:
 		send_output('usage: cat <file>')

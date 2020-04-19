@@ -45,6 +45,16 @@ func _init(server_name_, ip_):
 	fs_root.mkdir("etc/requests", true)
 	fs_root.mkdir("etc/iptables", true)
 	fs_root.mkdir("var/log", true)
+	
+	
+	var f = fs_root.open("many_lines", true)
+	for i in 100:
+		f.content += "line" + str(i) + "\n";
+	f = fs_root.open("long_lines", true)
+	for j in 10:
+		for i in 100:
+			f.content += str(i) + " ";
+		f.content += "\n"
 	update_fs()
 
 func upgrade_price(item):

@@ -1,8 +1,16 @@
 extends Process
 
+func usage():
+	send_output('usage: buy_connection <server1> <server2>')
+
+func help():
+	send_output("Buy connections for request routing between servers.\n")
+	usage()
+	send_output("\nAlso see: buy_server, /etc/requests/")
+	
 func run(args):
 	if len(args) != 3:
-		send_output('usage: buy_connection <server1> <server2>')
+		usage()
 		return 1
 	var srv1 = Root.resolve_ip(Root.resolve_name(args[1]))
 	var srv2 = Root.resolve_ip(Root.resolve_name(args[2]))
