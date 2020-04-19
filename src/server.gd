@@ -2,19 +2,35 @@ extends Node
 
 class_name Server
 
+const AVERAGE_SPAN = 50
+
+const UPGRADE_PRICE = {
+	'cpu': 512,
+	'disk': 256,
+	'ram': 512,
+	'queue': 1024,
+}
+
 var fs_root = FSDir.new("/", null)
 var input_queue = []
 var incoming_requests = []
 var server_name = ""
 var ip = ""
 var connections = {}
+var upgrade_level = {
+	'cpu': 0,
+	'disk': 0,
+	'ram': 0,
+	'queue': 0,
+}
 var queue_length = 16
 var disk = 131072
 var ram = 4096
 var cpu_cycles = 32
 var used_disk = 0
 var used_ram = 0
-var used_cpu_cycles = 0
+var used_ram_list = []
+var used_cpu_cycles = []
 var installed_services = []
 var last_service = 0
 
@@ -28,6 +44,25 @@ func _init(server_name_, ip_):
 	fs_root.mkdir("etc/requests", true)
 	fs_root.mkdir("var/log", true)
 	update_fs()
+
+func upgrade_price(item):
+	return UPGRADE_PRICE[item] * pow(2, upgrade_level[item])
+
+func upgrade(item):
+	var res = Root.buy_something(upgrade_price(item), 'Upgrade ' + item + ' for ' + server_name)
+	if res:
+		return res
+	upgrade_level[item] += 1
+	match item:
+		'ram':
+			ram *= 2
+		'disk':
+			disk *= 2
+		'cpu':
+			cpu_cycles *= 2
+		'queue':
+			queue_length *= 2
+	return ''
 
 func write_log(logname, content):
 	var file = fs_root.open("var/log/" + logname, true)
@@ -85,6 +120,8 @@ func install_service(service_name):
 		if used_disk + stype.disk <= disk:
 			used_disk += stype.disk
 			var service = ServiceHandler.create_new_service(service_name)
+			for i in AVERAGE_SPAN:
+				service.cycles_in_last_tick.append(0)
 			installed_services.append(service)
 			update_fs()
 			return ''
@@ -133,6 +170,8 @@ func tick():
 			if used_ram + service.type.ram <= ram:
 				service.start()
 				used_ram += service.type.ram
+	for service in installed_services:
+		service.cycles_in_current_tick = 0
 	if len(installed_services) > 0:
 		var remaining_cpu = cpu_cycles
 		var last_run = last_service
@@ -144,7 +183,16 @@ func tick():
 				last_run = last_service
 			elif last_run == last_service:
 				break
-		used_cpu_cycles = cpu_cycles - remaining_cpu
+		used_ram_list.append(used_ram)
+		if len(used_ram_list) > AVERAGE_SPAN:
+			used_ram_list.pop_front()
+		used_cpu_cycles.append(cpu_cycles - remaining_cpu)
+		if len(used_cpu_cycles) > AVERAGE_SPAN:
+			used_cpu_cycles.pop_front()
+	for service in installed_services:
+		service.cycles_in_last_tick.append(service.cycles_in_current_tick)
+		if len(service.cycles_in_last_tick) > AVERAGE_SPAN:
+			service.cycles_in_last_tick.pop_front()
 	for service in installed_services:
 		if service.is_finished():
 			used_ram -= service.type.ram

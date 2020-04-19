@@ -8,5 +8,5 @@ func run(args):
 		send_output('usage: queue')
 		return 1
 	for request in server.input_queue:
-		send_output(request.type.human_name)
+		send_output(request.type.human_name + " " + str(request.id))
 	return 0

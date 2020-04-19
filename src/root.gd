@@ -24,7 +24,7 @@ func random_ip():
 func buy_something(price, what):
 	if money < price:
 		return 'Not enough money ($' + str(price) + ' required)'
-	money_log.append(what + ": -$" + str(price))
+	money_log.append("-$" + str(price) + ": " + what)
 	money -= price
 	return ''
 
@@ -77,7 +77,7 @@ func complete_request(request):
 	var multiplier = (request.type.level+1)*(request.type.level+1)
 	var new_money = multiplier * 256 / duration
 	if new_money > 0:
-		money_log.append(request.type.full_name + ": +$" + str(new_money))
+		money_log.append("+$" + str(new_money) + ": " + request.type.full_name + " " + str(request.id))
 		money += new_money
 
 func generate_request(server):

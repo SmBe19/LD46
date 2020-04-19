@@ -6,6 +6,8 @@ var type = null
 var request_queue = {}
 var running = false
 var cycles_used = 0
+var cycles_in_current_tick = 0
+var cycles_in_last_tick = []
 
 func _init(type_):
 	type = type_
@@ -56,4 +58,5 @@ func get_results():
 
 func cycle():
 	if running:
+		cycles_in_current_tick += 1
 		cycles_used += 1
