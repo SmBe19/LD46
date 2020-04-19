@@ -111,7 +111,11 @@ func cd(args):
 	if newcwd == null:
 		send_output("cd: no such file or directory")
 		return
-	
+		
+	if !newcwd.is_dir():
+		send_output("cd: not a directory")
+		return
+
 	cwd = newcwd
 
 func logout(args):
