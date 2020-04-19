@@ -2,6 +2,7 @@ extends Node
 
 var request_types = {}
 var requests_by_difficulty = {}
+var max_difficulty = 0
 
 func _ready():
 	var config = read_json("res://cfg/requests.json")
@@ -12,6 +13,7 @@ func _ready():
 		if not requests_by_difficulty.has(request.level):
 			requests_by_difficulty[request.level] = []
 		requests_by_difficulty[request.level].append(request)
+		max_difficulty = max(request.level, max_difficulty)
 	for type in request_types.values():
 		type.parseRequirements()
 	

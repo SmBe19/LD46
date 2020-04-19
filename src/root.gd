@@ -2,7 +2,6 @@ extends Control
 
 const TICK_PER_SECOND = 10
 const LOSE_TICK_WITHOUT_SUCCESS = 1000
-const DIFFICULTY_INCREASE = 1000
 
 var request_handler
 var servers = []
@@ -90,23 +89,19 @@ func complete_request(request):
 		money_log.append("+$" + str(new_money) + ": " + request.type.full_name + " " + str(request.id))
 		money += new_money
 
-func generate_request(server):
+func produce_request(request):
+	var server = servers[0]
 	if len(server.input_queue) >= server.queue_length:
-		return
-	var difficulty = 0
-	var max_difficulty = min(3, game_tick / DIFFICULTY_INCREASE)
-	difficulty = randi() % (max_difficulty + 1)
-	var type = RequestHandler.generate_request(difficulty)
-	var uuid = get_uuid()
-	var ip = random_ip(randi()%100 + 100)
-	var request = Request.new(uuid, uuid, ip, type)
+		return false
 	if server.receive_request(request):
 		request.connect("request_fulfilled", self, "complete_request")
+		return true
+	return false
 
 func tick():
 	game_tick += 1
-	if game_tick % 10 == 0:
-		generate_request(servers[0])
+	for user in UserHandler.users:
+		user.tick()
 	for server in servers:
 		server.tick()
 	for server in servers:

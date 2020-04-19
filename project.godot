@@ -25,6 +25,16 @@ _global_script_classes=[ {
 "path": "res://src/fs/fsnode.gd"
 }, {
 "base": "Node",
+"class": "Mail",
+"language": "GDScript",
+"path": "res://src/mail/mail.gd"
+}, {
+"base": "Node",
+"class": "MailType",
+"language": "GDScript",
+"path": "res://src/mail/mail_type.gd"
+}, {
+"base": "Node",
 "class": "Process",
 "language": "GDScript",
 "path": "res://src/process.gd"
@@ -63,11 +73,23 @@ _global_script_classes=[ {
 "class": "Terminal",
 "language": "GDScript",
 "path": "res://src/terminal.gd"
+}, {
+"base": "Node",
+"class": "User",
+"language": "GDScript",
+"path": "res://src/mail/user.gd"
+}, {
+"base": "Node",
+"class": "UserType",
+"language": "GDScript",
+"path": "res://src/mail/user_type.gd"
 } ]
 _global_script_class_icons={
 "FSDir": "",
 "FSFile": "",
 "FSNode": "",
+"Mail": "",
+"MailType": "",
 "Process": "",
 "Request": "",
 "RequestRequirement": "",
@@ -75,7 +97,9 @@ _global_script_class_icons={
 "Server": "",
 "Service": "",
 "ServiceType": "",
-"Terminal": ""
+"Terminal": "",
+"User": "",
+"UserType": ""
 }
 
 [application]
@@ -89,6 +113,8 @@ config/icon="res://icon.png"
 RequestHandler="*res://src/requests/request_handler.gd"
 Root="*res://src/root.gd"
 ServiceHandler="*res://src/services/service_handler.gd"
+MailHandler="*res://src/mail/mail_handler.gd"
+UserHandler="*res://src/mail/user_handler.gd"
 
 [display]
 

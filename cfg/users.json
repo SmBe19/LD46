@@ -1,0 +1,12 @@
+[
+    {
+	"name" : "Henricus Wallace",
+	"politeness" : 1.0,
+	"hacker" : false
+    }, 
+    {
+	"name" : "Teodosio Egger",
+	"politeness" : 0.8,
+	"hacker" : false
+    } 
+]
