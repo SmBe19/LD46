@@ -38,5 +38,45 @@
 	"type": "scam",
 	"subject": "letter of intent.",
 	"content": "Dear Friend,\n\nAfter two years of arbitration, a court of international arbitration in London has awarded a 'compensatory damages' in favour of five ancestral tribes inhabited on the Niger-Delta basin. The ruling came after the area assessment by groups of oil pollution inspectors in regard to the petitions against the three leading oil corporations in sub Saharan Africa, arguing the devastating effect of oil spill menace on health and environmental degradation in the oil rich region. I am a conflict Resolution expert, and I work notably as a freelance ethnic conflict conciliator with wealth of experience in oil spill-communal mediation. \n\nHave you maintained a 'clean slate' financial background and have enjoyed efficient banking services with your bankers over the years?. I am in need of an active bank account where substantial sum can be paid to as compensation for damages. Note that this request is on a high priority basis as payment was this morning scheduled sooner than expected. We will quickly discuss terms if your bank account can accommodate large deposits without eyebrows being raised. Please, write back if you wouldn't mind rendering your bank account for this legitimate use which will be very profitable to you at the end. \n\nI await your reply at your earliest convenience.\n\nBest Regards,\n$senderName."
+    },
+    {
+	"type": "complaint",
+	"subject": "need help",
+	"content": "Hello\n\nI recently went to the store to buy headphones. When i came back the website was just white. It no longer works. Maybe the headphones did it?\nThanks.\n$senderName"
+    },
+    {
+	"type": "complaint",
+	"subject": "Doesn't work?",
+	"content": "Dear $companyName,\n\nMy granddaughter bought me this phone and also put you on it. I use it all the time to send messages with her. But yesterday I went outside for shopping and I remembered that she left her bag at my home. So I quickly wanted to tell her, but it did not work?! The bag is important to her and because of you, she has left the country without the bag. Please contact me so we can discuss compensation.\n\nKind regards,\n$senderName"
+    },
+    {
+	"type": "followup",
+	"subject": "Re: $prevSubject",
+	"content": "Did you get my mail? I am still waiting for a reply from you. I know that you are busy but this is important.\n\n$senderEmail previously wrote:\n$prevContent"
+    },
+    {
+	"type": "followup",
+	"subject": "Re: $prevSubject",
+	"content": "Hello. I still have not received an answer from you. If you do not reply i *will* get a lawyer and it can get expensive for you."
+    },
+    {
+	"type": "followup",
+	"subject": "[IMPORTANT] Re: $prevSubject",
+	"content": "Dear Sir/Maam.\n\nThis is the lawyer representing $senderName in the case agains $companyName. We have already filed the proper documents, so we can start the case any day now. This is your last chance to settle out of court, otherwise there will be legal action.\n\nSincerely yours,\nThe lawyer"
+    },
+    {
+	"type": "complaint",
+	"subject": "Slow website",
+	"content": "Hello. I hope you already know that your website is really slow?"
+    },
+    {
+	"type": "complaint",
+	"subject": "Website down",
+	"content": ""
+    },
+    {
+	"type": "complaint",
+	"subject": "My son's education",
+	"content": "Dear manager,\nMy son is using this site regularly on his iPad. Recently he saw a picture of two men holding hands on here, and asked me about it. I was absolutely disgusted and immediately revoked his iPad privileges. We live in a Christian household and don't tolerate such things. But the issue is how is this vile content on your site in the first place? Please pay better attention to what you put on here so I can raise my children as good christians.\nKind regards,\n$senderName"
     }
 ]
