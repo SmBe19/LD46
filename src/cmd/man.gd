@@ -41,19 +41,24 @@ func run(args):
 		send_output("== " + args[1] + " (Service) ==\n")
 		send_output("Full name: " + service.human_name)
 		send_output(' ')
+		send_output("Disk Space: " + str(service.disk/1024.0) + " GB")
+		send_output("RAM: " + str(service.ram/1024.0) + " GB")
+		send_output("CPU: " + str(service.cpu) + " M Cycles")
+		send_output(' ')
 		send_output("This service will process the following requests: ")
 		for type in service.inputs.keys():
 			send_output(" * " + type.full_name + " x" + str(service.inputs[type]))
 		send_output(' ')
-		send_output("This service will produce the following subrequests: ")
 		var requests = {}
 		for type in service.inputs.keys():
 			for r in type.requirements:
 				if not requests.has(r.type.full_name):
 					requests[r.type.full_name] = 0
 				requests[r.type.full_name] += 1
-		for type in requests:
-			send_output(" * " + type + " x" + str(requests[type]))
+		if requests:
+			send_output("This service will produce the following subrequests: ")
+			for type in requests:
+				send_output(" * " + type + " x" + str(requests[type]))
 		foundSomething = true
 	if args[1] == "list":
 		
