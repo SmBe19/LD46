@@ -9,7 +9,7 @@ func help():
 	send_output("\nAlso see: buy_server, /etc/requests/")
 	
 func run(args):
-	if len(args) != 3:
+	if len(args) < 3:
 		usage()
 		return 1
 	var srv1 = Root.resolve_ip(Root.resolve_name(args[1]))

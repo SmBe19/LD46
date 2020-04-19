@@ -24,9 +24,9 @@ var upgrade_level = {
 	'ram': 0,
 	'queue': 0,
 }
-var queue_length = 16
-var disk = 131072
-var ram = 4096
+var queue_length = 4
+var disk = 65536
+var ram = 1024
 var cpu_cycles = 32
 var used_disk = 0
 var used_ram = 0
@@ -207,6 +207,7 @@ func uninstall_service(service_name):
 			for request in uninstall_service.request_queue[rtype]:
 				input_queue.append(request)
 		installed_services.erase(uninstall_service)
+		used_disk -= uninstall_service.type.disk
 		if service_name == 'ddos':
 			has_ddos_installed = false
 			for service in installed_services:

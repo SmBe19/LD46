@@ -9,7 +9,7 @@ func help():
 	send_output("\nAlso see: netstat")
 
 func run(args):
-	if len(args) != 2:
+	if len(args) < 2:
 		usage()
 		return 1
 	if len(args[1].split('.')) != 4:

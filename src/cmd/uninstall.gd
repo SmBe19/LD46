@@ -12,7 +12,7 @@ func run(args):
 	if not server:
 		send_output('Can only run on a server')
 		return 1
-	if len(args) != 2:
+	if len(args) < 2:
 		return 1
 	var res = server.uninstall_service(args[1])
 	if res:

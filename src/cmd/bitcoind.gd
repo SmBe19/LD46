@@ -8,7 +8,7 @@ func help():
 	usage()
 	
 func run(args):
-	if len(args) != 1:
+	if len(args) < 1:
 		usage()
 		return 1
 	for entry in Root.money_log:

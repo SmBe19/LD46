@@ -10,7 +10,7 @@ var ipaddr = {}
 var time_since_tick = 0
 var game_tick = 0
 var global_uuid = 0
-var money = 20480
+var money = 2048
 var money_log = []
 
 var last_successful_request = 0
@@ -18,6 +18,7 @@ var game_running = true
 
 func _init():
 	add_new_server("shoutr", "10.0.0.1")
+	servers[0].disk *= 2
 
 func average(values):
 	var sum = 0

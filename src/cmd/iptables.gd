@@ -12,7 +12,7 @@ func run(args):
 	if not server:
 		send_output('Can only run on a server')
 		return 1
-	if len(args) != 1:
+	if len(args) < 1:
 		usage()
 		return 1
 	var node = self.fs_root.get_node("/etc/iptables")

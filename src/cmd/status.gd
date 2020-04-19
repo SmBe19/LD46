@@ -12,7 +12,7 @@ func run(args):
 	if not server:
 		send_output('Can only run on a server')
 		return 1
-	if len(args) != 1:
+	if len(args) < 1:
 		usage()
 		return 1
 	send_output("Queue: " + str(min(len(server.input_queue), server.queue_length)) + " / " + str(server.queue_length))
