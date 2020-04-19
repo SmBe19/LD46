@@ -3,8 +3,9 @@ extends Process
 func run(args):
 	var status = 0
 	if len(args) == 1:
-		for key in self.cwd.children.keys():
-			send_output(" " + key)
+		var elements = self.cwd.children.keys()
+		elements.sort()
+		send_output_list(elements)
 	else:
 		for i in range(1, len(args)):
 			var node = self.cwd.get_node(args[i])
@@ -14,8 +15,9 @@ func run(args):
 			else:
 				if node.is_dir():
 					send_output(args[i] + ":")
-					for key in node.children.keys():
-						send_output(" " + key)
+					var elements = node.children.keys()
+					elements.sort()
+					send_output_list(elements)
 				else:
 					send_output(" " + node.name)
 	return status

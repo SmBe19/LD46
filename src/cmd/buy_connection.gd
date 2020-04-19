@@ -15,8 +15,14 @@ func run(args):
 	if srv1 == srv2:
 		send_output("Servers can not be the same")
 		return 1
-	var res = Root.connect_servers(srv1, srv2)
-	if res:
-		send_output(res)
+	var res = ask_money(Root.new_connection_price(srv1, srv2))
+	if res is GDScriptFunctionState:
+		res = yield(res, 'completed')
+	if not res:
+		return 0
+	var new_con = Root.connect_servers(srv1, srv2)
+	if new_con:
+		send_output(new_con)
 		return 1
+	send_output('Successfully bought connection')
 	return 0

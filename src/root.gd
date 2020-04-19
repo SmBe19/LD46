@@ -21,11 +21,20 @@ func random_ip():
 		if not ipaddr.has(ip):
 			return ip
 
+func buy_something(price, what):
+	if money < price:
+		return 'Not enough money ($' + str(price) + ' required)'
+	money_log.append(what + ": -$" + str(price))
+	money -= price
+	return ''
+
+func new_server_price():
+	return 1024
+
 func add_new_server(name, ip):
-	if money < 1024:
-		return 'Not enough money ($1024 required)'
-	money_log.append("Server " + name + ": -$1024")
-	money -= 1024
+	var res = buy_something(new_server_price(), 'Server ' + name)
+	if res:
+		return res
 	if dns.has(name) or ipaddr.has(ip):
 		return 'Name or IP already in use'
 	var new_server = Server.new(name, ip)
@@ -34,13 +43,17 @@ func add_new_server(name, ip):
 	ipaddr[ip] = new_server
 	return ''
 
+func new_connection_price(srv1, srv2):
+	return 32 * (max(len(srv1.connections), len(srv2.connections)) + 1)
+
 func connect_servers(srv1, srv2):
-	if money < 32:
-		return 'Not enough money ($32 required)'
-	money_log.append("Connection: -$32")
-	money -= 32
+	var res = buy_something(new_connection_price(srv1, srv2), 'Connection ' + srv1.server_name + ' <-> ' + srv2.server_name)
+	if res:
+		return res
 	srv1.connections[srv2.ip] = srv2
 	srv2.connections[srv1.ip] = srv1
+	srv1.update_fs()
+	srv2.update_fs()
 	return ''
 
 func resolve_name(name):

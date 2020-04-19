@@ -25,10 +25,21 @@ func _init():
 		commands.erase("sh")
 		commands.sort()
 
+func init_fs(fs):
+	fs.mkdir('bin')
+	fs.mkdir('usr/bin', true)
+	var bin = fs.get_node('bin')
+	var my_commands = commands.duplicate()
+	my_commands.append('sh')
+	my_commands.sort()
+	for command in my_commands:
+		bin.open(command, true).content = command
+
 func run(args):
 	send_output("This is sh v0.0.1")
 	fs_root = fs_home
 	cwd = fs_root
+	init_fs(fs_root)
 	connect_server(['connect', 'shoutr'])
 	while true:
 		var line = yield(readline(prompt()), "completed")
@@ -112,6 +123,7 @@ func connect_server(args):
 		return
 	fs_root = server.fs_root
 	cwd = fs_root
+	init_fs(fs_root)
 
 func set_var(args):
 	if len(args) != 3:

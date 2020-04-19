@@ -62,3 +62,30 @@ func send_output(output):
 
 func send_output_list(output):
 	output_process.receive_input_list(output)
+	
+func readline_simple(prompt: String) -> String:
+	var line : String = ""
+	send_output(prompt)
+	output_process.cursor_y = output_process.current_line-1
+	output_process.set_line(output_process.current_line-1, prompt + line)
+	while true:
+		output_process.cursor_x = len(prompt) + len(line)
+		var key = yield(output_process, "key_pressed")
+		if key == KEY_BACKSPACE:
+			line.erase(len(line)-1, 1)
+		if key == KEY_ENTER:
+			break
+		if key >= KEY_SPACE && key <= KEY_ASCIITILDE:
+			line += char(key)
+		output_process.set_line(output_process.current_line-1, prompt + line)
+	return line
+
+func ask_money(price):
+	while true:
+		var res = readline_simple("This costs $" + str(price) + ". Do you want to buy [y/n]? ")
+		if res is GDScriptFunctionState:
+			res = yield(res, 'completed')
+		if res == 'y':
+			return true
+		if res == 'n':
+			return false

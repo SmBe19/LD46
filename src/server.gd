@@ -27,6 +27,7 @@ func _init(server_name_, ip_):
 	ip = ip_
 	fs_root.mkdir("etc/requests", true)
 	fs_root.mkdir("var/log", true)
+	update_fs()
 
 func write_log(logname, content):
 	var file = fs_root.open("var/log/" + logname, true)
@@ -65,6 +66,19 @@ func forward_request(request):
 	var forward = forwards[randi() % len(forwards)]
 	return send_request(Root.resolve_name(forward), request)
 
+func update_fs():
+	fs_root.mkdir('usr/bin', true)
+	fs_root.get_node('usr').children.erase('bin')
+	fs_root.mkdir('usr/bin', true)
+	var node = fs_root.get_node('/usr/bin')
+	for service in installed_services:
+		node.open(service.type.service_name, true).content = service.type.human_name
+	fs_root.mkdir('/etc')
+	var hosts = ip + " " + server_name + "\n"
+	for ip in connections:
+		hosts += ip + " " + connections[ip].server_name + "\n"
+	fs_root.open('/etc/hosts', true).content = hosts
+
 func install_service(service_name):
 	var stype = ServiceHandler.get_type(service_name)
 	if stype:
@@ -72,6 +86,7 @@ func install_service(service_name):
 			used_disk += stype.disk
 			var service = ServiceHandler.create_new_service(service_name)
 			installed_services.append(service)
+			update_fs()
 			return ''
 		else:
 			return 'Disk full'
@@ -88,6 +103,7 @@ func uninstall_service(service_name):
 			for request in uninstall_service.request_queue[rtype]:
 				input_queue.append(request)
 		installed_services.erase(uninstall_service)
+		update_fs()
 		return ''
 	else:
 		return 'Service not installed'
