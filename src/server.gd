@@ -62,7 +62,7 @@ func forward_request(request):
 			write_log("forward.log", "No forwarding rule for " + request.type.full_name + ".")
 		return false
 	error_requests.erase(request.type.full_name)
-	var forwards = file.content.split("\n")
+	var forwards = file.content.split("\n", false)
 	var forward = forwards[randi() % len(forwards)]
 	return send_request(Root.resolve_name(forward), request)
 
