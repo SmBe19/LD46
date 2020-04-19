@@ -16,5 +16,6 @@ func run(args):
 		send_output('usage: ps')
 		return 1
 	for service in server.installed_services:
-		send_output(service.type.full_name + " " + str(100 * average(service.cycles_in_last_tick) / server.cpu_cycles) + "%")
+		var running = "R" if service.is_running() else "S"
+		send_output(service.type.full_name + " " + running + " " + str(100 * average(service.cycles_in_last_tick) / server.cpu_cycles) + "%")
 	return 0

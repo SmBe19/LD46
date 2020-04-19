@@ -9,7 +9,7 @@ func run(args):
 		res = yield(res, 'completed')
 	if not res:
 		return 0
-	var new_server = Root.add_new_server(args[1], Root.random_ip())
+	var new_server = Root.add_new_server(args[1], Root.random_ip('10'))
 	if new_server:
 		send_output(new_server)
 		return 1

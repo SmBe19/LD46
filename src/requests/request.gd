@@ -7,11 +7,13 @@ signal request_fulfilled(request)
 var id : int
 var root_id : int
 var start_tick : int
+var source_ip : String
 var type : RequestType
 
-func _init(request_id, root_id, request_type):
+func _init(request_id, root_id, source_ip, request_type):
 	self.id = request_id
 	self.root_id = root_id
+	self.source_ip = source_ip
 	self.type = request_type
 	self.start_tick = Root.game_tick
 	

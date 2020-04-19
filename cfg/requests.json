@@ -12,6 +12,21 @@
 	"requirements": []
     },
     {
+	"name": "auth",
+	"human_name": "Authentication Request",
+	"level": 1,
+	"requirements": [
+		{
+		"name": "compute",
+		"count": 2
+		},
+		{
+		"name": "sql",
+		"count": 1
+		}
+	]
+    },
+    {
 	"name": "html",
 	"human_name": "HTML Generation Request",
 	"level": 1,
@@ -36,5 +51,46 @@
 		"count": 1
 	    }
 	]
-    }
+	},
+    {
+	"name": "mail",
+	"human_name": "Mail Request",
+	"level": 1,
+	"requirements": [
+	    {
+		"name": "auth",
+		"count": 1
+	    }
+	]
+	},
+    {
+	"name": "httpauth",
+	"human_name": "Authenticated HTTP Request",
+	"level": 2,
+	"requirements": [
+	    {
+		"name": "http",
+		"count": 4
+		},
+		{
+		"name": "auth",
+		"count": 1
+		}
+	]
+	},
+	{
+	"name": "ether",
+	"human_name": "Etherium Block",
+	"level": 3,
+	"requirements": [
+		{
+		"name": "compute",
+		"count": 32
+		},
+		{
+		"name": "auth",
+		"count": 1
+		}
+	]
+	}
 ]

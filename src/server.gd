@@ -37,11 +37,13 @@ var last_service = 0
 var error_servers = []
 var error_requests = []
 var error_services = []
+var error_iptables = []
 
 func _init(server_name_, ip_):
 	server_name = server_name_
 	ip = ip_
 	fs_root.mkdir("etc/requests", true)
+	fs_root.mkdir("etc/iptables", true)
 	fs_root.mkdir("var/log", true)
 	update_fs()
 
@@ -89,7 +91,36 @@ func send_request(destination, request):
 			write_log("forward.log", "Server " + destination + " not connected.")
 		return false
 
+func firewall(request):
+	var file = fs_root.open("etc/iptables/" + request.type.request_name)
+	if not file or not file.content:
+		return true
+	var lines = file.content.split("\n")
+	for line in lines:
+		if line.find('/24 ') != -1:
+			var ipprefix = line.split(".", 1)[0]
+			if request.source_ip.begins_with(ipprefix):
+				if line.split(' ', 1)[1] == 'allow':
+					return true
+				write_log("iptables.log", "Request blocked for " + request.type.full_name + " from " + request.source_ip + ".")
+				return false
+		elif line == 'allow':
+			error_iptables.erase(request.type.full_name)
+			return true
+		elif line == 'drop':
+			if not error_iptables.has(request.type.full_name):
+				error_iptables.append(request.type.full_name)
+				write_log("iptables.log", "Request blocked for " + request.type.full_name + ".")
+			return false
+		else:
+			if not error_iptables.has(request.type.full_name):
+				error_iptables.append(request.type.full_name)
+				write_log("iptables.log", "Invalid configuration for " + request.type.full_name + ".")
+	return true
+
 func forward_request(request):
+	if not firewall(request):
+		return true
 	var file = fs_root.open("etc/requests/" + request.type.request_name)
 	if not file or not file.content:
 		if not error_requests.has(request.type.full_name):

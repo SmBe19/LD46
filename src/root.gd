@@ -15,9 +15,11 @@ var money_log = []
 func _init():
 	add_new_server("shoutr", "10.0.0.1")
 
-func random_ip():
+func random_ip(prefix):
+	if not prefix:
+		prefix = randi()%256
 	while true:
-		var ip = str(randi()%256) + "." + str(randi()%256) + "." + str(randi()%256) + "." + str(randi()%256)
+		var ip = str(prefix) + "." + str(randi()%256) + "." + str(randi()%256) + "." + str(randi()%256)
 		if not ipaddr.has(ip):
 			return ip
 
@@ -84,11 +86,12 @@ func generate_request(server):
 	if len(server.input_queue) >= server.queue_length:
 		return
 	var difficulty = 0
-	if game_tick > 100:
-		difficulty = randi() % 2
+	var max_difficulty = min(3, game_tick / 1000)
+	difficulty = randi() % (max_difficulty + 1)
 	var type = RequestHandler.generate_request(difficulty)
 	var uuid = get_uuid()
-	var request = Request.new(uuid, uuid, type)
+	var ip = random_ip(randi()%100 + 100)
+	var request = Request.new(uuid, uuid, ip, type)
 	request.connect("request_fulfilled", self, "complete_request")
 	server.input_queue.append(request)
 

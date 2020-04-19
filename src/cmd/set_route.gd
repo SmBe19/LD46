@@ -14,7 +14,7 @@ func run(args):
 	for i in range(2, len(args)):
 		var server = Root.resolve_ip(Root.resolve_name(args[i]))
 		if not server:
-			send_output('COuld not resolve ' + args[i])
+			send_output('Could not resolve ' + args[i])
 			return 1
 		route += args[i] + "\n"
 	server.fs_root.open('etc/requests/' + args[1], true).content = route

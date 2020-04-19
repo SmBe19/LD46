@@ -40,7 +40,37 @@
 	],
 	"resources": {
 	    "ram": 256,
-	    "cpu": 128,
+	    "cpu": 256,
+	    "hdd": 4096
+	}
+    },
+    {
+	"name": "qmail",
+	"human_name": "Mail Server",
+	"inputs": [
+	    {
+		"name": "mail",
+		"count": 1
+	    }
+	],
+	"resources": {
+	    "ram": 512,
+	    "cpu": 512,
+	    "hdd": 16384
+	}
+    },
+    {
+	"name": "ldap",
+	"human_name": "Authentication Provider",
+	"inputs": [
+	    {
+		"name": "auth",
+		"count": 1
+	    }
+	],
+	"resources": {
+	    "ram": 256,
+	    "cpu": 512,
 	    "hdd": 4096
 	}
     },
@@ -50,7 +80,7 @@
 	"inputs": [
 	    {
 		"name": "http",
-		"count": 1
+		"count": 4
 	    }
 	],
 	"resources": {
@@ -73,5 +103,20 @@
 	    "cpu": 128,
 	    "hdd": 2048
 	}
-    }
+	},
+	{
+	"name": "etherminer",
+	"human_name": "Etherium Miner",
+	"inputs": [
+		{
+		"name": "ether",
+		"count": 2
+		}
+	],
+	"resources": {
+		"ram": 2048,
+		"cpu": 16384,
+		"hdd": 16384
+	}
+	}
 ]
