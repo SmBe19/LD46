@@ -34,12 +34,16 @@ func is_running():
 	return running and not is_finished()
 
 func is_finished():
-	return running and cycles_used >= type.cpu
+	return running and cycles_used >= type.cpu * current_request.ddos_check_count
 
 func get_results():
 	var res = [current_request]
-	current_request.ddos_check_count -= 1
-	if current_request.fake_request or randf() < FALSE_POSITIVE_RATE:
+	var fake_fake = current_request.ddos_check_count > 0
+	for i in current_request.ddos_check_count:
+		if randf() > FALSE_POSITIVE_RATE:
+			fake_fake = false
+	current_request.ddos_check_count = 0
+	if current_request.fake_request or fake_fake:
 		res = [Request.new(Root.get_uuid(), current_request.root_id, current_request.source_ip, RequestHandler.request_types['fake'])]
 	current_request = null
 	running = false

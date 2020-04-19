@@ -3,6 +3,7 @@ extends Node
 class_name Server
 
 const AVERAGE_SPAN = 50
+const STAT_SPAN = 300
 
 const UPGRADE_PRICE = {
 	'cpu': 512,
@@ -34,6 +35,9 @@ var used_cpu_cycles = []
 var installed_services = []
 var has_ddos_installed = false
 var last_service = 0
+var iptables_blocked = [0]
+var ddos_checked = [0]
+var ddos_detected = [0]
 
 var error_servers = []
 var error_requests = []
@@ -86,8 +90,8 @@ func get_ddos_check_count(request):
 	var first_ip = request.source_ip.split('.', 1)[0]
 	var file = fs_root.get_node("etc/ddos/" + first_ip + "/check_count")
 	if file:
-		return int(file.content) * 0.01
-	return int(fs_root.open("etc/ddos/*/check_count").content) * 0.01
+		return int(file.content)
+	return int(fs_root.open("etc/ddos/*/check_count").content)
 
 func receive_request(request):
 	if len(input_queue) + len(incoming_requests) < queue_length:
@@ -97,6 +101,8 @@ func receive_request(request):
 			request.ddos_check_count = get_ddos_check_count(request) if has_ddos_installed and request.ddos_sampled else 0
 			incoming_requests.append(request)
 			return true
+		else:
+			iptables_blocked[0] += 1
 		return false
 	return false
 
@@ -273,6 +279,10 @@ func stop_services():
 			if results:
 				for request in results:
 					input_queue.append(request)
+					if service.type.service_name == 'ddos':
+						ddos_checked[0] += 1
+					if request.type.request_name == 'fake':
+						ddos_detected[0] += 1
 
 func tick():
 	handle_requests()
@@ -285,3 +295,12 @@ func tick():
 		if len(service.cycles_in_last_tick) > AVERAGE_SPAN:
 			service.cycles_in_last_tick.pop_front()
 	stop_services()
+	iptables_blocked.push_front(0)
+	if len(iptables_blocked) > STAT_SPAN:
+		iptables_blocked.pop_back()
+	ddos_checked.push_front(0)
+	if len(ddos_checked) > STAT_SPAN:
+		ddos_checked.pop_back()
+	ddos_detected.push_front(0)
+	if len(ddos_detected) > STAT_SPAN:
+		ddos_detected.pop_back()

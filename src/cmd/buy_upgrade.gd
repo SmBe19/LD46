@@ -3,12 +3,19 @@ extends Process
 const VALID_UPGRADES = ['cpu', 'disk', 'ram', 'queue']
 var VALID_UPGRADE_STR = PoolStringArray(VALID_UPGRADES).join(', ')
 
+func usage():
+	send_output('usage: buy_upgrade <item>. Available upgrades: ' + VALID_UPGRADE_STR)
+
+func help():
+	send_output("Buy upgrades for the current server.\n")
+	usage()
+
 func run(args):
 	if not server:
 		send_output('Can only run on a server')
 		return 1
 	if len(args) != 2:
-		send_output('usage: buy_upgrade <item>. Available upgrades: ' + VALID_UPGRADE_STR)
+		usage()
 		return 1
 	if not VALID_UPGRADES.has(args[1]):
 		send_output('Unknown item ' + args[1] + '. Available upgrades: ' + VALID_UPGRADE_STR)

@@ -6,11 +6,11 @@ func usage():
 func help():
 	send_output("Buy and assign a name to a new server.\n")
 	usage()
-	send_output("\nAlso see: buy_connection")
+	send_output("\nAlso see: buy_connection, buy_upgrade")
 	
 func run(args):
 	if len(args) != 2:
-		send_output('usage: buy_server <server_name>')
+		usage()
 		return 1
 	var res = ask_money(Root.new_server_price())
 	if res is GDScriptFunctionState:

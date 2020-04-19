@@ -31,9 +31,11 @@ func run(args):
 			visual_lines.append(x.left(Terminal.WIDTH-1) + ">")
 			x = "..." + x.right(Terminal.WIDTH-1)
 		visual_lines.append(x)
+	var initial_scroll = Terminal.HEIGHT - 2
 	for x in visual_lines:
 		send_output(x)
-		if output_process.current_line >= Terminal.HEIGHT-1:
+		initial_scroll -= 1
+		if initial_scroll <= 0 and output_process.current_line >= Terminal.HEIGHT-1:
 			var key = yield(output_process, "key_pressed")
 			if key == KEY_ESCAPE or key == ord('q'):
 				return 0

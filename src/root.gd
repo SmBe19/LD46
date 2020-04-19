@@ -20,6 +20,14 @@ var game_running = true
 func _init():
 	add_new_server("shoutr", "10.0.0.1")
 
+func average(values):
+	var sum = 0
+	for value in values:
+		sum += value
+	if len(values) > 0:
+		sum /= len(values)
+	return sum
+
 func random_ip(prefix):
 	if not prefix:
 		prefix = randi()%256

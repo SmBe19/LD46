@@ -1,11 +1,21 @@
 extends Process
 
+func usage():
+	send_output('usage: set_ddos <ip_prefix> <sample_rate> <check_count>')
+
+func help():
+	send_output("Set ddos configuration.\n")
+	send_output("The ddos checker has a certain probability of marking a valid request as fake.\nWith check_count the packet is inspected several times and thus this probability decreases.\nA request is only checked with a certain probability (given by sample_rate, a value between 0 and 100).\n")
+	send_output("\nThese configs can be changed on an ip range basis (ip_prefix is the first part of the ip address, e.g. '10' denotes the ip range '10.0.0.0/24').\nUse * to set the default configuration.\n")
+	usage()
+	send_output("\nAlso see: ddos")
+
 func run(args):
 	if not server:
 		send_output('Can only run on a server')
 		return 1
 	if len(args) < 4:
-		send_output('usage: set_route <ip_prefix> <sample_rate> <check_count>')
+		usage()
 		return 1
 	if not args[1].is_valid_integer() and args[1] != '*':
 		send_output('Invalid ip prefix')

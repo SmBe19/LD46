@@ -4,7 +4,7 @@ func usage():
 	send_output('usage: set_route <request_type> [<server> ...]')
 
 func help():
-	send_output("Create request forwarding rule.\n")
+	send_output("Create request forwarding rule.\nIf a request can not be handled locally (because there is not matching service or the service is currently overloaded) it will be forwarded to other servers according to the rules defined here.\n")
 	usage()
 	send_output("\nAlso see: routes")
 
