@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=2]
+[gd_scene load_steps=8 format=2]
 
 [ext_resource path="res://src/TerminalManager.gd" type="Script" id=1]
 [ext_resource path="res://fnt/terminalfont.tres" type="DynamicFont" id=2]
@@ -6,11 +6,20 @@
 [ext_resource path="res://scn/display.tscn" type="PackedScene" id=4]
 
 [sub_resource type="StyleBoxFlat" id=1]
-bg_color = Color( 0.0823529, 0.0823529, 0.0823529, 1 )
+bg_color = Color( 0, 0, 0, 1 )
 
-[sub_resource type="ShaderMaterial" id=2]
+[sub_resource type="StyleBoxFlat" id=2]
+bg_color = Color( 0, 0, 0, 1 )
+
+[sub_resource type="ShaderMaterial" id=3]
 shader = ExtResource( 3 )
+shader_param/origin = Vector2( 20, 20 )
 shader_param/size = Vector2( 860, 560 )
+shader_param/distortion = 0.02
+shader_param/color = Color( 0, 0.6, 0, 1 )
+shader_param/border_color = Color( 0.5, 0.4, 0.3, 1 )
+shader_param/lines_velocity = 30.0
+shader_param/lines_distance = 4.0
 
 [node name="ScnRoot" type="Control"]
 anchor_right = 1.0
@@ -19,7 +28,7 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Panel" type="Panel" parent="."]
+[node name="BG" type="Panel" parent="."]
 anchor_right = 1.0
 anchor_bottom = 1.0
 custom_styles/panel = SubResource( 1 )
@@ -39,18 +48,34 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
+[node name="BG" type="Panel" parent="Terminal"]
+margin_left = 20.0
+margin_top = 20.0
+margin_right = 880.0
+margin_bottom = 580.0
+custom_styles/panel = SubResource( 2 )
+
 [node name="Buffer" type="RichTextLabel" parent="Terminal"]
-material = SubResource( 2 )
 margin_left = 20.0
 margin_top = 20.0
 margin_right = 880.0
 margin_bottom = 580.0
 custom_fonts/normal_font = ExtResource( 2 )
-custom_colors/default_color = Color( 0.211765, 0.811765, 0.141176, 1 )
+custom_colors/default_color = Color( 0.427451, 0.764706, 0.215686, 1 )
+custom_constants/shadow_as_outline = 0
 bbcode_text = "Hello world!"
 text = "Hello world!"
 scroll_active = false
 
+[node name="CRT effect" type="Panel" parent="."]
+material = SubResource( 3 )
+margin_right = 900.0
+margin_bottom = 600.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
 [node name="Angry Users" parent="." instance=ExtResource( 4 )]
+visible = false
 position = Vector2( 767.004, 137.278 )
 value = 1.0
