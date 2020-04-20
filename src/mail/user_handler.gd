@@ -30,18 +30,18 @@ func generate_user():
 	if Root.game_tick > NO_HACKER_BEFORE and randf() < HACKER_CHANCE:
 		generate_hacker()
 		return
-	print('Generate new user')
 	Root.daily_users_new += 1
 	var index = randi() % len(user_types)
 	var user = User.new(user_types[index])
 	users.append(user)
+	print('Generate new user')
 
 func generate_hacker():
-	print('Generate new hacker')
 	Root.daily_users_new += 1
 	var index = randi() % len(hacker_types)
 	var user = User.new(hacker_types[index])
 	users.append(user)
+	print('Generate new hacker with ip ', user.ip)
 
 func remove_user(user):
 	print('Remove user')
