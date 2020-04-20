@@ -2,6 +2,8 @@ extends Node
 
 var request_types = {}
 var requests_by_difficulty = {}
+var seen_requests = {}
+var seen_ddos = false
 var max_difficulty = 0
 
 func _ready():

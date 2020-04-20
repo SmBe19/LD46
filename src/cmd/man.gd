@@ -26,7 +26,7 @@ func run(args):
 		send_output('== ' + args[1] + " (Process) ==\n")
 		process.help()
 		foundSomething = true
-	if RequestHandler.request_types.has(args[1]):
+	if RequestHandler.seen_requests.has(args[1]):
 		var request = RequestHandler.request_types[args[1]]
 		send_output("== " + args[1] + " (Request) ==\n")
 		send_output("Full name: " + request.human_name)
@@ -76,11 +76,18 @@ func run(args):
 	if args[1] == "list":
 		
 		send_output("== Requests ==\n")
-		for r in RequestHandler.request_types.values():
+		for r in RequestHandler.seen_requests.keys():
 			send_output(" * " + r.full_name)
 		send_output("\n\n== Services ==\n")
 		for p in ServiceHandler.service_types.values():
-			send_output(" * " + p.full_name)
+			var usable = len(p.inputs) == 0
+			if p.service_name == 'ddos':
+				usable = RequestHandler.seen_ddos
+			for i in p.inputs:
+				if RequestHandler.seen_requests.has(i):
+					usable = true
+			if usable:
+				send_output(" * " + p.full_name)
 		foundSomething = true
 	if not foundSomething:
 		if more:

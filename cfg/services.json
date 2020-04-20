@@ -103,105 +103,105 @@
 	    "cpu": 256,
 	    "hdd": 2048
 	}
-	},
-	{
+    },
+    {
 	"name": "etherminer",
 	"human_name": "Etherium Miner",
 	"inputs": [
-		{
+	    {
 		"name": "ether",
 		"count": 2
-		}
+	    }
 	],
 	"resources": {
-		"ram": 2048,
-		"cpu": 8192,
-		"hdd": 8192
+	    "ram": 2048,
+	    "cpu": 8192,
+	    "hdd": 8192
 	}
-	},
-	{
+    },
+    {
 	"name": "tensorflow",
 	"human_name": "Tensorflow Machine Learning",
 	"inputs": [
-		{
+	    {
 		"name": "tensorflow",
 		"count": 1
-		}
+	    }
 	],
 	"resources": {
-		"ram": 8192,
-		"cpu": 8192,
-		"hdd": 4096
+	    "ram": 8192,
+	    "cpu": 8192,
+	    "hdd": 4096
 	}
-	},
-	{
+    },
+    {
 	"name": "kubernetes",
 	"human_name": "Host Docker Applications",
 	"inputs": [
-		{
+	    {
 		"name": "docker",
 		"count": 1
-		}
+	    }
 	],
 	"resources": {
-		"ram": 4096,
-		"cpu": 2048,
-		"hdd": 4096
+	    "ram": 4096,
+	    "cpu": 2048,
+	    "hdd": 4096
 	}
-	},
-	{
+    },
+    {
 	"name": "aws",
 	"human_name": "Host AWS Cloud Ressources",
 	"inputs": [
-		{
+	    {
 		"name": "aws",
 		"count": 1
-		}
+	    }
 	],
 	"resources": {
-		"ram": 8192,
-		"cpu": 2048,
-		"hdd": 16384
+	    "ram": 8192,
+	    "cpu": 2048,
+	    "hdd": 16384
 	}
-	},
-	{
+    },
+    {
 	"name": "ddos",
 	"human_name": "DDoS Detector",
 	"inputs": [],
 	"resources": {
-		"ram": 1024,
-		"cpu": 512,
-		"hdd": 2048
+	    "ram": 1024,
+	    "cpu": 512,
+	    "hdd": 2048
 	}
-	},
-	{
+    },
+    {
 	"name": "blackhole",
 	"human_name": "Blackhole Package Dropper",
 	"inputs": [
-		{
+	    {
 		"name": "ddos",
 		"count": 1
-		}
+	    }
 	],
 	"resources": {
-		"ram": 128,
-		"cpu": 128,
-		"hdd": 1024
+	    "ram": 128,
+	    "cpu": 128,
+	    "hdd": 1024
 	}
-	},
-	{
+    },
+    {
 	"name": "analyzer",
 	"human_name": "DDoS Request Analyzer",
 	"inputs": [
-		{
+	    {
 		"name": "ddos",
 		"count": 10
-		}
+	    }
 	],
 	"resources": {
-		"ram": 2048,
-		"cpu": 4096,
-		"hdd": 4096
+	    "ram": 2048,
+	    "cpu": 4096,
+	    "hdd": 4096
 	}
-	}
+    }
 ]

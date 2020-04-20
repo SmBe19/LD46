@@ -156,6 +156,9 @@ func produce_request(request):
 			daily_request_drop += 1
 		return false
 	if server.receive_request(request):
+		RequestHandler.seen_requests[request.type] = true
+		if request.fake_request:
+			RequestHandler.seen_ddos = true
 		request.connect("request_fulfilled", self, "request_completed")
 		return true
 	else:
