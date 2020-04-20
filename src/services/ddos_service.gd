@@ -40,6 +40,7 @@ func get_results():
 		Root.daily_request_fake_detected += 1
 	if current_request.fake_request or fake_fake:
 		res = [Request.new(Root.get_uuid(), current_request.root_id, current_request.source_ip, RequestHandler.request_types['ddos'])]
+		res[0].fake_request = current_request.fake_request
 	current_request = null
 	running = false
 	return res

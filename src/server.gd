@@ -300,7 +300,8 @@ func stop_services():
 			used_ram -= service.type.ram
 			if service.type.service_name == 'analyzer':
 				for request in service.request_queue[RequestHandler.request_types['ddos']]:
-					write_log('analyzer.log', 'DDoS request from ' + request.source_ip + '.')
+					if request.fake_request:
+						write_log('analyzer.log', 'DDoS request from ' + request.source_ip + '.')
 			var results = service.get_results()
 			if results:
 				for request in results:
