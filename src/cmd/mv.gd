@@ -6,7 +6,7 @@ func usage():
 func help():
 	send_output("Move files\n")
 	usage()
-	send_output("\nAlso see: cp, rm")
+	send_output("\nAlso see: ls, cp, rm")
 
 func run(args):
 	if len(args) < 3:

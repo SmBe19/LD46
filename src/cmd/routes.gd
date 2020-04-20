@@ -5,8 +5,9 @@ func usage():
 
 func help():
 	send_output("Display current routing table.\n")
+	send_output("If a request can not be handled locally (because there is no service for it or the service is overloaded) it will be forwarded one of the given servers. If no rule exists it will be returned to the local queue.\n")
 	usage()
-	send_output("\nAlso see: queue")
+	send_output("\nAlso see: queue, set_route")
 
 
 func run(args):

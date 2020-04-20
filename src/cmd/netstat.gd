@@ -7,7 +7,7 @@ func usage():
 func help():
 	send_output("Display information about current network connections.\n")
 	usage()
-	send_output("\nAlso see: status")
+	send_output("\nAlso see: status, queue, ping")
 
 
 func run(args):

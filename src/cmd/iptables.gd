@@ -5,6 +5,8 @@ func usage():
 
 func help():
 	send_output("Show iptables firewall configuration.\n")
+	send_output("With iptables you can configure a server to reject certain request types or requests from a certain ip range.\n")
+	send_output("If you want to prevent a request from entering your network you have to filter it at the ingress server (the server 'shoutr'). Once a request is in the network, it can not be dropped anymore. Please note however that rejecting a request at the ingress server will make the users unhappy (the same as if the request took too long to process).\n")
 	usage()
 	send_output("\nAlso see: set_iptables")
 

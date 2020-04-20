@@ -9,6 +9,7 @@ func usage():
 func help():
 	send_output("Buy upgrades for the current server.\n")
 	usage()
+	send_output("\nAlso see: buy_connection, buy_server")
 
 func run(args):
 	if not server:

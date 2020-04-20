@@ -6,7 +6,7 @@ func usage():
 func help():
 	send_output("Display information about current system resource usage.\n")
 	usage()
-	send_output('\nAlso see: queue, uname')
+	send_output('\nAlso see: queue, ps, netstat, iptables, routes, ddos, uname')
 
 func run(args):
 	if not server:

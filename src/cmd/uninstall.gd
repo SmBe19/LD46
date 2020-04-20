@@ -6,7 +6,7 @@ func usage():
 func help():
 	send_output("Uninstalls a service to free system resources.\n")
 	usage()
-	send_output("\nAlso see: install")
+	send_output("\nAlso see: install, ps")
 	
 func run(args):
 	if not server:

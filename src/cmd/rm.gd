@@ -6,7 +6,7 @@ func usage():
 func help():
 	send_output("Remove files\n")
 	usage()
-	send_output("\nAlso see: rmdir, mv, cp")
+	send_output("\nAlso see: ls, touch, rmdir, mv, cp")
 
 func run(args):
 	if len(args) < 2:

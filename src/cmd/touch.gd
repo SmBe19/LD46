@@ -6,6 +6,7 @@ func usage():
 func help():
 	send_output("Create empty files\n")
 	usage()
+	send_output("\nAlso see: ls, rm")
 
 func run(args):
 	if len(args) < 2:

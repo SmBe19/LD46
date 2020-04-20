@@ -30,7 +30,7 @@ func help():
 	send_output("-l Show a detailed list with creation and last access time.")
 	send_output(" ")
 	usage()
-	send_output("\nAlso see: cat")
+	send_output("\nAlso see: cat, more, rm, mv, cp, rmdir")
 	
 	
 func run(args):

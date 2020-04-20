@@ -5,8 +5,9 @@ func usage():
 
 func help():
 	send_output("Display unprocessed requests in the queue.\n")
+	send_output("If the queue is full, no new requests will be accepted from other servers or users. Users will become unhappy if they can not place their requests.\n")
 	usage()
-	send_output("\nAlso see: status")
+	send_output("\nAlso see: status, ps")
 
 func run(args):
 	if not server:

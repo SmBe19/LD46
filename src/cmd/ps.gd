@@ -6,6 +6,7 @@ func usage():
 func help():
 	send_output("Show process information.\n")
 	usage()
+	send_output("\nAlso see: status, queue")
 
 func run(args):
 	if not server:

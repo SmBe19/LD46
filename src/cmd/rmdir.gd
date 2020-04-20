@@ -6,7 +6,7 @@ func usage():
 func help():
 	send_output("Remove directories\n")
 	usage()
-	send_output("\nAlso see: rm")
+	send_output("\nAlso see: ls, mkdir, rm")
 
 func run(args):
 	if len(args) < 2:

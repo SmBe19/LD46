@@ -6,7 +6,7 @@ func usage():
 func help():
 	send_output("Create directories if they do not already exist ")
 	usage()
-	send_output("\nAlso see: touch")
+	send_output("\nAlso see: touch, rmdir")
 
 func run(args):
 	if len(args) < 2:

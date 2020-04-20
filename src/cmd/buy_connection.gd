@@ -6,7 +6,7 @@ func usage():
 func help():
 	send_output("Buy connections for request routing between servers.\n")
 	usage()
-	send_output("\nAlso see: buy_server, /etc/requests/")
+	send_output("\nAlso see: buy_server, buy_upgrade, routes, netstat, ping")
 	
 func run(args):
 	if len(args) < 3:

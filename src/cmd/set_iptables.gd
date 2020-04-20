@@ -4,7 +4,7 @@ func usage():
 	send_output('usage: set_iptables <request_type> [<rule> ...]')
 
 func help():
-	send_output("Set iptables firewall configuration.\nRequest type can be * to match everything.\nA rule is either allow or deny. It can be prefixed by an ip range (e.g. 10.0.0.0/24). Only /24 ranges are possible.\nThe server will only accept requests if the rules for a request evaluate to allow or no rule is specified\n")
+	send_output("Set iptables firewall configuration.\nRequest type can be * to match everything.\nA rule is either allow or deny. It can be prefixed by an ip range (e.g. 10.0.0.0/24). Only /24 ranges are possible.\nThe server will only accept requests if the rules for a request evaluate to allow or no rule is specified.\n")
 	send_output("\nExample usage:\nset_iptables sql 10.0.0.0/24 deny 12.0.0.0/24 allow deny\n")
 	usage()
 	send_output("\nAlso see: iptables")

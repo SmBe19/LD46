@@ -163,8 +163,11 @@ func forward_request(request):
 			return false
 	error_requests.erase(request.type.full_name)
 	var forwards = file.content.split("\n", false)
-	var forward = forwards[randi() % len(forwards)]
-	return send_request(Root.resolve_name(forward), request)
+	for i in 10:
+		var forward = forwards[randi() % len(forwards)]
+		if send_request(Root.resolve_name(forward), request):
+			return true
+	return false
 
 func update_fs():
 	fs_root.mkdir('usr/bin', true)

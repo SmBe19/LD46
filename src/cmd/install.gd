@@ -4,6 +4,7 @@ func help():
 	send_output("Installs a service on this server. Make sure you have enough space available.")
 	send_output("Use man <service_name> to find out more about specific services.")
 	usage()
+	send_output("\nAlso see: uninstall, ps")
 
 func usage():
 	send_output('usage: install <service_name>')

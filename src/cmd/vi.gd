@@ -6,6 +6,12 @@ func usage():
 func help():
 	send_output("vi is the system's file editor. It implements a subset of " +
 	"the original UNIX vi functionality. \n")
+	send_output("press i or a to enter insert mode")
+	send_output("press ESC to leave mode")
+	send_output("press h, j, k, l to navigate when not in insert mode")
+	send_output("press :w to save the file")
+	send_output("press :q to quit vi")
+	send_output(" ")
 	usage()
 
 var lines : PoolStringArray = PoolStringArray([""])
