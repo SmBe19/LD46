@@ -11,7 +11,6 @@ var game_tick = 0
 var global_uuid = 0
 var money = 2048
 var money_log = []
-var daily_report_mail_type
 var daily_report_sender_type
 var daily_report_sender
 var daily_request_complete = 0
@@ -36,11 +35,6 @@ func _init():
 	init_daily_report()
 
 func init_daily_report():
-	daily_report_mail_type = MailType.new({
-		'content': '',
-		'subject': 'Daily Report',
-		'type': 'daily_report',
-	})
 	daily_report_sender_type = UserType.new({
 		'name': 'Daily Report',
 		'mail': 'daily-report@shoutr.io',
@@ -182,25 +176,25 @@ func update_displays():
 	$"/root/ScnRoot/DDoS".value = ddos
 
 func send_daily_report():
-	var mail = Mail.new(daily_report_mail_type, daily_report_sender)
-	mail.content += 'Users\n'
-	mail.content += 'Total: ' + str(len(UserHandler.users)) + '\n'
-	mail.content += 'New: ' + str(daily_users_new) + '\n'
-	mail.content += 'Lost: ' + str(daily_users_left) + '\n'
-	mail.content += '\n'
-	mail.content += 'Real Requests\n'
-	mail.content += 'Served: ' + str(daily_request_complete) + '\n'
-	mail.content += 'Timeout: ' + str(daily_request_fail) + '\n'
-	mail.content += 'Dropped: ' + str(daily_request_drop) + '\n'
-	mail.content += 'Blocked: ' + str(daily_request_block) + '\n'
-	mail.content += '\n'
-	mail.content += 'DDoS Requests\n'
-	mail.content += 'Served: ' + str(daily_request_complete_fake) + '\n'
-	mail.content += 'Dropped: ' + str(daily_request_fake_dropped) + '\n'
-	mail.content += 'Blocked: ' + str(daily_request_fake_blocked) + '\n'
-	mail.content += 'Checked: ' + str(daily_request_fake_checked) + '\n'
-	mail.content += 'Detected Correct: ' + str(daily_request_fake_detected) + '\n'
-	mail.content += 'Detected Wrong: ' + str(daily_request_fake_detected_wrong) + '\n'
+	var content = ''
+	content += 'Users\n'
+	content += 'Total: ' + str(len(UserHandler.users)) + '\n'
+	content += 'New: ' + str(daily_users_new) + '\n'
+	content += 'Lost: ' + str(daily_users_left) + '\n'
+	content += '\n'
+	content += 'Real Requests\n'
+	content += 'Served: ' + str(daily_request_complete) + '\n'
+	content += 'Timeout: ' + str(daily_request_fail) + '\n'
+	content += 'Dropped: ' + str(daily_request_drop) + '\n'
+	content += 'Blocked: ' + str(daily_request_block) + '\n'
+	content += '\n'
+	content += 'DDoS Requests\n'
+	content += 'Served: ' + str(daily_request_complete_fake) + '\n'
+	content += 'Dropped: ' + str(daily_request_fake_dropped) + '\n'
+	content += 'Blocked: ' + str(daily_request_fake_blocked) + '\n'
+	content += 'Checked: ' + str(daily_request_fake_checked) + '\n'
+	content += 'Detected Correct: ' + str(daily_request_fake_detected) + '\n'
+	content += 'Detected Wrong: ' + str(daily_request_fake_detected_wrong) + '\n'
 	daily_request_complete = 0
 	daily_request_complete_fake = 0
 	daily_request_fail = 0
@@ -213,6 +207,7 @@ func send_daily_report():
 	daily_request_fake_blocked = 0
 	daily_users_new = 0
 	daily_users_left = 0
+	var mail = Mail.new('Daily Report', content, daily_report_sender)
 	MailHandler.send_mail(mail)
 
 func tick():
