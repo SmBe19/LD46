@@ -242,7 +242,7 @@ func tick():
 	# TODO check lose condition
 	if false:
 		game_running = false
-	if game_tick % (TICK_PER_SECOND * 5) == 0:
+	if game_tick % (TICK_PER_SECOND * 45) == 0:
 		send_daily_report()
 	update_displays()
 
