@@ -6,6 +6,10 @@ func usage():
 func help():
 	send_output("Accept a contract.\n")
 	usage()
+	send_output("Contracts are bonus tasks meant as a challenging bonus task. "+
+		"If you manage to complete all requests in the alloted time frame, you can earn some additional money. "+
+		"If you fail to do so however, you will have to pay in damages half of what you would have earned from the contract."+
+		"\n\nThink well and check your available resources before accepting a contract.")
 	
 func run(args):
 	if len(args) != 2:
