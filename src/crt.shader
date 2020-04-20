@@ -45,12 +45,12 @@ void fragment() {
 	vec2 screen = world * SCREEN_PIXEL_SIZE;
 	screen.y = 1.-screen.y;
 	vec3 c = texture(SCREEN_TEXTURE, screen).rgb;
-	COLOR = vec4(c, 1.0);
-	c += 0.1 * color.rgb;
+	//COLOR = vec4(c, 1.0);
+	c += 0.1 * color.rgb * (1.-0.7*r);
 	vec3 lc = texture(SCREEN_TEXTURE, screen-vec2(1.38, 0.)*SCREEN_PIXEL_SIZE).rgb;
 	//vec3 rc = texture(SCREEN_TEXTURE, screen+vec2(1.38, 0.)*SCREEN_PIXEL_SIZE).rgb;
 	
-	vec3 final_color = c*vec3(0.25,0.5,0.75)+lc*vec3(0.75,0.5,0.25);//0.264 * c + 0.368 * (lc+rc);
+	vec3 final_color = 0.6*c+0.4*lc;
 	
 	float line = abs(mod(local.y, 2.)-1.);
 	final_color *= 1.-0.4*(1.-line);
@@ -69,6 +69,4 @@ void fragment() {
 	final_color *= step(10., -border);
 	final_color += max(0., min(1., 0.02*border)) * border_color.rgb;
 	COLOR = vec4(final_color, 1.0);
-	//COLOR = vec4(SCREEN_UV - screen, 0., 1.);
-	
 }
