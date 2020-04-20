@@ -25,7 +25,7 @@ func run(args):
 			contract = c
 			break
 	if contract == null:
-		send_output("Unknown contract")
+		send_output("Contract not found - maybe you already accepted or completed it, or it expired")
 		return 1
 	ContractHandler.available_contracts.erase(contract)
 	ContractHandler.accepted_contracts.append(contract)

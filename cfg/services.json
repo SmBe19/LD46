@@ -151,7 +151,7 @@
     },
     {
 	"name": "aws",
-	"human_name": "Host AWS Cloud Ressources",
+	"human_name": "Host AWS Cloud Resources",
 	"inputs": [
 	    {
 		"name": "aws",

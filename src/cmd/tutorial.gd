@@ -206,14 +206,65 @@ func handle_tutorial_basic(status):
 	if basic_setup_complete(status):
 		return
 
+func contract_intro(status):
+	if status.has('contract_intro'):
+		return false
+	if len(ContractHandler.available_contracts) == 0:
+		return false
+	status['contract_intro'] = true
+	send_output("You have received an email with an offer for a contract.")
+	send_output("Contracts offer you a large amount of money if you can handle them. However, if you fail to complete all the requests you will have to pay half of the contract sum.")
+	send_output("You can accept a contract by using the 'accept_contract' command.")
+	send_output(" ")
+	send_output("The mail contains a lot of valuable information. You can see the request types that will arrive and you can see the ip address from where they will be sent.")
+	send_output("You can use this information to prepare your system by installing firewall rules (using iptables) and setting forwarding rules.")
+	return true
+
+func firewall_intro(status):
+	if status.has('firewall_intro'):
+		return false
+	status['firewall_intro'] = true
+	send_output("You can add firewall rules to your servers. This allows you to block certain requests by request type and/or source ip range.")
+	send_output("Within your network this is mostly useful to route packets based on the source ip range: add a forwarding rule to the destination server and then block all other ip ranges on this destination server. The sending server will try to send the failed reqeusts to other servers listed in the forwarding rules. This is mostly useful in combination with contracts.")
+	send_output("If you want to prevent a type of request from entering the network you have to block it on your ingress server (" + Root.servers[0].server_name + "). Note however that these blocked requests count as failed requests and will impact the users happiness.")
+	send_output("Blocking requests on the ingress for a certain ip range is useful to block DDoS traffic if you know where it originates.")
+	send_output(" ")
+	send_output("To manipulate the firewall rules, use 'iptables' and 'set_iptables'. The configuration consists of a list of rules and the first applicable rule will be applied. See the man page for more details.")
+	return true
+
+func ddos_intro(status):
+	if status.has('ddos_intro'):
+		return false
+	if Root.daily_request_complete_fake == 0:
+		return false
+	status['ddos_intro'] = true
+	send_output("As you can see in the daily report mails, there are some DDoS requests in your network. These requests will not give you any money but they use ressources. You should try to filter them out.")
+	send_output("In a first step you can install the ddos service which will automatically check all requests before they are handled. If the request is a ddos request, it will be converted to a request of type ddos and can be sent to the blackhole service. Otherwise it will be handled as usual.")
+	send_output("However, this takes a lot of ressources. Furthermore, in some cases, a valid request is wrongly detected as ddos. To reduce this, you can check a request several times and thus reducing the risk.")
+	send_output("To reduce the load on the system, you can decide to only check some percentage of all requests (the so called sample rate). You can set both of these settings with 'set_ddos' (e.g. set_ddos * 50 2).")
+	send_output("In the next step you will learn how to filter and adapt the settings based on the source ip address.")
+
+func ddos_advanced(status):
+	if status.has('ddos_advanced'):
+		return false
+	if not status.has('ddos_intro'):
+		return false
+	status['ddos_advanced'] = true
+	send_output("")
+	# TODO write
+
 func handle_advanced_tutorial(status):
-	# TODO DDoS Tutorial
-	# TODO firewall Tutorial
-	# TODO 
-	pass
+	if contract_intro(status):
+		return
+	if firewall_intro(status):
+		return
+	if ddos_intro(status):
+		return
+	give_useful_hint(status)
 
 func give_useful_hint(status):
 	send_output("There are currently no hints available.")
+	# TODO implement
 
 func run(args):
 	if len(args) < 1:
