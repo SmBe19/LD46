@@ -1,6 +1,7 @@
 extends Control
 
 const TICK_PER_SECOND = 10
+const DAY_LENGTH = 1200
 const LEVEL_MULTIPLIER = [
 	1,
 	4,
@@ -259,10 +260,9 @@ func tick():
 		server.tick()
 	for server in servers:
 		server.process_incoming()
-	# TODO check lose condition
-	if false:
+	if len(UserHandler.users) == 0:
 		game_running = false
-	if game_tick % (TICK_PER_SECOND * 120) == 0:
+	if game_tick % DAY_LENGTH == 0:
 		send_daily_report()
 	update_displays()
 
