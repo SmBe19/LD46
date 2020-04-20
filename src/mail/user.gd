@@ -53,7 +53,8 @@ func complete_request(request):
 		if happiness == 1 and Root.game_tick - last_new_user > 100 and randf() < 0.1:
 			last_new_user = Root.game_tick
 			UserHandler.generate_user()
-			if randf() < throttle_chance(0.2) and sendsMails:
+			if randf() < throttle_chance(0.6) and sendsMails \
+					and Root.game_tick - MailHandler.recent_sent["satisfied"] > 200:
 				var mail = MailHandler.generate_mail("satisfied", self)
 				MailHandler.send_mail(mail)
 
@@ -64,12 +65,14 @@ func throttle_chance(chance):
 func failed_request():
 	if Root.game_tick > INITIAL_CALMNESS:
 		happiness -= 0.04 * happiness_speed
-	if happiness < 0.5 and not type.hacker and sendsMails and randf() < throttle_chance(0.2):
+	if happiness < 0.5 and not type.hacker and sendsMails and randf() < throttle_chance(0.2) \
+			and Root.game_tick - MailHandler.recent_sent["complaint"] > 300:
 		var mail = MailHandler.generate_mail("complaint", self)
 		MailHandler.send_mail(mail)
 	happiness = max(0, happiness)
 	if type.hacker:
-		if happiness < 0.5 and randf() < throttle_chance(0.003) and sendsMails:
+		if happiness < 0.5 and randf() < throttle_chance(0.003) and sendsMails \
+			and Root.game_tick - MailHandler.recent_sent["scam"] > 300:
 			var mail = MailHandler.generate_mail("scam", self)
 			MailHandler.send_mail(mail)
 		if Root.game_tick - start_tick > HACKER_DURATION:
