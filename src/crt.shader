@@ -56,7 +56,7 @@ void fragment() {
 	final_color *= 1.-0.4*(1.-line);
 	
 	// scanline
-	final_color += 0.1 * fract(smoothstep(-1.2, -1.0, uv.y-2.2*fract(TIME*0.1))) * color.rgb;
+	final_color += 0.1 * fract(smoothstep(-1.2, -1.0, uv.y-2.2*fract(TIME*0.1))) * (1.0-pow(abs(uv.x+0.035),5)) * color.rgb;
 	
 	// static
 	final_color += 0.2 * random(dot(vec3(uv, TIME), vec3(12.9898,78.233, 1.))) * (1.-0.7*r) * color.rgb;
@@ -65,8 +65,8 @@ void fragment() {
 	final_color *= 1.+(random(TIME)-0.5)*0.1;
 	
 	// clip border
-	float border = max((abs(uv).x-1.)*size.x, (abs(uv).y-1.)*size.y);
-	final_color *= step(10., -border);
-	final_color += max(0., min(1., 0.02*border)) * border_color.rgb;
+	//float border = max((abs(uv).x-1.)*size.x, (abs(uv).y-1.)*size.y);
+	//final_color *= step(10., -border);
+	//final_color += max(0., min(1., 0.02*border)) * border_color.rgb;
 	COLOR = vec4(final_color, 1.0);
 }

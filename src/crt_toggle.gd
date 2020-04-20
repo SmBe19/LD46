@@ -7,8 +7,5 @@ func _ready():
 
 func _toggled(active: bool) -> void:
 	$"../CRT effect".visible = active
-	if active:
-		$"../Terminal/Buffer".set('custom_colors/default_color', original_color)
-	else:
-		$"../Terminal/Buffer".set('custom_colors/default_color', Color(0.8, 0.9, 0.8))
-	pass
+	$"../Background_On".visible = active
+	$"../Background_Off".visible = not active
