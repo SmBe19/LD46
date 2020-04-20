@@ -150,7 +150,7 @@ func buy_connection(status):
 	send_output("You can see all your servers with 'servers'. You can switch to one of your servers using the 'connect' command.")
 	send_output("First, you need to buy a new connection between the two servers.")
 	send_output("Do this now with 'buy_connection'.\nYou can then check the new connection using 'ping'.")
-	send_output("It takes 5 time units for a request to travel from one server to the next.")
+	send_output("It takes " + str(Server.CONNECTION_DELAY) + " time units for a request to travel from one server to the next.")
 	send_output("Hint: it might be helpful to draw your network topology on a piece of paper to keep a good overview.")
 	return true
 

@@ -24,8 +24,8 @@ func run(args):
 		if success:
 			var time = 1+randf()
 			if server.ip != ip:
-				time += 4
-			send_output('64 bytes from ' + ip + ' time=' + time)
+				time += Server.CONNECTION_DELAY - 1
+			send_output('64 bytes from ' + ip + ' time=' + str(time))
 		else:
 			send_output('timeout')
 	return 0

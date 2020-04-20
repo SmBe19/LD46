@@ -140,7 +140,7 @@ func request_completed(request):
 
 func produce_request(request):
 	var server = servers[0]
-	if len(server.input_queue) >= server.queue_length:
+	if len(server.input_queue) + server.incoming_requests_count >= server.queue_length:
 		if request.fake_request:
 			daily_request_fake_dropped += 1
 		else:
@@ -175,9 +175,9 @@ func update_displays():
 
 	var queue = 0.0
 	for server in servers:
-		queue += float(len(server.input_queue)) / server.queue_length
+		queue += float(len(server.input_queue) + server.incoming_requests_count) / server.queue_length
 	queue /= len(servers)
-	$"/root/ScnRoot/Queue".value = queue
+	$"/root/ScnRoot/Queue".value = min(1.0, queue)
 
 	var ddos = 0.0
 	var enabled = 0

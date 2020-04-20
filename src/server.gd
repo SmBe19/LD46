@@ -4,6 +4,7 @@ class_name Server
 
 const AVERAGE_SPAN = 50
 const STAT_SPAN = 300
+const CONNECTION_DELAY = 7
 
 const UPGRADE_PRICE = {
 	'cpu': 512,
@@ -15,6 +16,7 @@ const UPGRADE_PRICE = {
 var fs_root = FSDir.new("/", null)
 var input_queue = []
 var incoming_requests = []
+var incoming_requests_count = 0
 var server_name = ""
 var ip = ""
 var connections = {}
@@ -54,6 +56,8 @@ func _init(server_name_, ip_):
 	fs_root.mkdir("etc/ddos/*", true)
 	fs_root.open("etc/ddos/*/sample_rate", true).content = "100"
 	fs_root.open("etc/ddos/*/check_count", true).content = "1"
+	for i in CONNECTION_DELAY:
+		incoming_requests.append([])
 	update_fs()
 
 func upgrade_price(item):
@@ -94,22 +98,25 @@ func get_ddos_check_count(request):
 	return int(fs_root.open("etc/ddos/*/check_count").content)
 
 func receive_request(request):
-	if len(input_queue) + len(incoming_requests) < queue_length:
+	if len(input_queue) + incoming_requests_count < queue_length:
 		if firewall(request):
 			var sample_rate = get_ddos_sample_rate(request)
 			request.ddos_sampled = randf() < sample_rate
 			request.ddos_check_count = get_ddos_check_count(request) if has_ddos_installed and request.ddos_sampled else 0
-			incoming_requests.append(request)
+			incoming_requests[CONNECTION_DELAY-1].append(request)
+			incoming_requests_count += 1
 			return true
 		else:
 			iptables_blocked[0] += 1
-		return false
 	return false
 
 func process_incoming():
-	for request in incoming_requests:
+	for request in incoming_requests[0]:
 		input_queue.append(request)
-	incoming_requests = []
+		incoming_requests_count -= 1
+	for i in CONNECTION_DELAY - 1:
+		incoming_requests[i] = incoming_requests[i+1]
+	incoming_requests[CONNECTION_DELAY-1] = []
 
 func send_request(destination, request):
 	if connections.has(destination):
