@@ -14,7 +14,7 @@ func mix(a, b, x):
 
 func _process(delta):
 	time += delta
-	$Pointer.rotation_degrees = mix(-200, 20, value)
+	$Pointer.rotation_degrees = mix(-148, -32, value)
 	if value >= 0.99:
-		$Pointer.rotation_degrees += 5 * abs(sin(10*time))
+		$Pointer.rotation_degrees -= 5 * abs(sin(10*time))
 	pass

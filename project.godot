@@ -124,7 +124,6 @@ MailHandler="*res://src/mail/mail_handler.gd"
 
 [display]
 
-window/size/width=900
 window/size/resizable=false
 
 [rendering]
