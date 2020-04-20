@@ -20,5 +20,5 @@ func run(args):
 		return 1
 	for service in server.installed_services:
 		var running = "Running" if service.is_running() else "Stopped"
-		send_output(service.type.full_name + " | " + running + " | " + str(service.queue_size) + " in service | " + str(100 * Root.average(service.cycles_in_last_tick) / server.cpu_cycles) + "%")
+		send_output(running + " | " + str(service.queue_size) + " in service | " + str(100 * Root.average(service.cycles_in_last_tick) / server.cpu_cycles) + "% | " + service.type.full_name)
 	return 0

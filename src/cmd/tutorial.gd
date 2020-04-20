@@ -85,7 +85,7 @@ func server_status(status):
 	if server.upgrade_level['cpu'] > 0:
 		status['server_status'] = true
 		if status.has('server_status_shown'):
-			return true
+			return false
 	status['server_status_shown'] = true
 	send_output("You can get an overview of your server status using the commands 'status', 'ps' and 'queue'. Read the corresponding man pages to get more information.")
 	send_output(" ")
@@ -122,6 +122,7 @@ func mail_intro(status):
 	send_output("To read mails, you can use the 'cat' command. The mails are stored in '/var/mail'.")
 	send_output("You can list all mails by running 'ls /var/mail'. Should the output be too long, run 'ls /var/mail | more'. This will split the output and display a new line each time you press a key. You can use this also for other commands with long output.")
 	send_output("As a reminder: by pressing TAB the file name will automatically be completed.")
+	send_output("However, there is a much more convenient way: with 'mail show' you can read all unread mails at once.")
 	return true
 
 func buy_new_server(status):

@@ -29,11 +29,12 @@ var upgrade_level = {
 var queue_length = 4
 var disk = 4096
 var ram = 1024
-var cpu_cycles = 64
+var cpu_cycles = 128
 var used_disk = 0
 var used_ram = 0
 var used_ram_list = []
 var used_cpu_cycles = []
+var queue_length_list = [0]
 var installed_services = []
 var has_ddos_installed = false
 var last_service = 0
@@ -61,7 +62,7 @@ func _init(server_name_, ip_):
 	update_fs()
 
 func upgrade_price(item):
-	return UPGRADE_PRICE[item] * pow(3, upgrade_level[item])
+	return int(UPGRADE_PRICE[item] * pow(2.2, upgrade_level[item]))
 
 func upgrade(item):
 	var res = Root.buy_something(upgrade_price(item), 'Upgrade ' + item + ' for ' + server_name)
@@ -317,3 +318,6 @@ func tick():
 	ddos_detected.push_front(0)
 	if len(ddos_detected) > STAT_SPAN:
 		ddos_detected.pop_back()
+	queue_length_list.append(len(input_queue) + incoming_requests_count)
+	if len(queue_length_list) > STAT_SPAN:
+		queue_length_list.pop_front()
