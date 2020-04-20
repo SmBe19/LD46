@@ -8,7 +8,11 @@ func help():
 	usage()
 
 var variables = {}
-var aliases = {}
+var aliases = {
+	'gatus': 'status',
+	'gull': 'install',
+	'gush': 'queue'
+}
 var home = "/"
 var fs_home = FSDir.new("/", null)
 var last_status = 0

@@ -2,7 +2,7 @@ extends Node
 
 class_name User
 
-const DIFFICULTY_INCREASE = 2560
+const DIFFICULTY_INCREASE = 2000
 
 var happiness : float
 var ip : String

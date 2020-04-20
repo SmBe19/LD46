@@ -7,10 +7,10 @@ const STAT_SPAN = 300
 const CONNECTION_DELAY = 7
 
 const UPGRADE_PRICE = {
-	'cpu': 512,
-	'disk': 512,
-	'ram': 512,
-	'queue': 256,
+	'cpu': 256,
+	'disk': 256,
+	'ram': 256,
+	'queue': 128,
 }
 
 var fs_root = FSDir.new("/", null)
@@ -27,9 +27,9 @@ var upgrade_level = {
 	'queue': 0,
 }
 var queue_length = 4
-var disk = 65536
+var disk = 4096
 var ram = 1024
-var cpu_cycles = 32
+var cpu_cycles = 64
 var used_disk = 0
 var used_ram = 0
 var used_ram_list = []
@@ -61,7 +61,7 @@ func _init(server_name_, ip_):
 	update_fs()
 
 func upgrade_price(item):
-	return UPGRADE_PRICE[item] * pow(2, upgrade_level[item])
+	return UPGRADE_PRICE[item] * pow(3, upgrade_level[item])
 
 func upgrade(item):
 	var res = Root.buy_something(upgrade_price(item), 'Upgrade ' + item + ' for ' + server_name)
