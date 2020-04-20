@@ -24,10 +24,11 @@ func _process(_delta):
 		$Buffer.add_text('You survived for ' + str(Root.game_tick / Root.TICK_PER_SECOND) + 's.\n')
 		$Buffer.add_text('\n\n\n')
 		$Buffer.add_text('Linux Simulator 2020\n\n')
-		$Buffer.add_text('a game by\n\n')
+		$Buffer.add_text('a game by actual programmers (with degrees!*):\n\n')
 		$Buffer.add_text('M Signer\n')
 		$Buffer.add_text('Fabian Lyck\n')
-		$Buffer.add_text('Benjamin Schmid\n')
+		$Buffer.add_text('Benjamin Schmid\n\n')
+		$Buffer.add_text('* does not imply competence')
 		return
 	$Buffer.clear()
 	for i in len(terminal.buffer):
