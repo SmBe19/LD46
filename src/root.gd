@@ -233,8 +233,8 @@ func send_daily_report():
 	content += 'Dropped: ' + str(daily_request_fake_dropped) + '\n'
 	content += 'Blocked: ' + str(daily_request_fake_blocked) + '\n'
 	content += 'Checked: ' + str(daily_request_fake_checked) + '\n'
-	content += 'Detected Correct: ' + str(daily_request_fake_detected) + '\n'
-	content += 'Detected Wrong: ' + str(daily_request_fake_detected_wrong) + '\n'
+	content += 'Correct detections: ' + str(daily_request_fake_detected) + '\n'
+	content += 'False positives: ' + str(daily_request_fake_detected_wrong) + '\n'
 	daily_request_complete = 0
 	daily_request_complete_fake = 0
 	daily_request_fail = 0

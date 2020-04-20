@@ -105,6 +105,8 @@ func run(args):
 		var processes = []
 		for part in cmd_parts:
 			var cmd = transform_cmd(part)
+			if cmd == null:
+				continue
 			var process = spawn_cmd(cmd)
 			if not process:
 				continue
