@@ -4,7 +4,7 @@
 			"compute": 30
 		},
 		"reward": 5000,
-		"timeLimit": 2000,
+		"timeLimit": 20,
 		"mailSubject": "Distributed compute",
 		"mailContent": "Dear Friend,\nI am a researcher in biomedical informatics. For my next paper, I will need to analyze genomes using algorithms other people developed in the 60s but I have already written several papers about. As I implemented them in an inefficient manner, I will need additional compute power. I will be using your compute infrastructure from my lab at $ip in the next time. I offer $5000 in compensation.\nThanks again,$senderName"
 	},
@@ -13,19 +13,58 @@
 			"mail": 10
 		},
 		"reward": 1000,
-		"timeLimit": 3000,
+		"timeLimit": 30,
 		"repeating": true,
 		"mailSubject": "Mail server for our new company",
-		"mailContent": "Hi,\n$senderName here from our new startup. We will need someone to host our mails, and as we all like shoutr.io, we thought maybe you could help. We can offer you $1000 every month if you provide us with your mail servers to handle our mail from $ip.\n\nKind regards,\n$senderName"
+		"mailContent": "Hi,\n$senderName here from our new startup. We will need someone to host our mails, and as we all like shoutr.io, we thought maybe you could help. We can offer you $1000 every month if you provide us with your mail servers to handle our mail.\n\nKind regards,\n$senderName"
 	},
 	{
 		"requests": {
 			"ether": 10,
-			"compute": 20
+			"tensorflow": 10
 		},
 		"reward": 17000,
-		"timeLimit": 6000,
+		"timeLimit": 60,
 		"mailSubject": "Combining machine learning and DLT in the cloud",
-		"mailContent": "Hello!\n\nI had a new idea on how to use blockchain together with IoT and AI, and actually wrote a paper about it. I could redirect some of my funding to you if you provide server capacity for my blockchain and machine learning application, more specifically, $17'000. I will send the requests from $ip. Please consider my offer.\n\nI hope to hear from you soon!\n$senderName"
+		"mailContent": "Hello!\n\nI had a new idea on how to use blockchain together with IoT and AI, and actually wrote a paper about it. I could redirect some of my funding to you if you provide server capacity for my blockchain and machine learning application, more specifically, $17'000. Please consider my offer.\n\nI hope to hear from you soon!\n$senderName"
+	},
+	{
+		"requests": {
+			"httpauth": 10,
+			"mail": 2,
+			"ether": 1
+		},
+		"reward": 3000,
+		"timeLimit": 30,
+		"repeating": true,
+		"mailSubject": "Online shop",
+		"mailContent": "Hi there!\n\nI recently discovered web hosting with you. I would like to set up an online shop for toilet paper. This is an emerging business, and there is surely lots of demand. I can offer $3'000 if you can keep up with the requests for 30 days.\n\nWishes you well,\n$senderName"
+	},
+	{
+		"requests": {
+			"aws": 20
+		},
+		"reward": 30000,
+		"timeLimit": 30,
+		"mailSubject": "Game server hosting",
+		"mailContent": "Dear fellow industry professional\n\nI am the CTO of smeanox games. Due to the recent surge in active players, our game servers are struggling to keep up with the demand. We like to temporarily host some game servers on your systems. The game server application is already packaged as an AWS app. We can offer you $30'000 for 30 days of server time. I hope to hear from you soon!\n\nYours,\n$senderName\nCTO - smeanox games"
+	},
+	{
+		"requests": {
+			"compute": 100
+		},
+		"reward": 5000,
+		"timeLimit": 14,
+		"mailSubject": "Fluid simulation",
+		"mailContent": "Hi!\n\nI'm a Computer Science student specializing in physics simulations. For my thesis, I am developing an algorithm for solving the Navier-Stokes-equations. However, the algorithm is slower than expected, and the deadline is already in 14 days. I will pay $5000 to use your infrastructure to run my experiments. You would be a life-saver!\n\nCheers,\n$senderName"
+	},
+	{
+		"requests": {
+			"compute": 3000
+		},
+		"reward": 120000,
+		"timeLimit": 30,
+		"mailSubject": "Rendering",
+		"mailContent": "Hi!\n\n$senderName here from Pixel Studios. We are currently working on our first full-length 3D animated motion picture. Of course, correctly light transport simulations are very complicated and take long to compute. In an effort to accelerate the new movie's release, we decided to contact you for help with rendering. If you could divert some of your resources to our rendering farm, we can compensate you with $120'000.\n\nHope you are well,\n$senderName\nPixel Studios Inc."
 	}
 ]

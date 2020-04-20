@@ -147,7 +147,7 @@
 	},
 	{
 		"name": "aws",
-		"human_name": "AWS Cloud Ressource Request",
+		"human_name": "AWS Cloud Resource Request",
 		"level": 5,
 		"requirements": [
 			{

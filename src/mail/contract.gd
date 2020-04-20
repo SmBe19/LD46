@@ -11,6 +11,7 @@ var sent_requests : Array = []
 
 var completed : bool = false
 
+var receive_time : int
 var accept_time : int
 
 func _init(type: ContractType, user: User, id: int):
@@ -20,12 +21,15 @@ func _init(type: ContractType, user: User, id: int):
 	
 	var ip = Root.random_ip(randi()%100 + 100)
 	
+	receive_time = Root.game_tick
+	
 	var content = type.mailContent
 	content +=  "\n---\n\n"
 	content += "This is contract #%d. Run 'accept_contract %d' to accept.\n" % [id, id]
 	content += "You will need to handle the following requests:\n"
 	for k in type.requests.keys():
 		content += " - %d x %s\n" % [type.requests[k], RequestHandler.request_types[k].full_name]
+	content += "The requests will originate from %s\n" % ip
 	content += "\n"
 	content += "The allowed timeframe is: %d days\n" % type.time_limit
 	if type.repeating:
@@ -77,7 +81,7 @@ func fail_contract():
 func tick():
 	if completed:
 		return
-	if Root.game_tick > accept_time + type.time_limit:
+	if Root.game_tick > accept_time + Root.DAY_LENGTH * type.time_limit:
 		if len(requests) == 0 && len(sent_requests) == 0:
 			complete_contract()
 		else:

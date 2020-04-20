@@ -1,5 +1,7 @@
 extends Node
 
+const EXPIRY_TIME = 60*Root.TICK_PER_SECOND
+const FIRST_CONTRACT = 5*60*Root.TICK_PER_SECOND
 
 var contract_types = []
 
@@ -14,7 +16,7 @@ func _ready():
 	for contract_json in config:
 		var contract_type = ContractType.new(contract_json)
 		contract_types.append(contract_type)
-	generate_contract()
+	#generate_contract()
 
 func generate_contract():
 	var index = randi() % len(contract_types)
@@ -28,6 +30,14 @@ func add_contract(contract):
 	available_contracts.append(contract)
 
 func tick():
+	if Root.game_tick >= FIRST_CONTRACT:
+		if len(available_contracts) + len(accepted_contracts) < 3 && randi() % 100 == 0:
+			generate_contract()
+
+	for i in range(len(available_contracts)-1, -1, -1):
+		if available_contracts[i].receive_time + EXPIRY_TIME < Root.game_tick:
+			available_contracts.remove(i)
+			
 	for contract in accepted_contracts:
 		contract.tick()
 	for i in range(len(accepted_contracts)-1, -1, -1):
