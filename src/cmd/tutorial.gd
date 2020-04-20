@@ -266,7 +266,66 @@ func handle_advanced_tutorial(status):
 		return
 	give_useful_hint(status)
 
+func queue_full(status):
+	var found = false
+	for server in Root.servers:
+		if len(server.input_queue) + server.incoming_requests_count > server.queue_length * 0.8:
+			found = true
+			send_output("The queue of server " + server.server_name + " is full.")
+			var cpu = float(Root.average(server.used_cpu_cycles)) / server.cpu_cycles
+			if cpu > 0.9:
+				send_output("  CPU usage is " + str(int(100 * cpu)) + "%, try to upgrade the cpu\n  or redirect requests to other servers.")
+			var bad_types = {}
+			var rtype_count = {}
+			var ddos_pending = 0
+			for request in server.input_queue:
+				if not rtype_count.has(request.type):
+					rtype_count[request.type] = 0
+				rtype_count[request.type] += 1
+				var found_service = false
+				if request.ddos_check_count > 0:
+					ddos_pending += 1
+				for service in server.installed_services:
+					for rtype in service.type.inputs.keys():
+						if rtype == request.type:
+							found_service = true
+				if not found_service:
+					bad_types[request.type] = true
+			if ddos_pending > server.queue_length * 0.5:
+				send_output("  For many requests the ddos check is pending.\n    Try to increase the ddos check capacity or reduce the sample rate.")
+			if bad_types:
+				for rtype in bad_types.keys():
+					var forwards = server.fs_root.open("etc/requests/" + rtype.request_name)
+					if not forwards or not forwards.content:
+						forwards = server.fs_root.open("etc/requests/*")
+					if not forwards or not forwards.content:
+						send_output("  There is no service installed and no rule defined to handle requests of type\n    " + rtype.full_name + ".")
+						continue
+					var found_forward = false
+					for line in forwards.content.split('\n', false):
+						var oserver = Root.resolve_ip(Root.resolve_name(line))
+						if len(oserver.input_queue) + oserver.incoming_requests_count < oserver.queue_length * 0.9:
+							found_forward = true
+					if not found_forward:
+						send_output("  There is no service installed to handle requests of type\n    " + rtype.full_name + " and all servers that are\n    valid routes have full queues.")
+					else:
+						send_output("  There is no service installed to handle requests of type\n    " + rtype.full_name + " but there are routes configured.")
+			else:
+				send_output("  Try to increase the capacity by installing more services of the same type.")
+				var mav = 0
+				var mael = null
+				for rtype in rtype_count.keys():
+					if rtype_count[rtype] >= mav:
+						mael = rtype
+						mav = rtype_count[rtype]
+				if mael:
+					send_output("    " + mael.full_name + " is the most common request type in the queue.")
+
+	return found
+
 func give_useful_hint(status):
+	if queue_full(status):
+		return
 	send_output("There are currently no hints available.")
 	# TODO implement
 
@@ -287,6 +346,7 @@ func run(args):
 			'basic':
 				status['basic_setup_complete'] = true
 			'finished':
+				status['basic_setup_complete'] = true
 				status['finished'] = true
 			_:
 				send_output('Unknown checkpoint.')

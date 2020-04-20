@@ -276,13 +276,14 @@ func start_services():
 func run_services():
 	if len(installed_services) > 0:
 		var remaining_cpu = cpu_cycles
+		var cycles_per_loop = max(1, remaining_cpu / 256)
 		last_service = last_service % len(installed_services)
 		var last_run = last_service
 		while remaining_cpu > 0:
 			last_service = (last_service + 1) % len(installed_services)
 			if installed_services[last_service].is_running():
-				installed_services[last_service].cycle()
-				remaining_cpu -= 1
+				installed_services[last_service].cycle(cycles_per_loop)
+				remaining_cpu -= cycles_per_loop
 				last_run = last_service
 			elif last_run == last_service:
 				break

@@ -62,8 +62,8 @@ func get_results():
 		request_queue[rtype] = []
 	return res
 
-func cycle():
+func cycle(cycles):
 	if running:
-		cycles_in_current_tick += 1
-		cycles_used += 1
+		cycles_in_current_tick += cycles
+		cycles_used += cycles
 		last_run = Root.game_tick
