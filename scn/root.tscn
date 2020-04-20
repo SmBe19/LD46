@@ -127,6 +127,7 @@ custom_styles/hover = SubResource( 5 )
 custom_styles/pressed = SubResource( 6 )
 custom_styles/normal = SubResource( 5 )
 toggle_mode = true
+pressed = true
 enabled_focus_mode = 0
 script = ExtResource( 8 )
 __meta__ = {
