@@ -4,7 +4,9 @@ func usage():
 	send_output('usage: ping <server>')
 
 func help():
-	send_output("Test network connections. Server can be given as a host name or IP address.\n")
+	send_output("Test network connections. Server can be given as a host name or IP address.")
+	send_output("Can only connect to servers that are directly connected.")
+	send_output(" ")
 	usage()
 	send_output("\nAlso see: netstat")
 

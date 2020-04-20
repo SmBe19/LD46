@@ -34,7 +34,7 @@ func generate_user():
 	var index = randi() % len(user_types)
 	var user = User.new(user_types[index])
 	users.append(user)
-	print('Generate new user')
+	print('Generate new user, mailer: ', user.sendsMails)
 
 func generate_hacker():
 	Root.daily_users_new += 1

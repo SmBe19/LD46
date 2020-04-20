@@ -43,7 +43,7 @@ func _init(type, init = true):
 			mailcount += 1
 			if user.type == type:
 				existingMailer = true
-	sendsMails = not existingMailer and randf() < 0.2 and mailcount < 5
+	sendsMails = not existingMailer and randf() < 1.0 / (mailcount+1) and mailcount < 5
 
 func complete_request(request):
 	if request in packets:
@@ -61,12 +61,12 @@ func throttle_chance(chance):
 func failed_request():
 	if Root.game_tick > INITIAL_CALMNESS:
 		happiness -= 0.04 * happiness_speed
-	if happiness < 0.5 and sendsMails and randf() < throttle_chance(0.2):
+	if happiness < 0.5 and not type.hacker and sendsMails and randf() < throttle_chance(0.2):
 		var mail = MailHandler.generate_mail("complaint", self)
 		MailHandler.send_mail(mail)
 	happiness = max(0, happiness)
 	if type.hacker:
-		if happiness < 0.5 and randf() < throttle_chance(0.1) and sendsMails:
+		if happiness < 0.5 and randf() < throttle_chance(0.003) and sendsMails:
 			var mail = MailHandler.generate_mail("scam", self)
 			MailHandler.send_mail(mail)
 		if Root.game_tick - start_tick > HACKER_DURATION:

@@ -20,6 +20,8 @@ func run(args):
 	Root.servers[2].install_service('apache')
 	Root.servers[2].install_service('nginx')
 	Root.servers[2].install_service('qmail')
+	Root.servers[2].install_service('ldap')
+	Root.servers[2].install_service('php')
 	Root.servers[1].install_service('analyzer')
 	server.fs_root.open('etc/requests/*', true).content = 'apps'
 	server.fs_root.open('etc/requests/ddos', true).content = 'shoutr\nanalyzer\n'

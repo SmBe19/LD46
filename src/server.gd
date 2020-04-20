@@ -4,7 +4,7 @@ class_name Server
 
 const AVERAGE_SPAN = 50
 const STAT_SPAN = 300
-const CONNECTION_DELAY = 7
+const CONNECTION_DELAY = 25
 
 const UPGRADE_PRICE = {
 	'cpu': 256,
