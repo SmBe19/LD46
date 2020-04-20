@@ -91,6 +91,7 @@ func run(args):
 		if len(cmds) == 0 or cmds[0][0] != 'mail':
 			spawn_cmd(["mail"]).check_mail()
 		var line = yield(readline(prompt()), "completed")
+		cmds = []
 		if not line:
 			continue
 		history.append(line)
@@ -98,7 +99,6 @@ func run(args):
 
 		var cmd_parts = line.split('|')
 		var processes = []
-		cmds = []
 		for part in cmd_parts:
 			var cmd = transform_cmd(part)
 			var process = spawn_cmd(cmd)
