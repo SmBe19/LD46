@@ -1,6 +1,6 @@
 extends Node
 
-const HACKER_CHANCE = 0.05
+const HACKER_CHANCE = 0.01
 const NO_HACKER_BEFORE = 1200
 
 var users = []
