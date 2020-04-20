@@ -79,7 +79,7 @@
 	"human_name": "Apache Web Server",
 	"inputs": [
 	    {
-		"name": "http",
+		"name": "httpauth",
 		"count": 8
 	    }
 	],
