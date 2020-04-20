@@ -17,7 +17,7 @@ func _init(type):
 		if user.type == type and user.sendsMails:
 			existingMailer = true
 	print("Existing mailer: ", existingMailer)
-	sendsMails = not existingMailer and (randi() % throttle_chance(1) == 0)
+	sendsMails = not existingMailer and (randi() % 5 == 0)
 	print("Sends mail: ", sendsMails)
 
 func complete_request(request):
@@ -32,7 +32,7 @@ func complete_request(request):
 
 #reduce chance to send mails for large numbers of users
 func throttle_chance(chance):
-	return chance * (len(UserHandler.users) + 10)
+	return chance * (len(UserHandler.users)/2 + 5)
 	
 func failed_request():
 	happiness -= 0.1

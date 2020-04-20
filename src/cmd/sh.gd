@@ -86,7 +86,10 @@ func run(args):
 	cwd = fs_root
 	init_fs(fs_root)
 	connect_server(['connect', 'shoutr'])
+	var cmds = []
 	while true:
+		if len(cmds) == 0 or cmds[0][0] != 'mail':
+			spawn_cmd(["mail"]).check_mail()
 		var line = yield(readline(prompt()), "completed")
 		if not line:
 			continue
@@ -95,7 +98,7 @@ func run(args):
 
 		var cmd_parts = line.split('|')
 		var processes = []
-		var cmds = []
+		cmds = []
 		for part in cmd_parts:
 			var cmd = transform_cmd(part)
 			var process = spawn_cmd(cmd)
