@@ -260,8 +260,7 @@ func tick():
 		server.tick()
 	for server in servers:
 		server.process_incoming()
-	# TODO check lose condition
-	if false:
+	if len(UserHandler.users) == 0:
 		game_running = false
 	if game_tick % DAY_LENGTH == 0:
 		send_daily_report()

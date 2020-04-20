@@ -209,6 +209,7 @@ func handle_tutorial_basic(status):
 func handle_advanced_tutorial(status):
 	# TODO DDoS Tutorial
 	# TODO firewall Tutorial
+	# TODO 
 	pass
 
 func give_useful_hint(status):
