@@ -243,6 +243,7 @@ func ddos_intro(status):
 	send_output("However, this takes a lot of ressources. Furthermore, in some cases, a valid request is wrongly detected as ddos. To reduce this, you can check a request several times and thus reducing the risk.")
 	send_output("To reduce the load on the system, you can decide to only check some percentage of all requests (the so called sample rate). You can set both of these settings with 'set_ddos' (e.g. set_ddos * 50 2).")
 	send_output("In the next step you will learn how to filter and adapt the settings based on the source ip address.")
+	return true
 
 func ddos_advanced(status):
 	if status.has('ddos_advanced'):
@@ -250,8 +251,11 @@ func ddos_advanced(status):
 	if not status.has('ddos_intro'):
 		return false
 	status['ddos_advanced'] = true
-	send_output("")
-	# TODO write
+	send_output("Filtering all the traffic for DDoS traffic is a heavy load on your system. By using the analyzer service, you can get more information about the DDoS traffic.")
+	send_output("It requires a few ddos requests and will then write the source ip address into /var/log/analyzer.log. Hopefully, most of the requests come from the same ip range (i.e. the first part of the ip address is the same). You can then add rules for this ip range.")
+	send_output("For example, you can block all traffic from this ip range on your ingress server (" + Root.servers[0].server_name + "). Or you can change the sample rate and check count for ddos protection for this range.")
+	send_output("A possible setup would be to sample a small amount of all the traffic and send it to the analyzer server. For ip ranges that you identify, you can then either block them or increase the sample rate for them and send the detected ddos requests to a black hole service.")
+	return true
 
 func handle_advanced_tutorial(status):
 	if contract_intro(status):
