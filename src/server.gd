@@ -129,7 +129,7 @@ func firewall(request):
 			return true
 	var lines = file.content.split("\n")
 	for line in lines:
-		if line.find('/24 ') != -1:
+		if line.find('/8 ') != -1:
 			var ipprefix = line.split(".", 1)[0]
 			if request.source_ip.begins_with(ipprefix):
 				if line.split(' ', 1)[1] == 'allow':

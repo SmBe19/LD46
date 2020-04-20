@@ -5,6 +5,7 @@ class_name User
 const DIFFICULTY_INCREASE = 2560
 
 var happiness : float
+var ip : String
 var packets = []
 var type
 var sendsMails : bool = false
@@ -15,6 +16,7 @@ func _init(type, init = true):
 	if not init:
 		return
 	var existingMailer = false
+	ip = Root.random_ip(randi()%42 + 101)
 	for user in UserHandler.users:
 		if user.type == type and user.sendsMails:
 			existingMailer = true
@@ -53,7 +55,6 @@ func generate_request():
 	difficulty = min(RequestHandler.max_difficulty, randi() % (max_difficulty + 1))
 	var type = RequestHandler.generate_request(difficulty)
 	var uuid = Root.get_uuid()
-	var ip = Root.random_ip(randi()%100 + 100)
 	var request = Request.new(uuid, uuid, ip, type)
 	if Root.produce_request(request):
 		request.connect("request_fulfilled", self, "complete_request")

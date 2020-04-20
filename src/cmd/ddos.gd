@@ -37,7 +37,7 @@ func run(args):
 	for route in node.children.keys():
 		if route.begins_with('.'):
 			continue
-		var rule = route + ".0.0.0/24: " if route != '*' else '*: '
+		var rule = route + ".0.0.0/8: " if route != '*' else '*: '
 		rule += "sample: " + node.open(route + "/sample_rate").content
 		rule += "%; check count: " + node.open(route + "/check_count").content
 		rule += '\n'
