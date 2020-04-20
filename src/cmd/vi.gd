@@ -43,6 +43,7 @@ func run(args):
 		load_file(current_file)
 
 
+	var err = ""
 	while true:
 		if mode == COMMAND:
 			output_process.cursor_y = Terminal.HEIGHT-1
@@ -51,7 +52,8 @@ func run(args):
 			output_process.cursor_y = cursor_y - scroll_y
 			output_process.cursor_x = cursor_x - scroll_x
 		
-		update_statusbar()
+		update_statusbar(err)
+		err = ""
 		var key = yield(output_process, "key_pressed")
 		match mode:
 			INSERT:
@@ -152,7 +154,10 @@ func run(args):
 					KEY_BACKSPACE:
 						cmdline.erase(len(cmdline)-1, 1)
 					KEY_ENTER:
-						if run_cmdline():
+						var ret = run_cmdline()
+						if ret is String:
+							err = ret
+						elif ret == true:
 							output_process.clear_screen()
 							return 0
 						cmdline = ""
@@ -183,15 +188,16 @@ func run_cmdline() -> bool:
 	var cmd = cmdline.split(' ', false)
 	if len(cmd) == 0:
 		return false
-	if "quit".begins_with(cmd[0]):
-		return true
-	if "write".begins_with(cmd[0]):
+	if "write".begins_with(cmd[0]) or "wq".begins_with(cmd[0]):
 		if len(cmd) > 1:
 			write_file(cmd[1])
 		else:
 			if current_file != "":
 				write_file(current_file)
-	return false
+		return "wq".begins_with(cmd[0])
+	if "quit".begins_with(cmd[0]):
+		return true
+	return "E492: Not an editor command: " + cmdline
 
 func make_col_inbound():
 	cursor_x = min(cursor_x, max(0, len(lines[cursor_y])-1))
@@ -232,12 +238,14 @@ func update_line(l):
 	line = line.substr(scroll_x, Terminal.WIDTH)
 	output_process.set_line(l - scroll_y, line)
 
-func update_statusbar():
+func update_statusbar(err):
 	var statusbar
 	if mode == COMMAND:
 		statusbar = ":" + cmdline
-	else:
+	elif err == "":
 		var pos = str(cursor_y+1) + ":" + str(cursor_x+1)
 		statusbar = ("NORMAL" if mode == NORMAL else "INSERT") + "  " + pos
+	else:
+		statusbar = err
 	
 	output_process.set_line(output_process.HEIGHT - 1, statusbar)
