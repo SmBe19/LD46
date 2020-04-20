@@ -12,7 +12,7 @@ func run(args):
 	Root.servers[2].install_service('database')
 	Root.servers[1].install_service('analyzer')
 	server.fs_root.open('etc/requests/*', true).content = 'apps'
-	server.fs_root.open('etc/requests/fake', true).content = 'shoutr\nanalyzer\n'
+	server.fs_root.open('etc/requests/ddos', true).content = 'shoutr\nanalyzer\n'
 	
 	for i in 20:
 		UserHandler.generate_user()

@@ -20,6 +20,7 @@ func read_json(path):
 	return json_result.result
 
 func generate_user():
+	Root.daily_users_new += 1
 	var index = randi() % len(user_types)
 	var user = User.new(user_types[index])
 	users.append(user)

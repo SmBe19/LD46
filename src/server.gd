@@ -278,15 +278,16 @@ func stop_services():
 		if service.is_finished():
 			used_ram -= service.type.ram
 			if service.type.service_name == 'analyzer':
-				for request in service.request_queue[RequestHandler.request_types['fake']]:
-					write_log('analyzer.log', 'Fake request from ' + request.source_ip + '.')
+				for request in service.request_queue[RequestHandler.request_types['ddos']]:
+					write_log('analyzer.log', 'DDoS request from ' + request.source_ip + '.')
 			var results = service.get_results()
 			if results:
 				for request in results:
 					input_queue.append(request)
 					if service.type.service_name == 'ddos':
 						ddos_checked[0] += 1
-					if request.type.request_name == 'fake':
+						Root.daily_request_fake_checked += 1
+					if request.type.request_name == 'ddos':
 						ddos_detected[0] += 1
 
 func tick():

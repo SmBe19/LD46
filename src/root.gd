@@ -1,7 +1,6 @@
 extends Control
 
 const TICK_PER_SECOND = 10
-const LOSE_TICK_WITHOUT_SUCCESS = 100000 # TODO reduce
 
 var request_handler
 var servers = []
@@ -12,14 +11,43 @@ var game_tick = 0
 var global_uuid = 0
 var money = 2048
 var money_log = []
+var daily_report_mail_type
+var daily_report_sender_type
+var daily_report_sender
+var daily_request_complete = 0
+var daily_request_complete_fake = 0
+var daily_request_fail = 0
+var daily_request_drop = 0
+var daily_request_block = 0
+var daily_request_fake_checked = 0
+var daily_request_fake_detected = 0
+var daily_request_fake_detected_wrong = 0
+var daily_request_fake_dropped = 0
+var daily_request_fake_blocked = 0
+var daily_users_new = 0
+var daily_users_left = 0
 
-var last_successful_request = 0
 var game_running = true
 
 func _init():
 	randomize()
 	add_new_server("shoutr", "10.0.0.1")
 	servers[0].disk *= 2
+	init_daily_report()
+
+func init_daily_report():
+	daily_report_mail_type = MailType.new({
+		'content': '',
+		'subject': 'Daily Report',
+		'type': 'daily_report',
+	})
+	daily_report_sender_type = UserType.new({
+		'name': 'Daily Report',
+		'mail': 'daily-report@shoutr.io',
+		'hacker': false,
+		'politeness': 0,
+	})
+	daily_report_sender = User.new(daily_report_sender_type, false)
 
 func average(values):
 	var sum = 0
@@ -88,10 +116,11 @@ func get_uuid():
 	global_uuid += 1
 	return global_uuid
 
-func complete_request(request):
+func request_completed(request):
 	if request.fake_request:
+		daily_request_complete_fake += 1
 		return
-	last_successful_request = game_tick
+	daily_request_complete += 1
 	var duration = game_tick - request.start_tick
 	if duration == 0:
 		duration += 1
@@ -104,10 +133,19 @@ func complete_request(request):
 func produce_request(request):
 	var server = servers[0]
 	if len(server.input_queue) >= server.queue_length:
+		if request.fake_request:
+			daily_request_fake_dropped += 1
+		else:
+			daily_request_drop += 1
 		return false
 	if server.receive_request(request):
-		request.connect("request_fulfilled", self, "complete_request")
+		request.connect("request_fulfilled", self, "request_completed")
 		return true
+	else:
+		if request.fake_request:
+			daily_request_fake_blocked += 1
+		else:
+			daily_request_block += 1
 	return false
 
 
@@ -143,6 +181,39 @@ func update_displays():
 		ddos /= enabled
 	$"/root/ScnRoot/DDoS".value = ddos
 
+func send_daily_report():
+	var mail = Mail.new(daily_report_mail_type, daily_report_sender)
+	mail.content += 'Users\n'
+	mail.content += 'Total: ' + str(len(UserHandler.users)) + '\n'
+	mail.content += 'New: ' + str(daily_users_new) + '\n'
+	mail.content += 'Lost: ' + str(daily_users_left) + '\n'
+	mail.content += '\n'
+	mail.content += 'Real Requests\n'
+	mail.content += 'Served: ' + str(daily_request_complete) + '\n'
+	mail.content += 'Timeout: ' + str(daily_request_fail) + '\n'
+	mail.content += 'Dropped: ' + str(daily_request_drop) + '\n'
+	mail.content += 'Blocked: ' + str(daily_request_block) + '\n'
+	mail.content += '\n'
+	mail.content += 'DDoS Requests\n'
+	mail.content += 'Served: ' + str(daily_request_complete_fake) + '\n'
+	mail.content += 'Dropped: ' + str(daily_request_fake_dropped) + '\n'
+	mail.content += 'Blocked: ' + str(daily_request_fake_blocked) + '\n'
+	mail.content += 'Checked: ' + str(daily_request_fake_checked) + '\n'
+	mail.content += 'Detected Correct: ' + str(daily_request_fake_detected) + '\n'
+	mail.content += 'Detected Wrong: ' + str(daily_request_fake_detected_wrong) + '\n'
+	daily_request_complete = 0
+	daily_request_complete_fake = 0
+	daily_request_fail = 0
+	daily_request_drop = 0
+	daily_request_block = 0
+	daily_request_fake_checked = 0
+	daily_request_fake_detected = 0
+	daily_request_fake_detected_wrong = 0
+	daily_request_fake_dropped = 0
+	daily_request_fake_blocked = 0
+	daily_users_new = 0
+	daily_users_left = 0
+	MailHandler.send_mail(mail)
 
 func tick():
 	game_tick += 1
@@ -152,8 +223,11 @@ func tick():
 		server.tick()
 	for server in servers:
 		server.process_incoming()
-	if game_tick - last_successful_request > LOSE_TICK_WITHOUT_SUCCESS:
+	# TODO check lose condition
+	if false:
 		game_running = false
+	if game_tick % (TICK_PER_SECOND * 5) == 0:
+		send_daily_report()
 	update_displays()
 
 func _process(delta):

@@ -13,7 +13,7 @@ func _init(type_).(type_):
 		request_queue[rtype] = []
 
 func can_handle(_request):
-	return not running and not current_request and _request.ddos_check_count > 0 and _request.type.request_name != 'fake'
+	return not running and not current_request and _request.ddos_check_count > 0 and _request.type.request_name != 'ddos'
 
 func handle_request(request):
 	if can_handle(request):
@@ -43,8 +43,12 @@ func get_results():
 		if randf() > FALSE_POSITIVE_RATE:
 			fake_fake = false
 	current_request.ddos_check_count = 0
+	if fake_fake:
+		Root.daily_request_fake_detected_wrong += 1
+	elif current_request.fake_request:
+		Root.daily_request_fake_detected += 1
 	if current_request.fake_request or fake_fake:
-		res = [Request.new(Root.get_uuid(), current_request.root_id, current_request.source_ip, RequestHandler.request_types['fake'])]
+		res = [Request.new(Root.get_uuid(), current_request.root_id, current_request.source_ip, RequestHandler.request_types['ddos'])]
 	current_request = null
 	running = false
 	return res

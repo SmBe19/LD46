@@ -9,9 +9,11 @@ var packets = []
 var type
 var sendsMails : bool = false
 
-func _init(type):
+func _init(type, init = true):
 	self.type = type
 	happiness = 0.5
+	if not init:
+		return
 	var existingMailer = false
 	for user in UserHandler.users:
 		if user.type == type and user.sendsMails:
@@ -42,6 +44,7 @@ func failed_request():
 		MailHandler.send_mail(mail)
 	if happiness < 0:
 		print("User left")
+		Root.daily_users_left += 1
 		UserHandler.remove_user(self)
 
 func generate_request():
@@ -64,6 +67,7 @@ func tick():
 		if Root.game_tick - request.start_tick > 200:
 			print("Took too long to process request", request.id)
 			packets.erase(request)
+			Root.daily_request_fail += 1
 			failed_request()
 	if (randi() % 10 == 0 and len(packets) < 3):
 		generate_request()

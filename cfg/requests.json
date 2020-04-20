@@ -1,7 +1,7 @@
 [
 	{
-		"name": "fake",
-		"human_name": "Fake Request",
+		"name": "ddos",
+		"human_name": "DDoS Request",
 		"level": -1,
 		"requirements": []
 	},

@@ -134,7 +134,7 @@
 	"human_name": "Blackhole Package Dropper",
 	"inputs": [
 		{
-		"name": "fake",
+		"name": "ddos",
 		"count": 1
 		}
 	],
@@ -146,10 +146,10 @@
 	},
 	{
 	"name": "analyzer",
-	"human_name": "Fake Request Analyzer",
+	"human_name": "DDoS Request Analyzer",
 	"inputs": [
 		{
-		"name": "fake",
+		"name": "ddos",
 		"count": 10
 		}
 	],
