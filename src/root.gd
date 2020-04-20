@@ -80,6 +80,10 @@ func buy_something(price, what):
 	money -= price
 	return ''
 
+func make_transaction(description, x):
+	money_log.append(("-" if x < 0 else "+") + "$" + str(abs(x)) + ": " + description)
+	money += x
+
 func new_server_price():
 	return 1024
 
@@ -235,6 +239,7 @@ func tick():
 	game_tick += 1
 	for user in UserHandler.users:
 		user.tick()
+	ContractHandler.tick()
 	for server in servers:
 		server.tick()
 	for server in servers:
