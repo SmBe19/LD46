@@ -81,7 +81,7 @@ func spawn_cmd(cmd):
 
 
 func run(args):
-	send_output("This is sh v0.0.1")
+	send_output("This is sh v3.141")
 	fs_root = fs_home
 	cwd = fs_root
 	init_fs(fs_root)
