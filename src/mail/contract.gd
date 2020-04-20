@@ -54,7 +54,6 @@ func accept():
 	accept_time = Root.game_tick
 
 func completed_request(request):
-	print('contract %d: completed a request' % id)
 	sent_requests.erase(request)
 
 func complete_contract():

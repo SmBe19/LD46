@@ -20,10 +20,11 @@ var last_status = 0
 var history = []
 var history_index = 0
 
-var commands = []
+var commands = ['install', 'cat', 'ping', 'date', 'uninstall', 'ls', 'queue', 'vi', 'iptables', 'ps', 'set_route', 'tutorial', 'man', 'buy_connection', 'mv', 'help', 'sh', 'set_iptables', 'clear', 'buy_upgrade', 'cp', 'which', 'uname', 'accept_contract', 'netstat', 'buy_server', 'status', 'routes', 'mkdir', 'mail', 'bitcoind', 'reset_log_cache', 'ddos', 'echo', 'more', 'touch', 'pwd', 'rm', 'servers', 'rmdir', 'set_ddos', 'cd', 'set', 'help', 'logout', 'connect']
 
 func _init():
 	register_for_keypress()
+	"""
 	var dir = Directory.new()
 	if dir.open("res://src/cmd") == OK:
 		dir.list_dir_begin()
@@ -33,8 +34,9 @@ func _init():
 				commands.append(fname.left(len(fname) - 3))
 			fname = dir.get_next()
 		commands += ["cd", "set", "help", "logout", "connect"]
-		commands.erase("sh")
-		commands.sort()
+	"""
+	commands.erase("sh")
+	commands.sort()
 
 func init_fs(fs):
 	fs.mkdir('bin')
