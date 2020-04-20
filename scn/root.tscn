@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=2]
+[gd_scene load_steps=16 format=2]
 
 [ext_resource path="res://src/TerminalManager.gd" type="Script" id=1]
 [ext_resource path="res://fnt/terminalfont.tres" type="DynamicFont" id=2]
@@ -8,6 +8,7 @@
 [ext_resource path="res://img/switch_up.svg" type="Texture" id=6]
 [ext_resource path="res://img/labelbg.svg" type="Texture" id=7]
 [ext_resource path="res://src/crt_toggle.gd" type="Script" id=8]
+[ext_resource path="res://img/background.png" type="Texture" id=9]
 
 [sub_resource type="StyleBoxFlat" id=1]
 bg_color = Color( 0, 0, 0, 1 )
@@ -44,12 +45,18 @@ __meta__ = {
 }
 
 [node name="BG" type="Panel" parent="."]
+visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
 custom_styles/panel = SubResource( 1 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
+
+[node name="Sprite" type="Sprite" parent="."]
+position = Vector2( 512, 300 )
+scale = Vector2( 0.532, 0.557 )
+texture = ExtResource( 9 )
 
 [node name="Terminal" type="MarginContainer" parent="."]
 anchor_right = 1.0
@@ -65,6 +72,7 @@ __meta__ = {
 }
 
 [node name="BG" type="Panel" parent="Terminal"]
+visible = false
 margin_left = 20.0
 margin_top = 20.0
 margin_right = 880.0
@@ -92,6 +100,7 @@ __meta__ = {
 }
 
 [node name="Panel" type="Panel" parent="."]
+visible = false
 margin_left = 900.0
 margin_right = 1024.0
 margin_bottom = 600.0
