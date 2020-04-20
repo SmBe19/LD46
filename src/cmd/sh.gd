@@ -236,7 +236,7 @@ func complete(line: String) -> Array:
 				if x.begins_with(completion_seed):
 					res.append(x)
 			return res
-		"vi","cat","cd","ls","more":
+		"vi","cat","cd","ls","more","cp","mv","rm","rmdir":
 			var res = []
 			var last_dir = completion_seed.find_last('/')+1
 			

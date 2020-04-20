@@ -49,8 +49,11 @@ func run(args):
 		else:
 			if node.is_dir():
 				var elements = node.children.duplicate()
+				var dirname = args[i]
+				if dirname.ends_with('/'):
+					dirname = dirname.left(len(dirname)-1)
 				for el in elements:
-					all_elements[args[i] + '/' + el] = elements[el]
+					all_elements[dirname + '/' + el] = elements[el]
 			else:
 				all_elements[node.name] = node
 	if len(all_elements) == 0:
