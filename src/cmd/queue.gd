@@ -17,5 +17,5 @@ func run(args):
 		usage()
 		return 1
 	for request in server.input_queue:
-		send_output(request.type.human_name + " " + str(request.id))
+		send_output(request.type.full_name + " " + str(request.id))
 	return 0

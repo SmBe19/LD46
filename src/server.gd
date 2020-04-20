@@ -52,7 +52,7 @@ func _init(server_name_, ip_):
 	fs_root.mkdir("var/log", true)
 	fs_root.mkdir("etc/ddos", true)
 	fs_root.mkdir("etc/ddos/*", true)
-	fs_root.open("etc/ddos/*/sample_rate", true).content = "10"
+	fs_root.open("etc/ddos/*/sample_rate", true).content = "100"
 	fs_root.open("etc/ddos/*/check_count", true).content = "1"
 	update_fs()
 

@@ -4,7 +4,7 @@ func usage():
 	send_output('usage: mkdir <directory> [<directory>...]')
 
 func help():
-	send_output("Create directories if they do not already exist ")
+	send_output("Create directories if they do not already exist\n")
 	usage()
 	send_output("\nAlso see: touch, rmdir")
 

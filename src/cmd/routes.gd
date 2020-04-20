@@ -24,6 +24,7 @@ func run(args):
 	for route in node.children.keys():
 		if route.begins_with('.'):
 			continue
+		send_output(" ")
 		send_output(route + ":")
 		var routes = node.open(route).content
 		send_output(routes)

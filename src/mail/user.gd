@@ -2,7 +2,7 @@ extends Node
 
 class_name User
 
-const DIFFICULTY_INCREASE = 10000
+const DIFFICULTY_INCREASE = 100
 
 var happiness : float
 var packets = []
@@ -42,7 +42,7 @@ func failed_request():
 		MailHandler.send_mail(mail)
 	if happiness < 0:
 		print("User left")
-		UserHandler.remove_user(self)
+		# UserHandler.remove_user(self)
 
 func generate_request():
 	var difficulty = 0

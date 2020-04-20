@@ -2,7 +2,7 @@ extends Process
 
 func help():
 	send_output("Installs a service on this server. Make sure you have enough space available.")
-	send_output("Use man <service_name> to find out more about specific services.")
+	send_output("Use man <service_name> to find out more about specific services.\n")
 	usage()
 	send_output("\nAlso see: uninstall, ps")
 
