@@ -104,15 +104,15 @@ __meta__ = {
 position = Vector2( 958, 56 )
 value = 1.0
 
-[node name="CPU" parent="." instance=ExtResource( 4 )]
+[node name="Mail" parent="." instance=ExtResource( 4 )]
 position = Vector2( 958, 156 )
 value = 1.0
 
-[node name="RAM" parent="." instance=ExtResource( 4 )]
+[node name="Queue" parent="." instance=ExtResource( 4 )]
 position = Vector2( 958, 256 )
 value = 1.0
 
-[node name="Queue" parent="." instance=ExtResource( 4 )]
+[node name="DDoS" parent="." instance=ExtResource( 4 )]
 position = Vector2( 958, 356 )
 value = 1.0
 

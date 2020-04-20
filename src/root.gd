@@ -119,11 +119,30 @@ func update_displays():
 		happiness /= len(UserHandler.users)
 	$"/root/ScnRoot/Angry Users".value = 1 - happiness
 
+	var maildir = Root.servers[0].fs_root.get_node('var/mail')
+	var count = 0
+	if maildir is FSDir:
+		for mail in maildir.children.values():
+			if mail.accessed == mail.created:
+				count += 1
+	$"/root/ScnRoot/Mail".value = min(1.0, count / 11.0)
+
 	var queue = 0.0
 	for server in servers:
 		queue += float(len(server.input_queue)) / server.queue_length
 	queue /= len(servers)
 	$"/root/ScnRoot/Queue".value = queue
+
+	var ddos = 0.0
+	var enabled = 0
+	for server in servers:
+		if server.has_ddos_installed:
+			enabled += 1
+			ddos += float(server.ddos_detected) / server.ddos_checked
+	if enabled > 0:
+		ddos /= enabled
+	$"/root/ScnRoot/DDoS".value = ddos
+
 
 func tick():
 	game_tick += 1
