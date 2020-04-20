@@ -19,6 +19,7 @@ func run(args):
 		usage()
 		return 1
 	for service in server.installed_services:
-		var running = "Running" if service.is_running() else "Stopped"
+		print(service.type.full_name, Root.game_tick, service.last_run)
+		var running = "Running" if Root.game_tick - service.last_run < Root.TICK_PER_SECOND / 2 else "Stopped"
 		send_output(running + " | " + str(service.queue_size) + " in service | " + str(100 * Root.average(service.cycles_in_last_tick) / server.cpu_cycles) + "% | " + service.type.full_name)
 	return 0

@@ -24,15 +24,6 @@ func can_start():
 		return false
 	return current_request != null
 
-func start():
-	if not can_start():
-		return
-	running = true
-	cycles_used = 0
-
-func is_running():
-	return running and not is_finished()
-
 func is_finished():
 	return running and cycles_used >= type.cpu * current_request.ddos_check_count
 
@@ -52,8 +43,3 @@ func get_results():
 	current_request = null
 	running = false
 	return res
-
-func cycle():
-	if running:
-		cycles_in_current_tick += 1
-		cycles_used += 1

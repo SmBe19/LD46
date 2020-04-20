@@ -78,10 +78,10 @@ func failed_request():
 
 func generate_request(fake):
 	var difficulty = 0
-	var max_difficulty = 1
+	var max_difficulty = 0
 	for i in len(DIFFICULTY_INCREASES):
 		if Root.game_tick > DIFFICULTY_INCREASES[i]:
-			max_difficulty = i+2
+			max_difficulty = i+1
 	max_difficulty = min(RequestHandler.max_difficulty, max_difficulty)
 	difficulty = randi() % (max_difficulty + 1)
 	var type = RequestHandler.generate_request(difficulty)

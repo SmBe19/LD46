@@ -6,6 +6,7 @@ var type = null
 var request_queue = {}
 var queue_size = 0
 var running = false
+var last_run = -1000
 var cycles_used = 0
 var cycles_in_current_tick = 0
 var cycles_in_last_tick = []
@@ -65,3 +66,4 @@ func cycle():
 	if running:
 		cycles_in_current_tick += 1
 		cycles_used += 1
+		last_run = Root.game_tick

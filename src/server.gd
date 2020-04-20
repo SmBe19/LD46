@@ -44,8 +44,10 @@ var ddos_detected = [0]
 
 var error_servers = []
 var error_requests = []
+var error_forwarding = []
 var error_services = []
 var error_iptables = []
+var error_ram = []
 
 func _init(server_name_, ip_):
 	server_name = server_name_
@@ -174,7 +176,11 @@ func forward_request(request):
 	for i in 10:
 		var forward = forwards[randi() % len(forwards)]
 		if send_request(Root.resolve_name(forward), request):
+			error_forwarding.erase(request.type.full_name)
 			return true
+	if not error_forwarding.has(request.type.full_name):
+		error_forwarding.append(request.type.full_name)
+		write_log("forward.log", "Can not forward " + request.type.full_name + ": server rejected request.")
 	return false
 
 func update_fs():
@@ -248,7 +254,7 @@ func handle_requests():
 		if not can_handle:
 			if not error_services.has(request.type.full_name):
 				error_services.append(request.type.full_name)
-				write_log("forward.log", "No service available for " + request.type.full_name + ".")
+				write_log("requests.log", "No service available for " + request.type.full_name + ".")
 			if not forward_request(request):
 				input_queue.append(request)
 		else:
@@ -258,8 +264,14 @@ func start_services():
 	for service in installed_services:
 		if service.can_start():
 			if used_ram + service.type.ram <= ram:
+				error_ram.erase(service.type.full_name)
 				service.start()
 				used_ram += service.type.ram
+			else:
+				if not error_ram.has(service.type.full_name):
+					error_ram.append(service.type.full_name)
+					write_log("services.log", "Can not start " + service.type.full_name + ": not enough memory.")
+
 
 func run_services():
 	if len(installed_services) > 0:
