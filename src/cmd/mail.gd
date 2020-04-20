@@ -1,7 +1,7 @@
 extends Process
 
 func help():
-	send_output("Informs you about new mail. Mail is stored under /var/mail/ on the shoutr server.")
+	send_output("Informs you about new mail. Mail is stored under /var/mail/ on the shoutr server.\n")
 	usage()
 	
 func check_mail():

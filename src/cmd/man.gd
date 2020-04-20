@@ -8,7 +8,7 @@ func usage():
 func help():
 	send_output("man is the system's manual pager. Each page argument given" +
 	" to man is normally the name of a program, service or request. " + 
-	"The manual page associated with each of these arguments is then found and displayed.")
+	"The manual page associated with each of these arguments is then found and displayed.\n")
 	usage()
 
 func run(args):
@@ -30,10 +30,11 @@ func run(args):
 		var request = RequestHandler.request_types[args[1]]
 		send_output("== " + args[1] + " (Request) ==\n")
 		send_output("Full name: " + request.human_name)
-		send_output(' ')
-		send_output("This request can be split into the following subrequests: ")
-		for r in request.requirements:
-			send_output(" * " + r.type.full_name + " x" + str(r.count))
+		if request.requirements:
+			send_output(' ')
+			send_output("This request can be split into the following subrequests: ")
+			for r in request.requirements:
+				send_output(" * " + r.type.full_name + " x" + str(r.count))
 		send_output(' ')
 		send_output("This request can be processed by these services: ")
 		for p in ServiceHandler.service_types.values():
@@ -49,11 +50,14 @@ func run(args):
 		send_output("Disk Space: " + str(service.disk/1024.0) + " GB")
 		send_output("RAM: " + str(service.ram/1024.0) + " GB")
 		send_output("CPU: " + str(service.cpu) + " M Cycles")
-		send_output(' ')
-		send_output("This service will process the following requests: ")
-		for type in service.inputs.keys():
-			send_output(" * " + type.full_name + " x" + str(service.inputs[type]))
-		send_output(' ')
+		if service.inputs.keys():
+			send_output(' ')
+			send_output("This service will process the following requests: ")
+			for type in service.inputs.keys():
+				send_output(" * " + type.full_name + " x" + str(service.inputs[type]))
+		if args[1] == 'ddos':
+			send_output(' ')
+			send_output('This service can process all requests.')
 		var requests = {}
 		for type in service.inputs.keys():
 			for r in type.requirements:
@@ -61,9 +65,13 @@ func run(args):
 					requests[r.type.full_name] = 0
 				requests[r.type.full_name] += 1
 		if requests:
+			send_output(' ')
 			send_output("This service will produce the following subrequests: ")
 			for type in requests:
 				send_output(" * " + type + " x" + str(requests[type]))
+		if args[1] == 'ddos':
+			send_output(' ')
+			send_output('This service will return the same request or a fake request.')
 		foundSomething = true
 	if args[1] == "list":
 		

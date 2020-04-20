@@ -2,7 +2,7 @@ extends Node
 
 class_name User
 
-const DIFFICULTY_INCREASE = 10000
+const DIFFICULTY_INCREASE = 2560
 
 var happiness : float
 var packets = []

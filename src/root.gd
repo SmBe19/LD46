@@ -95,7 +95,7 @@ func complete_request(request):
 	var duration = game_tick - request.start_tick
 	if duration == 0:
 		duration += 1
-	var multiplier = (request.type.level+1)*(request.type.level+1)
+	var multiplier = (request.type.level+1)*(request.type.level+1)*(request.type.level+1)
 	var new_money = multiplier * 256 / duration
 	if new_money > 0:
 		money_log.append("+$" + str(new_money) + ": " + request.type.full_name + " " + str(request.id))
