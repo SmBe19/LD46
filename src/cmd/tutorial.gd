@@ -140,7 +140,7 @@ func buy_connection(status):
 	send_output("Now that you have a shiny new server, you should configure it correctly.")
 	send_output("You can see all your servers with 'servers'. You can switch to one of your servers using the 'connect' command.")
 	send_output("First, you need to buy a new connection between the two servers.")
-	send_output("Do this now with 'buy_connection'. You can then check the new connection using 'ping'.")
+	send_output("Do this now with 'buy_connection'.\nYou can then check the new connection using 'ping'.")
 	return true
 
 func configure_new_server(status):
@@ -165,6 +165,9 @@ func basic_setup_complete(status):
 	if status.has('basic_setup_complete'):
 		return false
 	status['basic_setup_complete'] = true
+	send_output("You completed the basic tutorial. You can now build your network to handle the requests efficiently.")
+	send_output("Once you have a lot of angry users, you might want to come back to learn how to protect yourself against DDoS attacks.")
+	return true
 
 
 func handle_tutorial_basic(status):
@@ -190,7 +193,7 @@ func handle_tutorial_basic(status):
 		return
 
 func handle_advanced_tutorial(status):
-	# TODO DDOS Tutorial
+	# TODO DDoS Tutorial
 	# TODO firewall Tutorial
 	pass
 

@@ -9,102 +9,151 @@
    xmlns="http://www.w3.org/2000/svg"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
-   width="256"
-   height="256"
-   viewBox="0 0 67.733332 67.733335"
+   width="128"
+   height="64"
+   viewBox="0 0 33.866666 16.933334"
    version="1.1"
-   id="svg1485"
+   id="svg11739"
    inkscape:version="0.92.4 (5da689c313, 2019-01-14)"
    sodipodi:docname="bg.svg">
   <defs
-     id="defs1479">
-    <marker
-       inkscape:stockid="SemiCircleOut"
-       orient="auto"
-       refY="0.0"
-       refX="0.0"
-       id="SemiCircleOut"
-       style="overflow:visible"
-       inkscape:isstock="true">
-      <path
-         id="path2260"
-         d="M -2.5,-0.80913858 C -2.5,1.9508614 -4.7400000,4.1908614 -7.5,4.1908614 L -7.5,-5.8091386 C -4.7400000,-5.8091386 -2.5,-3.5691386 -2.5,-0.80913858 z "
-         style="fill-rule:evenodd;stroke:#e50000;stroke-width:1pt;stroke-opacity:1;fill:#e50000;fill-opacity:1"
-         transform="scale(0.6) translate(7.125493,0.763446)" />
-    </marker>
+     id="defs11733">
     <meshgradient
-       inkscape:collect="always"
-       id="meshgradient7417"
+       y="288.74741"
+       x="1.2609456"
        gradientUnits="userSpaceOnUse"
-       x="8.2034454"
-       y="277.94998"
-       type="coons"
-       gradientTransform="matrix(1.049364,0,0,1.049364,-1.6717963,-12.992305)">
+       id="meshgradient51398"
+       inkscape:collect="always">
       <meshrow
-         id="meshrow7419">
+         id="meshrow70448">
         <meshpatch
-           id="meshpatch7421">
+           id="meshpatch70450">
           <stop
-             path="c -5.29348,-9.16859  -5.29348,-20.4647  5.86967e-07,-29.6333"
-             style="stop-color:#3d8d2f;stop-opacity:1"
-             id="stop7423" />
+             path="l 7.4703,-8.68076"
+             style="stop-color:#29881b;stop-opacity:1"
+             id="stop70452" />
           <stop
-             path="l 25.6632,14.8167"
-             style="stop-color:#3d8d2f;stop-opacity:1"
-             id="stop7425" />
+             path="l 4.02922,7.42659"
+             style="stop-color:#29881b;stop-opacity:1"
+             id="stop70454" />
           <stop
-             path="l 0,0"
-             style="stop-color:#ffffff;stop-opacity:1"
-             id="stop7427" />
+             path="l -5.08755,4.74425"
+             style="stop-color:#29881b;stop-opacity:1"
+             id="stop70456" />
           <stop
-             path="l -25.6632,14.8167"
-             style="stop-color:#800080;stop-opacity:1"
-             id="stop7429" />
+             path="l -6.41197,-3.49008"
+             style="stop-color:#29881b;stop-opacity:1"
+             id="stop70458" />
         </meshpatch>
         <meshpatch
-           id="meshpatch7431">
+           id="meshpatch70460">
           <stop
-             path="c 5.29349,-9.16859  15.0762,-14.8167  25.6632,-14.8167"
-             id="stop7433" />
+             path="l 10.8479,-2.64583"
+             id="stop70462" />
           <stop
-             path="l -3.91311e-07,29.6333"
-             style="stop-color:#f9cd45;stop-opacity:1"
-             id="stop7435" />
+             path="l -1.05831,9.78958"
+             style="stop-color:#d8c33a;stop-opacity:1"
+             id="stop70464" />
           <stop
-             path="l 0,0"
-             style="stop-color:#800080;stop-opacity:1"
-             id="stop7437" />
+             path="l -5.76037,0.28284"
+             style="stop-color:#d8cb3a;stop-opacity:1"
+             id="stop70466" />
         </meshpatch>
         <meshpatch
-           id="meshpatch7439">
+           id="meshpatch70468">
           <stop
-             path="c 10.587,1.39802e-07  20.3697,5.64808  25.6632,14.8167"
-             id="stop7441" />
+             path="l 7.93752,2.64583"
+             id="stop70470" />
           <stop
-             path="l -25.6632,14.8167"
-             style="stop-color:#ec2e1a;stop-opacity:1"
-             id="stop7443" />
+             path="l -5.02708,8.73125"
+             style="stop-color:#ff7d0f;stop-opacity:1"
+             id="stop70472" />
           <stop
-             path="l 0,0"
-             style="stop-color:#ffffff;stop-opacity:1"
-             id="stop7445" />
+             path="l -3.96875,-1.5875"
+             style="stop-color:#ff7b0b;stop-opacity:1"
+             id="stop70474" />
         </meshpatch>
         <meshpatch
-           id="meshpatch7447">
+           id="meshpatch70476">
           <stop
-             path="c 5.29349,9.16859  5.29348,20.4647  -1.95656e-07,29.6333"
-             id="stop7449" />
+             path="l 6.08533,7.93751"
+             id="stop70478" />
           <stop
-             path="l -25.6632,-14.8167"
-             style="stop-color:#ff1300;stop-opacity:1"
-             id="stop7451" />
+             path="l -8.20209,5.29166"
+             style="stop-color:#d02f19;stop-opacity:1"
+             id="stop70480" />
           <stop
-             path="l 0,0"
-             style="stop-color:#800080;stop-opacity:1"
-             id="stop7453" />
+             path="l -2.91032,-4.49792"
+             style="stop-color:#d02f19;stop-opacity:1"
+             id="stop70482" />
         </meshpatch>
       </meshrow>
     </meshgradient>
+    <filter
+       style="color-interpolation-filters:sRGB;"
+       inkscape:label="Drop Shadow"
+       id="filter69318">
+      <feFlood
+         flood-opacity="1"
+         flood-color="rgb(0,0,0)"
+         result="flood"
+         id="feFlood69308" />
+      <feComposite
+         in="flood"
+         in2="SourceGraphic"
+         operator="out"
+         result="composite1"
+         id="feComposite69310" />
+      <feGaussianBlur
+         in="composite1"
+         stdDeviation="0.4"
+         result="blur"
+         id="feGaussianBlur69312" />
+      <feOffset
+         dx="0"
+         dy="0.1"
+         result="offset"
+         id="feOffset69314" />
+      <feComposite
+         in="offset"
+         in2="SourceGraphic"
+         operator="atop"
+         result="fbSourceGraphic"
+         id="feComposite69316" />
+      <feColorMatrix
+         result="fbSourceGraphicAlpha"
+         in="fbSourceGraphic"
+         values="0 0 0 -1 0 0 0 0 -1 0 0 0 0 -1 0 0 0 0 1 0"
+         id="feColorMatrix69320" />
+      <feFlood
+         id="feFlood69322"
+         flood-opacity="1"
+         flood-color="rgb(0,0,0)"
+         result="flood"
+         in="fbSourceGraphic" />
+      <feComposite
+         in2="fbSourceGraphic"
+         id="feComposite69324"
+         in="flood"
+         operator="out"
+         result="composite1" />
+      <feGaussianBlur
+         id="feGaussianBlur69326"
+         in="composite1"
+         stdDeviation="0.4"
+         result="blur" />
+      <feOffset
+         id="feOffset69328"
+         dx="0"
+         dy="0.1"
+         result="offset" />
+      <feComposite
+         in2="fbSourceGraphic"
+         id="feComposite69330"
+         in="offset"
+         operator="atop"
+         result="composite2" />
+    </filter>
   </defs>
   <sodipodi:namedview
      id="base"
@@ -113,9 +162,9 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="0.98994949"
-     inkscape:cx="370.26037"
-     inkscape:cy="43.524961"
+     inkscape:zoom="7.2407734"
+     inkscape:cx="86.636746"
+     inkscape:cy="18.708466"
      inkscape:document-units="mm"
      inkscape:current-layer="layer1"
      showgrid="true"
@@ -125,15 +174,14 @@
      inkscape:window-height="1051"
      inkscape:window-x="1920"
      inkscape:window-y="0"
-     inkscape:window-maximized="1"
-     inkscape:snap-grids="true">
+     inkscape:window-maximized="1">
     <inkscape:grid
        type="xygrid"
-       id="grid2033"
+       id="grid12284"
        empspacing="8" />
   </sodipodi:namedview>
   <metadata
-     id="metadata1482">
+     id="metadata11736">
     <rdf:RDF>
       <cc:Work
          rdf:about="">
@@ -148,66 +196,12 @@
      inkscape:label="Layer 1"
      inkscape:groupmode="layer"
      id="layer1"
-     transform="translate(0,-229.26664)"
-     style="display:inline">
+     transform="translate(0,-280.06665)">
     <path
-       style="display:none;opacity:1;fill:none;fill-opacity:1;stroke:#e50000;stroke-width:4.23333311;stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
-       id="path2077"
-       sodipodi:type="arc"
-       sodipodi:cx="33.866665"
-       sodipodi:cy="263.1333"
-       sodipodi:rx="29.633333"
-       sodipodi:ry="29.633333"
-       sodipodi:start="5.4977871"
-       sodipodi:end="0.52359878"
-       d="m 54.820595,242.17937 a 29.633333,29.633333 0 0 1 4.709289,35.7706"
-       sodipodi:open="true" />
-    <path
-       sodipodi:open="true"
-       d="m 26.196994,234.5097 a 29.633333,29.633333 0 0 1 28.623601,7.66967"
-       sodipodi:end="5.4977871"
-       sodipodi:start="4.4505896"
-       sodipodi:ry="29.633333"
-       sodipodi:rx="29.633333"
-       sodipodi:cy="263.1333"
-       sodipodi:cx="33.866665"
-       sodipodi:type="arc"
-       id="path2376"
-       style="display:none;opacity:1;fill:none;fill-opacity:1;stroke:#e5b600;stroke-width:4.23333311;stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1" />
-    <path
-       style="display:none;opacity:1;fill:none;fill-opacity:1;stroke:#699a00;stroke-width:4.23333311;stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
-       id="path2378"
-       sodipodi:type="arc"
-       sodipodi:cx="33.866665"
-       sodipodi:cy="263.1333"
-       sodipodi:rx="29.633333"
-       sodipodi:ry="29.633333"
-       sodipodi:start="2.6179939"
-       sodipodi:end="4.4505896"
-       d="M 8.2034452,277.94997 A 29.633333,29.633333 0 0 1 6.489035,251.79311 29.633333,29.633333 0 0 1 26.196994,234.5097"
-       sodipodi:open="true" />
-    <circle
-       style="display:inline;fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:0.26499999;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
-       id="path2035"
-       cx="33.866665"
-       cy="263.1333"
-       r="33.866665" />
-    <path
-       sodipodi:open="true"
-       d="m 6.9366059,278.67842 a 31.096153,31.096155 0 0 1 6.9418371,-39.36912 31.096153,31.096155 0 0 1 39.976444,0 31.096153,31.096155 0 0 1 6.941837,39.36912"
-       sodipodi:end="0.52359878"
-       sodipodi:start="2.6179939"
-       sodipodi:ry="31.096155"
-       sodipodi:rx="31.096153"
-       sodipodi:cy="263.13034"
-       sodipodi:cx="33.866665"
-       sodipodi:type="arc"
-       id="path6948"
-       style="display:inline;fill:none;fill-opacity:1;stroke:url(#meshgradient7417);stroke-width:5.55288458;stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1" />
+       style="display:inline;fill:url(#meshgradient51398);fill-opacity:1;stroke:none;stroke-width:0.26458332;stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;filter:url(#filter69318)"
+       d="m 26.098768,291.7083 c -1.890532,-3.27449 -5.384376,-5.29166 -9.165436,-5.29166 -3.781059,0 -7.274903,2.01717 -9.165435,5.29166 l -5.4992609,-3.175 c 3.02485,-5.23919 8.6149999,-8.46666 14.6646959,-8.46666 6.049696,0 11.639846,3.22747 14.664696,8.46666 z"
+       id="path12288"
+       inkscape:connector-curvature="0"
+       sodipodi:nodetypes="csccscc" />
   </g>
-  <g
-     inkscape:groupmode="layer"
-     id="layer2"
-     inkscape:label="tmp"
-     style="display:inline" />
 </svg>

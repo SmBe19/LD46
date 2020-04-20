@@ -121,7 +121,7 @@
 	},
 	{
 	"name": "ddos",
-	"human_name": "DDOS Detector",
+	"human_name": "DDoS Detector",
 	"inputs": [],
 	"resources": {
 		"ram": 1024,

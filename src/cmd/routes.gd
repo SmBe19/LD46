@@ -21,10 +21,13 @@ func run(args):
 	if node == null:
 		send_output("No routes defined")
 		return 0
+	var is_first = true
 	for route in node.children.keys():
 		if route.begins_with('.'):
 			continue
-		send_output(" ")
+		if not is_first:
+			send_output(" ")
+		is_first = false
 		send_output(route + ":")
 		var routes = node.open(route).content
 		send_output(routes)

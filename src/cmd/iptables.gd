@@ -25,10 +25,13 @@ func run(args):
 	for i in server.iptables_blocked:
 		blocked += i
 	send_output('Blocked ' + str(blocked) + ' requests in last 30s.')
+	var is_first = true
 	for route in node.children.keys():
 		if route.begins_with('.'):
 			continue
-		send_output(" ")
+		if not is_first:
+			send_output(" ")
+		is_first = false
 		send_output(route + ":")
 		var routes = node.open(route).content
 		send_output(routes)

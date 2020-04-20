@@ -25,7 +25,7 @@ func _init():
 		dir.list_dir_begin()
 		var fname = dir.get_next()
 		while fname != "":
-			if fname.ends_with(".gd"):
+			if fname.ends_with(".gd") and not fname.begins_with('debug'):
 				commands.append(fname.left(len(fname) - 3))
 			fname = dir.get_next()
 		commands += ["cd", "set", "help", "logout", "connect"]

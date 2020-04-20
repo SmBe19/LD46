@@ -1,8 +1,9 @@
-[gd_scene load_steps=4 format=2]
+[gd_scene load_steps=5 format=2]
 
 [ext_resource path="res://img/pointer.svg" type="Texture" id=1]
 [ext_resource path="res://img/bg.png" type="Texture" id=2]
 [ext_resource path="res://src/display.gd" type="Script" id=3]
+[ext_resource path="res://img/labelbg.svg" type="Texture" id=4]
 
 [node name="Display" type="Node2D"]
 script = ExtResource( 3 )
@@ -11,19 +12,25 @@ script = ExtResource( 3 )
 texture = ExtResource( 2 )
 
 [node name="Pointer" type="Sprite" parent="."]
-rotation = -3.64774
+position = Vector2( 0, 32 )
+rotation = -0.541052
 texture = ExtResource( 1 )
-offset = Vector2( 56, 0 )
+offset = Vector2( 32, 0 )
+
+[node name="labelbg" type="Sprite" parent="."]
+position = Vector2( 0, 35 )
+texture = ExtResource( 4 )
 
 [node name="Label" type="Label" parent="."]
 margin_left = -50.0
-margin_top = 60.0
+margin_top = 24.0
 margin_right = 50.0
-margin_bottom = 100.0
+margin_bottom = 44.0
 grow_horizontal = 0
-custom_colors/font_color = Color( 0, 0, 0, 1 )
+custom_colors/font_color = Color( 0.92549, 0.745098, 0.364706, 1 )
 text = "Label"
 align = 1
+valign = 2
 __meta__ = {
 "_edit_use_anchors_": false
 }
