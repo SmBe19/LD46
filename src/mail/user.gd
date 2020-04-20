@@ -3,14 +3,14 @@ extends Node
 class_name User
 
 const DIFFICULTY_INCREASES = [
-	1500,
+	2500,
 	3500,
 	6000,
-	9000,
 	12000,
 	15000,
 	18000,
 	21000,
+	25000,
 ]
 const INITIAL_CALMNESS = 1200
 const HACKER_DURATION = 300
@@ -37,10 +37,13 @@ func _init(type, init = true):
 	happiness_speed *= happiness_speed
 	var existingMailer = false
 	ip = Root.random_ip(randi()%42 + 101)
+	var mailcount = 0
 	for user in UserHandler.users:
-		if user.type == type and user.sendsMails:
-			existingMailer = true
-	sendsMails = not existingMailer and randf() < 0.2
+		if user.sendsMails and user.type.hacker == type.hacker:
+			mailcount += 1
+			if user.type == type:
+				existingMailer = true
+	sendsMails = not existingMailer and randf() < 0.2 and mailcount < 5
 
 func complete_request(request):
 	if request in packets:
@@ -63,7 +66,7 @@ func failed_request():
 		MailHandler.send_mail(mail)
 	happiness = max(0, happiness)
 	if type.hacker:
-		if happiness < 0.5 and randf() < throttle_chance(0.02):
+		if happiness < 0.5 and randf() < throttle_chance(0.1) and sendsMails:
 			var mail = MailHandler.generate_mail("scam", self)
 			MailHandler.send_mail(mail)
 		if Root.game_tick - start_tick > HACKER_DURATION:
