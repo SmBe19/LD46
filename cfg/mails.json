@@ -80,6 +80,26 @@
 		"content": "Dear manager,\nMy son is using this site regularly on his iPad. Recently he saw a picture of two men holding hands on here, and asked me about it. I was absolutely disgusted and immediately revoked his iPad privileges. We live in a Christian household and don't tolerate such things. But the issue is how is this vile content on your site in the first place? Please pay better attention to what you put on here so I can raise my children as good christians.\nKind regards,\n$senderName"
 	},
 	{
+		"type": "satisfied",
+		"subject": "Thank you from a satisfied customer",
+		"content": "Hi!\nEver since first stumbling upon your website shoutr.io, I have felt it filled a void inside me. I now spend about 14 hours every day on your website. I have recommended the site to all of my friends already. What more can I do?\n\nYours truly,\n$senderName"
+	},
+	{
+		"type": "satisfied",
+		"subject": "Very good for controlling emotions",
+		"content": "Hello!\nSince I started using your site to shout all my problems at the world, I have much better control over my feelings. It's like a psychologist, but I can actually afford it!\n\n-$senderName"
+	},
+	{
+		"type": "satisfied",
+		"subject": "Very useful for uppercasing",
+		"content": "Hi there!\nAfter recently remapping my caps lock key to escape, typing uppercase became quite impractical. However, now I have discovered shoutr.io and it is really useful! I just type the text into the website, and it comes out uppercase! THANK YOU VERY MUCH, SHOUTR.IO!\n\n$senderName"
+	},
+	{
+		"type": "satisfied",
+		"subject": "I use this to communicate with my granddaughter",
+		"content": "Dear shoutr.io\n\nMy granddaughter is an absolute fan and recommended me this site. Now I use it regularly to talk to her, since she is in another country. I will definitely recommend shoutr.io to the rest of my family.\n\nThank you again,\n$senderName"
+	},
+	{
 		"type": "completed_contract",
 		"subject": "Re: $prevSubject",
 		"content": "Dear Friend,\nThank you for completing the assigned workload in a timely manner. It has been a pleasure to work with you, I hope I get the opportunity to do so again. The reward as stated in the contract has already been transfered to your account.\n\nBest,\n$senderName"
