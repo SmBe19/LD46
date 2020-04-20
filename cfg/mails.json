@@ -47,7 +47,7 @@
     {
 	"type": "complaint",
 	"subject": "Doesn't work?",
-	"content": "Dear $companyName,\n\nMy granddaughter bought me this phone and also put you on it. I use it all the time to send messages with her. But yesterday I went outside for shopping and I remembered that she left her bag at my home. So I quickly wanted to tell her, but it did not work?! The bag is important to her and because of you, she has left the country without the bag. Please contact me so we can discuss compensation.\n\nKind regards,\n$senderName"
+	"content": "Dear shoutr.io,\n\nMy granddaughter bought me this phone and also put you on it. I use it all the time to send messages with her. But yesterday I went outside for shopping and I remembered that she left her bag at my home. So I quickly wanted to tell her, but it did not work?! The bag is important to her and because of you, she has left the country without the bag. Please contact me so we can discuss compensation.\n\nKind regards,\n$senderName"
     },
     {
 	"type": "followup",
@@ -62,7 +62,7 @@
     {
 	"type": "followup",
 	"subject": "[IMPORTANT] Re: $prevSubject",
-	"content": "Dear Sir/Maam.\n\nThis is the lawyer representing $senderName in the case agains $companyName. We have already filed the proper documents, so we can start the case any day now. This is your last chance to settle out of court, otherwise there will be legal action.\n\nSincerely yours,\nThe lawyer"
+	"content": "Dear Sir/Maam.\n\nThis is the lawyer representing $senderName in the case agains shoutr.io. We have already filed the proper documents, so we can start the case any day now. This is your last chance to settle out of court, otherwise there will be legal action.\n\nSincerely yours,\nThe lawyer"
     },
     {
 	"type": "complaint",

@@ -113,7 +113,16 @@ func complicated_requests(status):
 	send_output("These new requests will increase the load on your system. You should probably upgrade your system a bit, especially the queue.")
 	return true
 
-# TODO mail tutorial
+func mail_intro(status):
+	if status.has('mail_intro'):
+		return false
+	status['mail_intro'] = true
+	send_output("From time to time users will send you emails (often if they are unhappy).")
+	send_output("You can see the number of unread mails by running 'mail'.")
+	send_output("To read mails, you can use the 'cat' command. The mails are stored in '/var/mail'.")
+	send_output("You can list all mails by running 'ls /var/mail'. Should the output be too long, run 'ls /var/mail | more'. This will split the output and display a new line each time you press a key. You can use this also for other commands with long output.")
+	send_output("As a reminder: by pressing TAB the file name will automatically be completed.")
+	return true
 
 func buy_new_server(status):
 	if status.has('buy_new_server'):
@@ -141,6 +150,8 @@ func buy_connection(status):
 	send_output("You can see all your servers with 'servers'. You can switch to one of your servers using the 'connect' command.")
 	send_output("First, you need to buy a new connection between the two servers.")
 	send_output("Do this now with 'buy_connection'.\nYou can then check the new connection using 'ping'.")
+	send_output("It takes " + str(Server.CONNECTION_DELAY) + " time units for a request to travel from one server to the next.")
+	send_output("Hint: it might be helpful to draw your network topology on a piece of paper to keep a good overview.")
 	return true
 
 func configure_new_server(status):
@@ -180,6 +191,8 @@ func handle_tutorial_basic(status):
 	if money_intro(status):
 		return
 	if server_status(status):
+		return
+	if mail_intro(status):
 		return
 	if complicated_requests(status):
 		return

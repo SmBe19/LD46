@@ -1,7 +1,7 @@
 extends Process
 
 func help():
-	send_output("Tells you the current timestamp.")
+	send_output("Tells you the current timestamp (in game ticks).")
 	usage()
 
 func usage():

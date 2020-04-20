@@ -71,7 +71,7 @@ func run(args):
 				send_output(" * " + type + " x" + str(requests[type]))
 		if args[1] == 'ddos':
 			send_output(' ')
-			send_output('This service will return the same request or a fake request.')
+			send_output('This service will return the same request or a ddos request if detected.')
 		foundSomething = true
 	if args[1] == "list":
 		

@@ -4,17 +4,19 @@ class_name Server
 
 const AVERAGE_SPAN = 50
 const STAT_SPAN = 300
+const CONNECTION_DELAY = 7
 
 const UPGRADE_PRICE = {
-	'cpu': 512,
-	'disk': 512,
-	'ram': 512,
-	'queue': 256,
+	'cpu': 256,
+	'disk': 256,
+	'ram': 256,
+	'queue': 128,
 }
 
 var fs_root = FSDir.new("/", null)
 var input_queue = []
 var incoming_requests = []
+var incoming_requests_count = 0
 var server_name = ""
 var ip = ""
 var connections = {}
@@ -25,9 +27,9 @@ var upgrade_level = {
 	'queue': 0,
 }
 var queue_length = 4
-var disk = 65536
+var disk = 4096
 var ram = 1024
-var cpu_cycles = 32
+var cpu_cycles = 64
 var used_disk = 0
 var used_ram = 0
 var used_ram_list = []
@@ -54,10 +56,12 @@ func _init(server_name_, ip_):
 	fs_root.mkdir("etc/ddos/*", true)
 	fs_root.open("etc/ddos/*/sample_rate", true).content = "100"
 	fs_root.open("etc/ddos/*/check_count", true).content = "1"
+	for i in CONNECTION_DELAY:
+		incoming_requests.append([])
 	update_fs()
 
 func upgrade_price(item):
-	return UPGRADE_PRICE[item] * pow(2, upgrade_level[item])
+	return UPGRADE_PRICE[item] * pow(3, upgrade_level[item])
 
 func upgrade(item):
 	var res = Root.buy_something(upgrade_price(item), 'Upgrade ' + item + ' for ' + server_name)
@@ -94,22 +98,25 @@ func get_ddos_check_count(request):
 	return int(fs_root.open("etc/ddos/*/check_count").content)
 
 func receive_request(request):
-	if len(input_queue) + len(incoming_requests) < queue_length:
+	if len(input_queue) + incoming_requests_count < queue_length:
 		if firewall(request):
 			var sample_rate = get_ddos_sample_rate(request)
 			request.ddos_sampled = randf() < sample_rate
 			request.ddos_check_count = get_ddos_check_count(request) if has_ddos_installed and request.ddos_sampled else 0
-			incoming_requests.append(request)
+			incoming_requests[CONNECTION_DELAY-1].append(request)
+			incoming_requests_count += 1
 			return true
 		else:
 			iptables_blocked[0] += 1
-		return false
 	return false
 
 func process_incoming():
-	for request in incoming_requests:
+	for request in incoming_requests[0]:
 		input_queue.append(request)
-	incoming_requests = []
+		incoming_requests_count -= 1
+	for i in CONNECTION_DELAY - 1:
+		incoming_requests[i] = incoming_requests[i+1]
+	incoming_requests[CONNECTION_DELAY-1] = []
 
 func send_request(destination, request):
 	if connections.has(destination):
@@ -129,7 +136,7 @@ func firewall(request):
 			return true
 	var lines = file.content.split("\n")
 	for line in lines:
-		if line.find('/24 ') != -1:
+		if line.find('/8 ') != -1:
 			var ipprefix = line.split(".", 1)[0]
 			if request.source_ip.begins_with(ipprefix):
 				if line.split(' ', 1)[1] == 'allow':
@@ -278,15 +285,16 @@ func stop_services():
 		if service.is_finished():
 			used_ram -= service.type.ram
 			if service.type.service_name == 'analyzer':
-				for request in service.request_queue[RequestHandler.request_types['fake']]:
-					write_log('analyzer.log', 'Fake request from ' + request.source_ip + '.')
+				for request in service.request_queue[RequestHandler.request_types['ddos']]:
+					write_log('analyzer.log', 'DDoS request from ' + request.source_ip + '.')
 			var results = service.get_results()
 			if results:
 				for request in results:
 					input_queue.append(request)
 					if service.type.service_name == 'ddos':
 						ddos_checked[0] += 1
-					if request.type.request_name == 'fake':
+						Root.daily_request_fake_checked += 1
+					if request.type.request_name == 'ddos':
 						ddos_detected[0] += 1
 
 func tick():

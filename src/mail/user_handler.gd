@@ -13,13 +13,14 @@ func _ready():
 
 func read_json(path):
 	var file = File.new()
-	file.open(path, file.READ)	
+	file.open(path, file.READ)
 	var json = file.get_as_text()
 	var json_result = JSON.parse(json)
 	file.close()
 	return json_result.result
 
 func generate_user():
+	Root.daily_users_new += 1
 	var index = randi() % len(user_types)
 	var user = User.new(user_types[index])
 	users.append(user)

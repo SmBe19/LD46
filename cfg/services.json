@@ -10,8 +10,8 @@
 	],
 	"resources": {
 	    "ram": 1024,
-	    "cpu": 128,
-	    "hdd": 65536
+	    "cpu": 256,
+	    "hdd": 8192
 	}
     },
     {
@@ -40,8 +40,8 @@
 	],
 	"resources": {
 	    "ram": 256,
-	    "cpu": 256,
-	    "hdd": 4096
+	    "cpu": 512,
+	    "hdd": 2048
 	}
     },
     {
@@ -55,8 +55,8 @@
 	],
 	"resources": {
 	    "ram": 512,
-	    "cpu": 512,
-	    "hdd": 16384
+	    "cpu": 256,
+	    "hdd": 4096
 	}
     },
     {
@@ -70,8 +70,8 @@
 	],
 	"resources": {
 	    "ram": 256,
-	    "cpu": 512,
-	    "hdd": 4096
+	    "cpu": 256,
+	    "hdd": 2048
 	}
     },
     {
@@ -80,12 +80,12 @@
 	"inputs": [
 	    {
 		"name": "http",
-		"count": 4
+		"count": 8
 	    }
 	],
 	"resources": {
 	    "ram": 512,
-	    "cpu": 256,
+	    "cpu": 512,
 	    "hdd": 4096
 	}
     },
@@ -100,7 +100,7 @@
 	],
 	"resources": {
 	    "ram": 256,
-	    "cpu": 128,
+	    "cpu": 256,
 	    "hdd": 2048
 	}
 	},
@@ -115,7 +115,52 @@
 	],
 	"resources": {
 		"ram": 2048,
-		"cpu": 16384,
+		"cpu": 8192,
+		"hdd": 8192
+	}
+	},
+	{
+	"name": "tensorflow",
+	"human_name": "Tensorflow Machine Learning",
+	"inputs": [
+		{
+		"name": "tensorflow",
+		"count": 1
+		}
+	],
+	"resources": {
+		"ram": 8192,
+		"cpu": 8192,
+		"hdd": 4096
+	}
+	},
+	{
+	"name": "kubernetes",
+	"human_name": "Host Docker Applications",
+	"inputs": [
+		{
+		"name": "docker",
+		"count": 1
+		}
+	],
+	"resources": {
+		"ram": 4096,
+		"cpu": 2048,
+		"hdd": 4096
+	}
+	},
+	{
+	"name": "aws",
+	"human_name": "Host AWS Cloud Ressources",
+	"inputs": [
+		{
+		"name": "aws",
+		"count": 1
+		}
+	],
+	"resources": {
+		"ram": 8192,
+		"cpu": 2048,
 		"hdd": 16384
 	}
 	},
@@ -134,29 +179,29 @@
 	"human_name": "Blackhole Package Dropper",
 	"inputs": [
 		{
-		"name": "fake",
+		"name": "ddos",
 		"count": 1
 		}
 	],
 	"resources": {
 		"ram": 128,
 		"cpu": 128,
-		"hdd": 128
+		"hdd": 1024
 	}
 	},
 	{
 	"name": "analyzer",
-	"human_name": "Fake Request Analyzer",
+	"human_name": "DDoS Request Analyzer",
 	"inputs": [
 		{
-		"name": "fake",
+		"name": "ddos",
 		"count": 10
 		}
 	],
 	"resources": {
 		"ram": 2048,
 		"cpu": 4096,
-		"hdd": 16384
+		"hdd": 4096
 	}
 	}
 ]

@@ -2,17 +2,21 @@ extends Node
 
 class_name User
 
-const DIFFICULTY_INCREASE = 2560
+const DIFFICULTY_INCREASE = 2000
 
 var happiness : float
+var ip : String
 var packets = []
 var type
 var sendsMails : bool = false
 
-func _init(type):
+func _init(type, init = true):
 	self.type = type
 	happiness = 0.5
+	if not init:
+		return
 	var existingMailer = false
+	ip = Root.random_ip(randi()%42 + 101)
 	for user in UserHandler.users:
 		if user.type == type and user.sendsMails:
 			existingMailer = true
@@ -42,6 +46,7 @@ func failed_request():
 		MailHandler.send_mail(mail)
 	if happiness < 0:
 		print("User left")
+		Root.daily_users_left += 1
 		UserHandler.remove_user(self)
 
 func generate_request():
@@ -50,7 +55,6 @@ func generate_request():
 	difficulty = min(RequestHandler.max_difficulty, randi() % (max_difficulty + 1))
 	var type = RequestHandler.generate_request(difficulty)
 	var uuid = Root.get_uuid()
-	var ip = Root.random_ip(randi()%100 + 100)
 	var request = Request.new(uuid, uuid, ip, type)
 	if Root.produce_request(request):
 		request.connect("request_fulfilled", self, "complete_request")
@@ -64,6 +68,7 @@ func tick():
 		if Root.game_tick - request.start_tick > 200:
 			print("Took too long to process request", request.id)
 			packets.erase(request)
+			Root.daily_request_fail += 1
 			failed_request()
 	if (randi() % 10 == 0 and len(packets) < 3):
 		generate_request()
