@@ -20,7 +20,7 @@ var last_status = 0
 var history = []
 var history_index = 0
 
-var commands = ['install', 'cat', 'ping', 'date', 'uninstall', 'ls', 'queue', 'vi', 'iptables', 'ps', 'set_route', 'tutorial', 'man', 'buy_connection', 'mv', 'help', 'sh', 'set_iptables', 'clear', 'buy_upgrade', 'cp', 'which', 'uname', 'accept_contract', 'netstat', 'buy_server', 'status', 'routes', 'mkdir', 'mail', 'bitcoind', 'reset_log_cache', 'ddos', 'echo', 'more', 'touch', 'pwd', 'rm', 'servers', 'rmdir', 'set_ddos', 'cd', 'set', 'help', 'logout', 'connect']
+var commands = ['install', 'cat', 'ping', 'date', 'cmatrix', 'godot', 'uninstall', 'ls', 'queue', 'vi', 'iptables', 'ps', 'set_route', 'tutorial', 'man', 'buy_connection', 'mv', 'help', 'sh', 'set_iptables', 'clear', 'buy_upgrade', 'cp', 'which', 'uname', 'accept_contract', 'netstat', 'buy_server', 'status', 'routes', 'mkdir', 'mail', 'bitcoind', 'reset_log_cache', 'ddos', 'echo', 'more', 'touch', 'pwd', 'rm', 'servers', 'rmdir', 'set_ddos', 'cd', 'set', 'help', 'logout', 'connect']
 
 func _init():
 	register_for_keypress()
