@@ -7,9 +7,9 @@ const STAT_SPAN = 300
 
 const UPGRADE_PRICE = {
 	'cpu': 512,
-	'disk': 256,
+	'disk': 512,
 	'ram': 512,
-	'queue': 1024,
+	'queue': 256,
 }
 
 var fs_root = FSDir.new("/", null)
@@ -256,6 +256,7 @@ func start_services():
 func run_services():
 	if len(installed_services) > 0:
 		var remaining_cpu = cpu_cycles
+		last_service = last_service % len(installed_services)
 		var last_run = last_service
 		while remaining_cpu > 0:
 			last_service = (last_service + 1) % len(installed_services)

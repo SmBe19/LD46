@@ -6,7 +6,7 @@ func usage():
 func help():
 	send_output("Show ddos configuration.\n")
 	send_output("Some users flood your network with fake requests. You don't receive any money from these requests and the only goal is to overwhelm your system.")
-	send_output("You can use DDOS detection to scan a request. If the request is deemed a fake request, its request type is changed to 'fake'. Note however, that some small part of the real requests will also be classified as fake (see set_ddos).\n")
+	send_output("You can use DDoS detection to scan a request. If the request is deemed a fake request, its request type is changed to 'fake'. Note however, that some small part of the real requests will also be classified as fake (see set_ddos).\n")
 	send_output("The fake requests can be sent to the blackhole service, which just drops them, or to the analyzer service, which gives you the corresponding ip addresses. You can then use these with iptables and in the ddos configuration to filter the traffic.\n")
 	usage()
 	send_output("\nAlso see: set_ddos, queue")
@@ -23,9 +23,9 @@ func run(args):
 		send_output("No rules defined")
 		return 0
 	if server.has_ddos_installed:
-		send_output("DDOS Service installed")
+		send_output("DDoS Service installed")
 	else:
-		send_output("DDOS Service not installed")
+		send_output("DDoS Service not installed")
 	var checked = 0
 	for i in server.ddos_checked:
 		checked += i
