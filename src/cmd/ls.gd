@@ -11,10 +11,10 @@ func list_pretty(elements):
 		if el.ends_with('/.') or el.ends_with('/..'):
 			continue
 		if elements[el] is FSFile:
-			send_output("   %4d |     %4d | file | %s" % 
+			send_output(" %6d | %8d | file | %s" % 
 			[elements[el].created, elements[el].accessed, el])
 		if elements[el]  is FSDir:
-			send_output("   %4d |     %4d |  dir | %s" % 
+			send_output(" %6d | %8d |  dir | %s" % 
 			[elements[el].created, elements[el].accessed, el])
 
 func list_basic(elements):

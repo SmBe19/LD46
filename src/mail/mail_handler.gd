@@ -28,5 +28,5 @@ func generate_mail(type, user):
 
 func send_mail(mail):
 	Root.servers[0].fs_root.mkdir('var/mail')
-	var filename =  "%08d_%s" % [Root.game_tick, mail.subject.replace(" ", "_")]
+	var filename =  "%06d_%s" % [Root.game_tick, mail.subject.replace(" ", "_")]
 	Root.servers[0].fs_root.open("var/mail/" + filename, true).content = mail.format()
