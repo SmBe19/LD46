@@ -69,12 +69,7 @@ func page_output(output):
 		return 1
 	output_process.cursor_x = -1
 	output_process.cursor_y = -1
-	var visual_lines = []
-	for x in output.split('\n'):
-		while len(x) > Terminal.WIDTH:
-			visual_lines.append(x.left(Terminal.WIDTH-1) + ">")
-			x = "..." + x.right(Terminal.WIDTH-1)
-		visual_lines.append(x)
+	var visual_lines = output_process.split_visual_lines(output)
 	var initial_scroll = Terminal.HEIGHT - 2
 	for x in visual_lines:
 		send_output(x)

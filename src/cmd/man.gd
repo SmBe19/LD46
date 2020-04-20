@@ -15,6 +15,11 @@ func run(args):
 	if len(args) < 2:
 		usage()
 		return 1
+	var more = null
+	if output_process is Terminal:
+		more = spawn_subprocess('more')
+		more.output_process = output_process
+		output_process = more
 	var foundSomething = false
 	var process = spawn_subprocess(args[1])
 	if process is Process:
@@ -70,8 +75,14 @@ func run(args):
 			send_output(" * " + p.full_name)
 		foundSomething = true
 	if not foundSomething:
+		if more:
+			output_process = more.output_process
 		send_output("No program, service or request by that name found. ")
 		send_output("Use `man list` to list all possible services and requests.")
 		send_output("Press tab to list all possible programs.")
 		return 1
+	if more:
+		var res = more.run(['more'])
+		if res is GDScriptFunctionState:
+			res = yield(res, "completed")
 	return 0

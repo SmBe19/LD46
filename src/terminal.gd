@@ -39,7 +39,7 @@ func _fill_line(line):
 		line.append(' ')
 	return line
 
-func write_line(line):
+func split_visual_lines(line):
 	var new_lines = []
 	var current_new_line = []
 	var i = len(line)
@@ -61,6 +61,10 @@ func write_line(line):
 		i+=1
 	if len(current_new_line) > 0:
 		new_lines.append(_fill_line(current_new_line))
+	return new_lines
+
+func write_line(line):
+	var new_lines = split_visual_lines(line)
 	while len(new_lines) > HEIGHT:
 		new_lines.pop_front()
 	current_line += len(new_lines)
