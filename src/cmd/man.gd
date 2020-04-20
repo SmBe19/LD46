@@ -26,7 +26,7 @@ func run(args):
 		send_output('== ' + args[1] + " (Process) ==\n")
 		process.help()
 		foundSomething = true
-	if RequestHandler.seen_requests.has(args[1]):
+	if RequestHandler.request_types.has(args[1]) and RequestHandler.seen_requests.has(RequestHandler.request_types[args[1]]):
 		var request = RequestHandler.request_types[args[1]]
 		send_output("== " + args[1] + " (Request) ==\n")
 		send_output("Full name: " + request.human_name)

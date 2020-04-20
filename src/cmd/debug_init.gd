@@ -12,7 +12,8 @@ func run(args):
 			Root.servers[i].upgrade('disk')
 			Root.servers[i].upgrade('ram')
 			Root.servers[i].upgrade('queue')
-	Root.servers[0].install_service('ddos')
+	for i in 5:
+		Root.servers[0].install_service('ddos')
 	Root.servers[0].install_service('blackhole')
 	Root.servers[2].install_service('compute')
 	Root.servers[2].install_service('database')
