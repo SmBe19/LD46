@@ -274,7 +274,7 @@ func queue_full(status):
 			send_output("The queue of server " + server.server_name + " is full.")
 			var cpu = float(Root.average(server.used_cpu_cycles)) / server.cpu_cycles
 			if cpu > 0.9:
-				send_output("  CPU usage is " + str(int(100 * cpu)) + "%, try to upgrade the cpu\n  or redirect requests to other servers.")
+				send_output("  CPU usage is " + str(int(100 * cpu)) + "%, try to upgrade the cpu\n    or redirect requests to other servers.")
 			var bad_types = {}
 			var rtype_count = {}
 			var ddos_pending = 0
