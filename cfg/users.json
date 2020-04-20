@@ -1,11 +1,13 @@
 [
     {
 	"name" : "Henricus Wallace",
-	"politeness" : 1.0,
+	"mail" : "hwallace@wallaceinc.biz",
+	"politeness" : 0.8,
 	"hacker" : false
     }, 
     {
 	"name" : "Teodosio Egger",
+	"mail" : "teo@mail.at",
 	"politeness" : 0.8,
 	"hacker" : false
     } 

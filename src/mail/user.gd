@@ -7,11 +7,18 @@ const DIFFICULTY_INCREASE = 10000
 var happiness : float
 var packets = []
 var type
+var sendsMails : bool = false
 
 func _init(type):
 	self.type = type
 	happiness = 0.5
-	pass
+	var existingMailer = false
+	for user in UserHandler.users:
+		if user.type == type and user.sendsMails:
+			existingMailer = true
+	print("Existing mailer: ", existingMailer)
+	sendsMails = not existingMailer and (randi() % throttle_chance(1) == 0)
+	print("Sends mail: ", sendsMails)
 
 func complete_request(request):
 	if request in packets:
@@ -23,8 +30,16 @@ func complete_request(request):
 			print("Great work, I recommended your product to other user")
 			UserHandler.generate_user()
 
+#reduce chance to send mails for large numbers of users
+func throttle_chance(chance):
+	return chance * (len(UserHandler.users) + 10)
+	
 func failed_request():
 	happiness -= 0.1
+	if happiness < 0.5 and sendsMails and randi() % 5 == 0:
+		var mail = MailHandler.generate_mail("complaint", self)
+		print(type.user_name, " sent complaint")
+		MailHandler.send_mail(mail)
 	if happiness < 0:
 		print("User left")
 		UserHandler.remove_user(self)

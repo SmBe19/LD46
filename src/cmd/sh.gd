@@ -285,15 +285,30 @@ func readline(prompt: String) -> String:
 			line = history[history_index] if history_index < len(history) else ""
 		if key == KEY_TAB:
 			var completions = complete(line)
-			if len(completions) == 1:
+			var commonPrefix = ''
+			while len(completions) > 0 && len(commonPrefix) < len(completions[0]):
+				var valid = true
+				var ch = len(commonPrefix)
+				for s in completions:
+					if len(s) < ch + 1 or s[ch] != completions[0][ch]:
+						valid = false
+				if valid:
+					commonPrefix += completions[0][ch]
+				else:
+					break
+			var oldLine = line
+			if len(commonPrefix) > 0:
 				var compl_start_ix = line.rfind(' ')
 				if compl_start_ix < 0:
-					line = completions[0] + ' '
+					if completions[0] == commonPrefix:
+						line = commonPrefix + ' '
+					else:
+						line = commonPrefix
 				else:
-					line = line.left(compl_start_ix+1) + completions[0]
-			elif len(completions) == 0:
+					line = line.left(compl_start_ix+1) + commonPrefix
+			if len(completions) == 0:
 				pass
-			else:
+			elif oldLine == line:
 				send_output(prompt + line)
 				output_process.current_line -= 1
 				send_output_list(completions)

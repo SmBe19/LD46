@@ -17,6 +17,7 @@ var last_successful_request = 0
 var game_running = true
 
 func _init():
+	randomize()
 	add_new_server("shoutr", "10.0.0.1")
 	servers[0].disk *= 2
 
