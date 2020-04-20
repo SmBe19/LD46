@@ -53,6 +53,9 @@ func complete_request(request):
 		if happiness == 1 and Root.game_tick - last_new_user > 100 and randf() < 0.1:
 			last_new_user = Root.game_tick
 			UserHandler.generate_user()
+			if randf() < throttle_chance(0.2):
+				var mail = MailHandler.generate_mail("satisfied", self)
+				MailHandler.send_mail(mail)
 
 #reduce chance to send mails for large numbers of users
 func throttle_chance(chance):

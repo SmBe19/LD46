@@ -84,6 +84,42 @@
 	"hacker" : false
     },
     {
+	"name": "Emily Baker",
+	"mail": "emily.baker.78@mailr.io",
+	"politeness": 0.8,
+	"hacker": false
+    },
+    {
+	"name": "Sasha Wheeler",
+	"mail": "wheelers@euler.edu",
+	"politeness": 0.8,
+	"hacker": false
+    },
+    {
+	"name": "Vanessa Velazquez",
+	"mail": "vvvvvvvv@greenmail.br",
+	"politeness": 0.8,
+	"hacker": false
+    },
+    {
+	"name": "Ashley Matilda Pratt",
+	"mail": "amp@freemail.co",
+	"politeness": 0.8,
+	"hacker": false
+    },
+    {
+	"name": "Yamaguchi Ayako",
+	"mail": "yamaguchi37@zenbu.ne.jp",
+	"politeness": 0.8,
+	"hacker": false
+    },
+    {
+	"name": "Chloe Watson",
+	"mail": "chloew@or-mail.co",
+	"politeness": 0.8,
+	"hacker": false
+    },
+    {
 	"name" : "D3X73R",
 	"mail" : "dexter@dextr1337.xxx",
 	"politeness" : 0.2,
