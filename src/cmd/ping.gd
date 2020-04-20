@@ -22,7 +22,10 @@ func run(args):
 	for i in 4:
 		yield(Root.get_tree().create_timer(1), 'timeout')
 		if success:
-			send_output('64 bytes from ' + ip + ' time=' + str(2+randf()))
+			var time = 1+randf()
+			if server.ip != ip:
+				time += 4
+			send_output('64 bytes from ' + ip + ' time=' + time)
 		else:
 			send_output('timeout')
 	return 0

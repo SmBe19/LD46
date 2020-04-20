@@ -61,10 +61,14 @@
 	{
 		"name": "mail",
 		"human_name": "Mail Request",
-		"level": 1,
+		"level": 2,
 		"requirements": [
 			{
 				"name": "auth",
+				"count": 4
+			},
+			{
+				"name": "html",
 				"count": 1
 			}
 		]
@@ -91,11 +95,88 @@
 		"requirements": [
 			{
 				"name": "compute",
-				"count": 32
+				"count": 8
 			},
 			{
 				"name": "auth",
 				"count": 1
+			},
+			{
+				"name": "http",
+				"count": 8
+			}
+		]
+	},
+	{
+		"name": "tensorflow",
+		"human_name": "Tensorflow Training",
+		"level": 3,
+		"requirements": [
+			{
+				"name": "compute",
+				"count": 32
+			}
+		]
+	},
+	{
+		"name": "docker",
+		"human_name": "Docker Container Request",
+		"level": 4,
+		"requirements": [
+			{
+				"name": "auth",
+				"count": 1
+			},
+			{
+				"name": "compute",
+				"count": 4
+			},
+			{
+				"name": "http",
+				"count": 4
+			},
+			{
+				"name": "httpauth",
+				"count": 7
+			},
+			{
+				"name": "mail",
+				"count": 3
+			}
+		]
+	},
+	{
+		"name": "aws",
+		"human_name": "AWS Cloud Ressource Request",
+		"level": 5,
+		"requirements": [
+			{
+				"name": "compute",
+				"count": 8
+			},
+			{
+				"name": "auth",
+				"count": 1
+			},
+			{
+				"name": "http",
+				"count": 8
+			},
+			{
+				"name": "httpauth",
+				"count": 3
+			},
+			{
+				"name": "mail",
+				"count": 7
+			},
+			{
+				"name": "ether",
+				"count": 2
+			},
+			{
+				"name": "tensorflow",
+				"count": 4
 			}
 		]
 	}

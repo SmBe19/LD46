@@ -5,7 +5,7 @@
 		},
 		"reward": 5000,
 		"mailSubject": "Distributed compute",
-		"mailContent": "Dear Friend,\nI am a researcher in biomedical informatics. For my next paper, I will need to analyze genomes using algorithms other people developed the 60s but I have already written several papers about. As I implemented them in an inefficient manner, I will need additional compute power. I will be using your compute infrastructure in the next time. I offer $5000 in compensation.\nThanks again,$senderName"
+		"mailContent": "Dear Friend,\nI am a researcher in biomedical informatics. For my next paper, I will need to analyze genomes using algorithms other people developed in the 60s but I have already written several papers about. As I implemented them in an inefficient manner, I will need additional compute power. I will be using your compute infrastructure in the next time. I offer $5000 in compensation.\nThanks again,$senderName"
 	},
 	{
 		"requests": {

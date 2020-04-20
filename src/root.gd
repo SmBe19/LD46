@@ -1,6 +1,20 @@
 extends Control
 
 const TICK_PER_SECOND = 10
+const LEVEL_MULTIPLIER = [
+	1,
+	4,
+	27,
+	42,
+	270,
+	333,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+]
 
 var request_handler
 var servers = []
@@ -118,7 +132,7 @@ func request_completed(request):
 	var duration = game_tick - request.start_tick
 	if duration == 0:
 		duration += 1
-	var multiplier = (request.type.level+1)*(request.type.level+1)*(request.type.level+1)
+	var multiplier = LEVEL_MULTIPLIER[request.type.level]
 	var new_money = multiplier * 256 / duration
 	if new_money > 0:
 		money_log.append("+$" + str(new_money) + ": " + request.type.full_name + " " + str(request.id))
@@ -170,7 +184,14 @@ func update_displays():
 	for server in servers:
 		if server.has_ddos_installed:
 			enabled += 1
-			ddos += float(server.ddos_detected) / server.ddos_checked
+			var checked = 0
+			for i in server.ddos_checked:
+				checked += i
+			var blocked = 0
+			for i in server.ddos_detected:
+				blocked += i
+			if checked > 0:
+				ddos += float(blocked) / checked
 	if enabled > 0:
 		ddos /= enabled
 	$"/root/ScnRoot/DDoS".value = ddos
