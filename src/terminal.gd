@@ -101,9 +101,9 @@ func receive_input_list(input):
 	var res = ""
 	var current_line = ""
 	while input:
-		while input and len(current_line) + len(input[0]) + 1 < WIDTH:
+		while input and len(current_line) + len(input[0]) + 2 < WIDTH:
 			if current_line:
-				current_line += " "
+				current_line += "  "
 			current_line += input[0]
 			input.pop_front()
 		if res:
