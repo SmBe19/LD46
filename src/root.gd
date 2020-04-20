@@ -25,6 +25,7 @@ var game_tick = 0
 var global_uuid = 0
 var money = 2048
 var money_log = []
+var happiness_history = []
 var daily_report_sender_type
 var daily_report_sender
 var daily_request_complete = 0
@@ -170,6 +171,13 @@ func update_displays():
 		happiness += user.happiness
 	if len(UserHandler.users) > 0:
 		happiness /= len(UserHandler.users)
+	happiness_history.append(happiness)
+	if len(happiness_history) > Server.STAT_SPAN:
+		happiness_history.pop_front()
+	happiness = 0.0
+	for happy in happiness_history:
+		happiness += happy
+	happiness /= len(happiness_history)
 	$"/root/ScnRoot/Angry Users".value = 1 - happiness
 
 	var maildir = Root.servers[0].fs_root.get_node('var/mail')
@@ -178,11 +186,15 @@ func update_displays():
 		for mail in maildir.children.values():
 			if mail.accessed == mail.created:
 				count += 1
-	$"/root/ScnRoot/Mail".value = min(1.0, count / 11.0)
+	$"/root/ScnRoot/Mail".value = min(1.0, count / (11.0 + game_tick / 3000.0))
 
 	var queue = 0.0
 	for server in servers:
-		queue += float(len(server.input_queue) + server.incoming_requests_count) / server.queue_length
+		var val = 0.0
+		for length in server.queue_length_list:
+			val += length
+		val /= len(server.queue_length_list)
+		queue += float(val) / server.queue_length
 	queue /= len(servers)
 	$"/root/ScnRoot/Queue".value = min(1.0, queue)
 
@@ -250,7 +262,7 @@ func tick():
 	# TODO check lose condition
 	if false:
 		game_running = false
-	if game_tick % (TICK_PER_SECOND * 45) == 0:
+	if game_tick % (TICK_PER_SECOND * 120) == 0:
 		send_daily_report()
 	update_displays()
 

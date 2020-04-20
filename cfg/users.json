@@ -10,5 +10,11 @@
 	"mail" : "teo@mail.at",
 	"politeness" : 0.8,
 	"hacker" : false
-    } 
+    },
+    {
+	"name" : "Bad Hacker",
+	"mail" : "hacker@gmail.com",
+	"politeness" : 0.2,
+	"hacker" : true
+    }
 ]
