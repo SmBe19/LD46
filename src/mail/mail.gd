@@ -7,10 +7,12 @@ var subject : String
 var sender : String
 var sender_name : String
 
-func _init(type, user):
-	content = type.content
-	subject = type.subject
+func _init(s, c, user):
+	subject = s
+	content = c
 	content = content.replace("$senderName", user.type.user_name)
+	content = content.replace("$senderEmail", user.type.mail)
+	content = content.replace("$receiverEmail", "info@shoutr.io")
 	sender = user.type.mail
 	sender_name = user.type.user_name
 

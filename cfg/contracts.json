@@ -1,0 +1,27 @@
+[
+	{
+		"requests": {
+			"compute": 30
+		},
+		"reward": 5000,
+		"mailSubject": "Distributed compute",
+		"mailContent": "Dear Friend,\nI am a researcher in biomedical informatics. For my next paper, I will need to analyze genomes using algorithms other people developed the 60s but I have already written several papers about. As I implemented them in an inefficient manner, I will need additional compute power. I will be using your compute infrastructure in the next time. I offer $5000 in compensation.\nThanks again,$senderName"
+	},
+	{
+		"requests": {
+			"mail": 10
+		},
+		"reward": 1000,
+		"mailSubject": "Mail server for our new company",
+		"mailContent": "Hi,\n$senderName here from our new startup. We will need someone to host our mails, and as we all like shoutr.io, we thought maybe you could help. We can offer you $1000 if you provide us with your mail servers.\n\nKind regards,\n$senderName"
+	},
+	{
+		"requests": {
+			"ether": 10,
+			"compute": 20
+		},
+		"reward": 17000,
+		"mailSubject": "Combining machine learning and DLT in the cloud",
+		"mailContent": "Hello!\n\nI had a new idea on how to use blockchain together with IoT and AI, and actually wrote a paper about it. I could redirect some of my funding to you if you provide server capacity for my blockchain and machine learning application, more specifically, $17'000. Please consider my offer.\n\nI hope to hear from you soon!\n$senderName"
+	}
+]

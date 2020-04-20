@@ -33,14 +33,15 @@ var cmdline = ""
 var current_file = ""
 
 func run(args):
+	if not output_process is Terminal:
+		send_output("vi: output not a tty")
+		return 1
 	output_process.clear_screen()
 	
 	if len(args) > 1:
 		current_file = args[1]
 		load_file(current_file)
-	if not output_process is Terminal:
-		send_output("vi: output not a tty")
-		return 1
+
 
 	while true:
 		if mode == COMMAND:

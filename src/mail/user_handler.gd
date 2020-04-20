@@ -13,7 +13,7 @@ func _ready():
 
 func read_json(path):
 	var file = File.new()
-	file.open(path, file.READ)	
+	file.open(path, file.READ)
 	var json = file.get_as_text()
 	var json_result = JSON.parse(json)
 	file.close()

@@ -9,6 +9,16 @@
 config_version=4
 
 _global_script_classes=[ {
+"base": "Node",
+"class": "Contract",
+"language": "GDScript",
+"path": "res://src/mail/contract.gd"
+}, {
+"base": "Node",
+"class": "ContractType",
+"language": "GDScript",
+"path": "res://src/mail/contract_type.gd"
+}, {
 "base": "Service",
 "class": "DDOSService",
 "language": "GDScript",
@@ -90,6 +100,8 @@ _global_script_classes=[ {
 "path": "res://src/mail/user_type.gd"
 } ]
 _global_script_class_icons={
+"Contract": "",
+"ContractType": "",
 "DDOSService": "",
 "FSDir": "",
 "FSFile": "",
@@ -121,6 +133,7 @@ ServiceHandler="*res://src/services/service_handler.gd"
 Root="*res://src/root.gd"
 UserHandler="*res://src/mail/user_handler.gd"
 MailHandler="*res://src/mail/mail_handler.gd"
+ContractHandler="*res://src/mail/contract_handler.gd"
 
 [display]
 

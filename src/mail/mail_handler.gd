@@ -24,7 +24,8 @@ func read_json(path):
 
 func generate_mail(type, user):
 	var index = randi() % len(mail_types[type])
-	return Mail.new(mail_types[type][index], user)
+	var mail_type = mail_types[type][index]
+	return Mail.new(mail_type.subject, mail_type.content, user)
 
 func send_mail(mail):
 	Root.servers[0].fs_root.mkdir('var/mail')
