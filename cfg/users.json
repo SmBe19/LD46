@@ -10,10 +10,112 @@
 	"mail" : "teo@mail.at",
 	"politeness" : 0.8,
 	"hacker" : false
+    }, 
+    {
+	"name" : "Duško Shelby Eldridge",
+	"mail" : "dushel@yipee.co",
+	"politeness" : 0.8,
+	"hacker" : false
+    }, 
+    {
+	"name" : "Arif Cornett",
+	"mail" : "arif.cornett@bmail.ru",
+	"politeness" : 0.8,
+	"hacker" : false
+    }, 
+    {
+	"name" : "Adrijan Prinsen",
+	"mail" : "adi.prinsen@prinsen.li",
+	"politeness" : 0.8,
+	"hacker" : false
+    }, 
+    {
+	"name" : "Andrej Aldenkamp",
+	"mail" : "andrej@aldenkamp.pl",
+	"politeness" : 0.8,
+	"hacker" : false
+    }, 
+    {
+	"name" : "Garret Ghyslaine",
+	"mail" : "foo@mailr.io",
+	"politeness" : 0.8,
+	"hacker" : false
+    }, 
+    {
+	"name" : "Helios Fairchild",
+	"mail" : "fairchild@yolo.biz",
+	"politeness" : 0.8,
+	"hacker" : false
+    }, 
+    {
+	"name" : "Jakob Rolando",
+	"mail" : "rolando@yolo.biz",
+	"politeness" : 0.8,
+	"hacker" : false
+    }, 
+    {
+	"name" : "Benton Kaufer",
+	"mail" : "kaufe@yolo.biz",
+	"politeness" : 0.8,
+	"hacker" : false
+    }, 
+    {
+	"name" : "Arnoldas Vincent Róbertsson",
+	"mail" : "arobert@bmail.ru",
+	"politeness" : 0.8,
+	"hacker" : false
+    }, 
+    {
+	"name" : "Richard Knepp",
+	"mail" : "knepprichard@mailr.io",
+	"politeness" : 0.8,
+	"hacker" : false
+    }, 
+    {
+	"name" : "Arnold Corti",
+	"mail" : "ac@lobs.biz",
+	"politeness" : 0.8,
+	"hacker" : false
+    }, 
+    {
+	"name" : "Shayma Yadon Siegel",
+	"mail" : "ss@lobs.biz",
+	"politeness" : 0.8,
+	"hacker" : false
     },
     {
-	"name" : "Bad Hacker",
-	"mail" : "hacker@gmail.com",
+	"name" : "D3X73R",
+	"mail" : "dexter@dextr1337.xxx",
+	"politeness" : 0.2,
+	"hacker" : true
+    },
+    {
+	"name" : "53R3N17Y",
+	"mail" : "serenity@haxxors.com",
+	"politeness" : 0.2,
+	"hacker" : true
+    },
+    {
+	"name" : "6R1FF1N",
+	"mail" : "gri@f.in",
+	"politeness" : 0.2,
+	"hacker" : true
+    },
+    {
+	"name" : "BULL37",
+	"mail" : "bullz@e.ye",
+	"politeness" : 0.2,
+	"hacker" : true
+    },
+    {
+	"name" : "6URU",
+	"mail" : "g@u.ru",
+	"politeness" : 0.2,
+	"hacker" : true
+    },
+    {
+	"name" : "M0N60053",
+	"mail" : "mongooz@bmail.ru",
 	"politeness" : 0.2,
 	"hacker" : true
     }
