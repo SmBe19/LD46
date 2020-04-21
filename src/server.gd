@@ -26,8 +26,8 @@ var upgrade_level = {
 	'ram': 0,
 	'queue': 0,
 }
-var queue_length = 4
-var disk = 4096
+var queue_length = 8
+var disk = 8192
 var ram = 1024
 var cpu_cycles = 128
 var used_disk = 0
