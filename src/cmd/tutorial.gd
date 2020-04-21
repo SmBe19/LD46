@@ -101,7 +101,8 @@ func server_status(status):
 func complicated_requests(status):
 	if status.has('complicated_requests'):
 		return false
-	if not has_request(Root.servers[0], 'html') and not has_request(Root.servers[0], 'http') and not has_request(Root.servers[0], 'auth'):
+	if not RequestHandler.seen_requests.has(RequestHandler.request_types['html']) and not RequestHandler.seen_requests.has(RequestHandler.request_types['http']) \
+			and not RequestHandler.seen_requests.has(RequestHandler.request_types['auth']):
 		send_output("Please try again later. The condition for the next step is not yet fulfilled.")
 		return true
 	if has_service(Root.servers[0], 'php') or has_service(Root.servers[0], 'ldap'):
