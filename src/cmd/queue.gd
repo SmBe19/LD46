@@ -16,9 +16,12 @@ func run(args):
 	if len(args) < 1:
 		usage()
 		return 1
+	send_output("== Queued Requests ==")
 	for request in server.input_queue:
-		send_output(request.type.full_name + " " + str(request.id))
+		send_output(" * " + request.type.full_name + " " + str(request.id))
+		
+	send_output("== Downloading Requests ==")
 	for slice in server.incoming_requests:
 		for request in slice:
-			send_output(request.type.full_name + " " + str(request.id))
+			send_output(" * " + request.type.full_name + " " + str(request.id))
 	return 0
