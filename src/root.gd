@@ -138,11 +138,11 @@ func request_completed(request):
 		daily_request_complete_fake += 1
 		return
 	daily_request_complete += 1
-	var duration = game_tick - request.start_tick - servers[0].CONNECTION_DELAY
+	var duration = game_tick - request.start_tick
 	if duration == 0:
 		duration += 1
 	var multiplier = LEVEL_MULTIPLIER[request.type.level]
-	var new_money = multiplier * 64 / duration + multiplier * 2
+	var new_money = int(multiplier * 16 / sqrt(duration)) + multiplier * 1
 	if new_money > 0:
 		money_log.append("+$" + str(new_money) + ": " + request.type.full_name + " " + str(request.id))
 		money += new_money
